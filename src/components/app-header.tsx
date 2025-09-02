@@ -38,7 +38,6 @@ export function AppHeader() {
 
       <Input placeholder="Buscar transação" />
       <Button>
-        {" "}
         <Plus /> <p className="hidden md:block">Nova Transação</p>
       </Button>
       <Switch />

@@ -29,14 +29,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased dark`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased w-full dark`}
       >
         <SidebarProvider>
           <AppSidebar />
+
           <main className="w-full">
             <AppHeader />
-
-            {children}
+            <div className="w-full flex flex-col gap-4 p-4">
+              <h1 className="text-2xl font-bold">Finance Dashboard</h1>
+              {children}
+            </div>
           </main>
         </SidebarProvider>
       </body>
