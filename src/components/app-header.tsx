@@ -38,7 +38,7 @@ export function AppHeader() {
 
       <Input placeholder="Buscar transação" />
       <Button>
-        <Plus /> <p className="hidden md:block">Nova Transação</p>
+        <Plus /> <p className="hidden md:block ">Nova Transação</p>
       </Button>
       <Switch />
 
@@ -49,10 +49,10 @@ export function AppHeader() {
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem>
-            <BellOff />
-            Desativar notificações
-          </DropdownMenuItem>
+          <div className="p-2 m-2">
+            <DropdownMenuItem>Saldo atualizado</DropdownMenuItem>
+            <DropdownMenuItem>Transação concluída</DropdownMenuItem>
+          </div>
         </DropdownMenuContent>
       </DropdownMenu>
     </header>

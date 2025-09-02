@@ -7,6 +7,7 @@ import {
   LogOut,
   Info,
   Trash,
+  Wallet,
 } from "lucide-react";
 
 import {
@@ -27,6 +28,7 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import Image from "next/image";
 
 // Menu items.
 const items = [
@@ -64,7 +66,33 @@ export function AppSidebar() {
         {/* Navegação principal */}
         <div className="flex-1">
           <SidebarGroup>
-            <SidebarGroupLabel>Balancefy</SidebarGroupLabel>
+            <div className="py-2">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="flex items-center gap-4 w-full p-2 hover:bg-muted transition">
+                    <Image
+                      src="/logo.png"
+                      alt="logo"
+                      width={35}
+                      height={35}
+                      className="rounded-sm"
+                    />
+                    <div className="flex flex-col text-left">
+                      <span className="text-md font-semibold line-clamp-1">
+                        Balancefy
+                      </span>
+                    </div>
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-60">
+                  <DropdownMenuItem>
+                    <Settings className="w-4 h-4 mr-2" />
+                    Configurações
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+
             <SidebarGroupContent>
               <SidebarMenu>
                 {items.map((item) => (
