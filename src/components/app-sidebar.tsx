@@ -7,14 +7,12 @@ import {
   LogOut,
   Info,
   Trash,
-  Wallet,
 } from "lucide-react";
 
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
-  SidebarGroupLabel,
   SidebarGroupContent,
   SidebarMenu,
   SidebarMenuItem,

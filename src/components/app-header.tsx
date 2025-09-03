@@ -14,7 +14,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
-import { Bell, BellOff, Plus } from "lucide-react";
+import { Bell, Plus } from "lucide-react";
 import { DropdownMenuItem } from "./ui/dropdown-menu";
 
 export function AppHeader() {
