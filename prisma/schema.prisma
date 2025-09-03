@@ -1,9 +1,31 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../app/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+
+model Transaction {
+  id        String    @id @default(cuid())
+  descricao String
+  categoria Categoria
+  valor     Float
+  tipo      Tipo
+  data      DateTime   @default(now())
+}
+
+enum Categoria {
+  Alimentacao
+  Transporte
+  Moradia
+  Lazer
+  Outros
+}
+
+enum Tipo {
+  entrada
+  saida
 }
