@@ -1,5 +1,6 @@
 import { ChartAreaFinance } from "@/components/chart-area-interactive";
 import { ChartPieDonut } from "@/components/chart-pie-donut";
+import { DataTableDemo } from "@/components/data-table";
 import {
   Card,
   CardAction,
@@ -84,6 +85,9 @@ const Dashboard = () => {
       <section className="flex flex-col lg:flex-row gap-4">
         <ChartPieDonut />
         <ChartAreaFinance />
+      </section>
+      <section>
+        <DataTableDemo />
       </section>
     </div>
   );
