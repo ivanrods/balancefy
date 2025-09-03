@@ -133,7 +133,7 @@ export function AppSidebar() {
                 Configurações
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Trash className="w-4 h-4 mr-2 text-red-800" />
+                <Trash className="w-4 h-4 mr-2 text-primary" />
                 Excluir conta
               </DropdownMenuItem>
               <DropdownMenuItem>
