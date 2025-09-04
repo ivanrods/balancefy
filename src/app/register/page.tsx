@@ -4,6 +4,17 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import Link from "next/link";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -47,41 +58,74 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="flex h-screen items-center justify-center bg-gray-100">
-      <form
-        onSubmit={handleRegister}
-        className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-lg"
-      >
-        <h1 className="mb-6 text-center text-2xl font-bold">Registrar</h1>
-
-        {error && <p className="mb-4 text-red-500">{error}</p>}
-
-        <Input
-          type="text"
-          placeholder="Nome"
-          className="mb-4"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <Input
-          type="email"
-          placeholder="Email"
-          className="mb-4"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <Input
-          type="password"
-          placeholder="Senha"
-          className="mb-4"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
-        <Button type="submit" className="w-full" disabled={loading}>
-          {loading ? "Registrando..." : "Registrar"}
-        </Button>
-      </form>
+    <div className="flex h-screen items-center justify-center">
+      <Card className="w-full max-w-sm">
+        <CardHeader>
+          <CardTitle>Crie sua conta</CardTitle>
+          <CardDescription>
+            Preencha seus dados para criar sua conta
+          </CardDescription>
+          <CardAction>
+            <Button variant="link">
+              <Link href="/login">Fazer login</Link>{" "}
+            </Button>
+          </CardAction>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleRegister}>
+            <div className="flex flex-col gap-6">
+              <div className="grid gap-2">
+                <Label htmlFor="nome">Nome</Label>
+                <Input
+                  id="nome"
+                  type="text"
+                  placeholder="Nome"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              <div className="grid gap-2">
+                <div className="flex items-center">
+                  <Label htmlFor="password">Password</Label>
+                  <a
+                    href="#"
+                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                  >
+                    Forgot your password?
+                  </a>
+                </div>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="Senha"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+            </div>
+          </form>
+        </CardContent>
+        <CardFooter className="flex-col gap-2">
+          <Button
+            onClick={handleRegister}
+            type="submit"
+            className="w-full"
+            disabled={loading}
+          >
+            Criar conta
+          </Button>
+        </CardFooter>
+      </Card>
     </div>
   );
 }

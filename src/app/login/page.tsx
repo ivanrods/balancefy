@@ -15,6 +15,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
+import Link from "next/link";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -44,7 +45,10 @@ export default function LoginPage() {
             Digite seu e-mail abaixo para acessar sua conta
           </CardDescription>
           <CardAction>
-            <Button variant="link">Registrar</Button>
+            <Button variant="link">
+              {" "}
+              <Link href="/register">Registrar</Link>
+            </Button>
           </CardAction>
         </CardHeader>
         <CardContent>
@@ -75,7 +79,7 @@ export default function LoginPage() {
         </CardContent>
 
         <CardFooter className="flex-col gap-2">
-          <Button onClick={handleLogin} type="submit" className="w-full mb-2">
+          <Button onClick={handleLogin} type="submit" className="w-full">
             Entrar
           </Button>
           <Button
