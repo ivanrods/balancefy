@@ -31,7 +31,7 @@ export default function LoginPage() {
     });
 
     if (!res?.error) {
-      router.push("/dashboard");
+      router.push("/app/dashboard");
     }
   }
 
@@ -65,7 +65,15 @@ export default function LoginPage() {
                 />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="password">Senha</Label>
+                <div className="flex items-center">
+                  <Label htmlFor="password">Senha</Label>
+                  <a
+                    href="#"
+                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                  >
+                    Esqueceu sua senha?
+                  </a>
+                </div>
                 <Input
                   id="password"
                   type="password"
