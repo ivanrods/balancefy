@@ -15,7 +15,8 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  transactions  Transaction[] // Relacionar com suas transações
+  transactions  Transaction[]
+  password       String?
 }
 
 model Account {
