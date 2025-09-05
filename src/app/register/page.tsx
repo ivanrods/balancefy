@@ -1,5 +1,6 @@
 "use client";
 
+import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -26,6 +27,12 @@ export default function RegisterPage() {
 
   async function handleRegister(e: React.FormEvent) {
     e.preventDefault();
+    await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+
     setError("");
     setLoading(true);
 
@@ -116,6 +123,14 @@ export default function RegisterPage() {
             disabled={loading}
           >
             Criar conta
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full"
+            onClick={() => signIn("google", { callbackUrl: "/app/dashboard" })}
+          >
+            Entrar com Google
           </Button>
         </CardFooter>
       </Card>
