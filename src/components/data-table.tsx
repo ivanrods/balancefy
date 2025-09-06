@@ -3,6 +3,7 @@
 import * as React from "react";
 import { useTransactions } from "@/hooks/useTransactions";
 import { Transaction } from "@/types/transaction";
+import { type UseMutationResult } from "@tanstack/react-query";
 
 import {
   ColumnDef,
@@ -39,7 +40,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-export const columns: ColumnDef<Transaction>[] = [
+export const columns = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  deleteTransaction: UseMutationResult<any, Error, string, unknown>
+): ColumnDef<Transaction>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -169,7 +173,7 @@ export const columns: ColumnDef<Transaction>[] = [
 
             <DropdownMenuItem
               className="text-red-600"
-              onClick={() => console.log("Excluir", transaction)}
+              onClick={() => deleteTransaction.mutate(transaction.id)}
             >
               Excluir transação
             </DropdownMenuItem>
@@ -199,7 +203,7 @@ export function DataTableDemo() {
 
   const table = useReactTable<Transaction>({
     data: transactions ?? [],
-    columns,
+    columns: columns(deleteTransaction),
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
