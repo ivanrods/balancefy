@@ -1,6 +1,9 @@
 "use client";
 
 import * as React from "react";
+import { useTransactions } from "@/hooks/useTransactions";
+import { Transaction } from "@/types/transaction";
+
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -35,58 +38,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-const data: Transaction[] = [
-  {
-    id: "trx1",
-    descricao: "Supermercado",
-    categoria: "Alimentação",
-    valor: 320,
-    tipo: "saida",
-    data: "2025-08-15",
-  },
-  {
-    id: "trx2",
-    descricao: "Salário",
-    categoria: "Moradia",
-    valor: 2500,
-    tipo: "entrada",
-    data: "2025-08-10",
-  },
-  {
-    id: "trx3",
-    descricao: "Uber",
-    categoria: "Transporte",
-    valor: 45,
-    tipo: "saida",
-    data: "2025-08-18",
-  },
-  {
-    id: "trx4",
-    descricao: "Cinema",
-    categoria: "Lazer",
-    valor: 60,
-    tipo: "saida",
-    data: "2025-08-20",
-  },
-  {
-    id: "trx5",
-    descricao: "Freelance Web",
-    categoria: "Outros",
-    valor: 800,
-    tipo: "entrada",
-    data: "2025-08-25",
-  },
-];
-
-export type Transaction = {
-  id: string;
-  descricao: string;
-  categoria: "Alimentação" | "Transporte" | "Moradia" | "Lazer" | "Outros";
-  valor: number;
-  tipo: "entrada" | "saida";
-  data: string;
-};
 
 export const columns: ColumnDef<Transaction>[] = [
   {
@@ -230,6 +181,14 @@ export const columns: ColumnDef<Transaction>[] = [
 ];
 
 export function DataTableDemo() {
+  const {
+    transactions,
+    isLoading,
+    error,
+    createTransaction,
+    deleteTransaction,
+  } = useTransactions();
+
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -238,8 +197,8 @@ export function DataTableDemo() {
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
-  const table = useReactTable({
-    data,
+  const table = useReactTable<Transaction>({
+    data: transactions ?? [],
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
