@@ -8,7 +8,6 @@ import {
 import { SidebarTrigger } from "./ui/sidebar";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { Switch } from "./ui/switch";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,6 +15,7 @@ import {
 } from "@radix-ui/react-dropdown-menu";
 import { Bell, Plus } from "lucide-react";
 import { DropdownMenuItem } from "./ui/dropdown-menu";
+import { ButtonTheme } from "./button-theme";
 
 export function AppHeader() {
   return (
@@ -40,7 +40,7 @@ export function AppHeader() {
       <Button>
         <Plus /> <p className="hidden md:block ">Nova Transação</p>
       </Button>
-      <Switch />
+      <ButtonTheme />
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
