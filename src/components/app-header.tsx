@@ -15,7 +15,7 @@ import {
 import { Bell } from "lucide-react";
 import { DropdownMenuItem } from "./ui/dropdown-menu";
 import { ButtonTheme } from "./button-theme";
-import { DialogDemo } from "./add-transaction-dialog";
+import { TransactionDialog } from "./transaction-dialog";
 
 export function AppHeader() {
   return (
@@ -38,7 +38,7 @@ export function AppHeader() {
 
       <Input placeholder="Buscar transação" />
 
-      <DialogDemo />
+      <TransactionDialog />
       <ButtonTheme />
 
       <DropdownMenu>
