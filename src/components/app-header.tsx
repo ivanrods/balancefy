@@ -7,15 +7,15 @@ import {
 } from "@/components/ui/breadcrumb";
 import { SidebarTrigger } from "./ui/sidebar";
 import { Input } from "./ui/input";
-import { Button } from "./ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
-import { Bell, Plus } from "lucide-react";
+import { Bell } from "lucide-react";
 import { DropdownMenuItem } from "./ui/dropdown-menu";
 import { ButtonTheme } from "./button-theme";
+import { DialogDemo } from "./add-transaction-dialog";
 
 export function AppHeader() {
   return (
@@ -37,9 +37,8 @@ export function AppHeader() {
       </div>
 
       <Input placeholder="Buscar transação" />
-      <Button>
-        <Plus /> <p className="hidden md:block ">Nova Transação</p>
-      </Button>
+
+      <DialogDemo />
       <ButtonTheme />
 
       <DropdownMenu>

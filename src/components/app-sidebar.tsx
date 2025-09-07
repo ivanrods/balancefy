@@ -39,7 +39,6 @@ const items = [
 export async function AppSidebar() {
   const session = await getServerSession(authOptions);
   const user = session?.user;
-  console.log(user);
   return (
     <Sidebar>
       <SidebarContent className="flex flex-col h-full">
