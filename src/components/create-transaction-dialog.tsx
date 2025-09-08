@@ -91,7 +91,7 @@ export function TransactionDialog() {
                 required
               />
             </div>
-            <div className="flex gap-4 ">
+            <div className="flex gap-4 flex-col sm:flex-row">
               <SelectDialog value={categoria} onValueChange={setCategoria} />
               <DatePicker value={data} onChange={setData} />
             </div>

@@ -29,13 +29,14 @@ type EditTransactionDialogProps = {
 export function EditTransactionDialog({
   transaction,
 }: EditTransactionDialogProps) {
+  console.log(transaction, "ok");
   const { updateTransaction } = useTransactions();
 
-  const [descricao, setDescricao] = React.useState("");
+  const [descricao, setDescricao] = React.useState(transaction.descricao);
   const [categoria, setCategoria] =
     React.useState<Transaction["categoria"]>("Alimentação");
-  const [valor, setValor] = React.useState<number>(0);
-  const [tipo, setTipo] = React.useState<Transaction["tipo"]>("entrada");
+  const [valor, setValor] = React.useState<number>(transaction.valor);
+  const [tipo, setTipo] = React.useState<Transaction["tipo"]>(transaction.tipo);
   const [data, setData] = React.useState<Date | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -77,7 +78,6 @@ export function EditTransactionDialog({
               <Input
                 id="descricao"
                 name="name"
-                defaultValue=""
                 value={descricao}
                 onChange={(e) => setDescricao(e.target.value)}
                 required

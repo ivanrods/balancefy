@@ -6,8 +6,8 @@ import Summary from "./components/summary";
 const Dashboard = () => {
   return (
     <div className="w-full flex flex-col gap-4">
+      <Summary />
       <section className="flex flex-col lg:flex-row gap-4">
-        <Summary />
         <ChartPieDonut />
         <ChartAreaFinance />
       </section>
