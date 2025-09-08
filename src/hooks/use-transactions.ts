@@ -30,6 +30,22 @@ export function useTransactions() {
     },
   });
 
+  //UPDATE
+  const updateTransaction = useMutation({
+    mutationFn: async (transaction: Transaction) => {
+      const res = await fetch(`/api/transactions/${transaction.id}`, {
+        method: "PUT",
+        body: JSON.stringify(transaction),
+        headers: { "Content-Type": "application/json" },
+      });
+      if (!res.ok) throw new Error("Erro ao atualizar transação");
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["transactions"] });
+    },
+  });
+
   // DELETE
   const deleteTransaction = useMutation({
     mutationFn: async (id: string) => {
@@ -47,6 +63,7 @@ export function useTransactions() {
     isLoading,
     error,
     createTransaction,
+    updateTransaction,
     deleteTransaction,
   };
 }

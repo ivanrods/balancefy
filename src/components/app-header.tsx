@@ -15,7 +15,7 @@ import {
 import { Bell } from "lucide-react";
 import { DropdownMenuItem } from "./ui/dropdown-menu";
 import { ButtonTheme } from "./button-theme";
-import { TransactionDialog } from "./transaction-dialog";
+import { TransactionDialog } from "./create-transaction-dialog";
 
 export function AppHeader() {
   return (

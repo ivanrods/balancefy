@@ -27,8 +27,8 @@ export async function GET(
   return NextResponse.json(transaction);
 }
 
-// PATCH - atualizar transação
-export async function PATCH(
+// PUT - atualizar transação
+export async function PUT(
   req: Request,
   { params }: { params: { id: string } }
 ) {
@@ -40,23 +40,24 @@ export async function PATCH(
   const body = await req.json();
   const { descricao, categoria, valor, tipo, data } = body;
 
+  if (!descricao || !categoria || !valor || !tipo || !data) {
+    return NextResponse.json(
+      { error: "Todos os campos são obrigatórios" },
+      { status: 400 }
+    );
+  }
+
   try {
-    const updated = await prisma.transaction.update({
+    const transaction = await prisma.transaction.update({
       where: { id: params.id },
-      data: {
-        descricao,
-        categoria,
-        valor,
-        tipo,
-        data,
-      },
+      data: { descricao, categoria, valor, tipo, data },
     });
 
-    return NextResponse.json(updated);
-  } catch {
+    return NextResponse.json(transaction, { status: 200 });
+  } catch (error) {
     return NextResponse.json(
-      { error: "Transação não encontrada" },
-      { status: 404 }
+      { error: "Erro ao atualizar transação" },
+      { status: 500 }
     );
   }
 }

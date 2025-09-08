@@ -39,6 +39,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { EditTransactionDialog } from "./edit-transaction-dialog";
 
 export const columns = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -166,9 +167,11 @@ export const columns = (
             <DropdownMenuSeparator />
 
             <DropdownMenuItem
-              onClick={() => console.log("Editar", transaction)}
+              onSelect={(e) => {
+                e.preventDefault(); // impede de fechar o menu
+              }}
             >
-              Editar transação
+              <EditTransactionDialog transaction={transaction} />
             </DropdownMenuItem>
 
             <DropdownMenuItem
