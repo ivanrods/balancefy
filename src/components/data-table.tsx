@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useTransactions } from "@/hooks/useTransactions";
+import { useTransactions } from "@/hooks/use-transactions";
 import { Transaction } from "@/types/transaction";
 import { type UseMutationResult } from "@tanstack/react-query";
 

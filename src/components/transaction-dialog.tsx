@@ -21,7 +21,7 @@ import { RadioGroupDemo } from "./radio-group-dialog";
 import { DatePicker } from "./date-picker";
 import { Transaction } from "@/types/transaction";
 
-import { useTransactions } from "@/hooks/useTransactions";
+import { useTransactions } from "@/hooks/use-transactions";
 
 export function TransactionDialog() {
   const { createTransaction } = useTransactions();
