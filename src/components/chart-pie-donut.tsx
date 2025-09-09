@@ -1,5 +1,6 @@
 "use client";
 
+import { useTransactions } from "@/hooks/use-transactions";
 import { TrendingDown } from "lucide-react";
 import { Pie, PieChart } from "recharts";
 
@@ -17,44 +18,48 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { Transaction } from "@/types/transaction";
 
 export const description = "Distribuição de gastos por categoria";
 
-const chartData = [
-  { categoria: "Alimentação", valor: 1200, fill: "hsl(0, 84%, 60%)" }, // vermelho médio
-  { categoria: "Transporte", valor: 600, fill: "hsl(0, 72%, 55%)" }, // vermelho intenso
-  { categoria: "Lazer", valor: 450, fill: "hsl(0, 68%, 50%)" }, // vermelho escuro
-  { categoria: "Moradia", valor: 1800, fill: "hsl(0, 78%, 65%)" }, // vermelho claro
-  { categoria: "Outros", valor: 300, fill: "hsl(0, 90%, 70%)" }, // vermelho mais suave
-];
-
+// Configuração das categorias e cores
 const chartConfig = {
-  valor: {
-    label: "Valor",
-  },
-  food: {
-    label: "Alimentação",
-    color: "var(--chart-1)",
-  },
-  transport: {
-    label: "Transporte",
-    color: "var(--chart-2)",
-  },
-  entertainment: {
-    label: "Lazer",
-    color: "var(--chart-3)",
-  },
-  housing: {
-    label: "Moradia",
-    color: "var(--chart-4)",
-  },
-  other: {
-    label: "Outros",
-    color: "var(--chart-5)",
-  },
+  valor: { label: "Valor" },
+  Alimentação: { label: "Alimentação", color: "hsl(0, 85%, 70%)" }, // vermelho bem claro
+  Transporte: { label: "Transporte", color: "hsl(0, 80%, 60%)" }, // vermelho médio claro
+  Lazer: { label: "Lazer", color: "hsl(0, 75%, 50%)" }, // vermelho médio
+  Moradia: { label: "Moradia", color: "hsl(0, 70%, 40%)" }, // vermelho mais escuro
+  Outros: { label: "Outros", color: "hsl(0, 65%, 30%)" }, // vermelho bem escuro
 } satisfies ChartConfig;
 
+// Função para agrupar transações por categoria
+function groupTransactions(transactions: Transaction[]) {
+  const grouped = transactions.reduce((acc, curr) => {
+    const categoria = curr.categoria || "Outros";
+    acc[categoria] = (acc[categoria] || 0) + curr.valor;
+    return acc;
+  }, {} as Record<Transaction["categoria"], number>);
+
+  return Object.entries(grouped).map(([categoria, valor]) => {
+    // Se a categoria não existir no chartConfig, cai para "Outros"
+    const config =
+      chartConfig[categoria as Transaction["categoria"]] ??
+      chartConfig["Outros"];
+
+    return {
+      categoria,
+      valor,
+      fill: config.color,
+    };
+  });
+}
+
 export function ChartPieDonut() {
+  const { transactions } = useTransactions();
+
+  // Agrupa as transações antes de enviar para o gráfico
+  const chartData = groupTransactions(transactions ?? []);
+
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">

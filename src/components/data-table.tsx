@@ -188,13 +188,7 @@ export const columns = (
 ];
 
 export function DataTableDemo() {
-  const {
-    transactions,
-    isLoading,
-    error,
-    createTransaction,
-    deleteTransaction,
-  } = useTransactions();
+  const { transactions, deleteTransaction } = useTransactions();
 
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
