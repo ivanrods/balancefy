@@ -29,7 +29,7 @@ export function TransactionDialog() {
   const [descricao, setDescricao] = React.useState("");
   const [categoria, setCategoria] =
     React.useState<Transaction["categoria"]>("Alimentação");
-  const [valor, setValor] = React.useState<number>(0);
+  const [valor, setValor] = React.useState("");
   const [tipo, setTipo] = React.useState<Transaction["tipo"]>("entrada");
   const [data, setData] = React.useState<Date | null>(null);
 
@@ -39,14 +39,14 @@ export function TransactionDialog() {
     createTransaction.mutate({
       descricao,
       categoria,
-      valor,
+      valor: Number(valor),
       tipo,
       data: data ? data.toISOString() : new Date().toISOString(),
     });
 
     // Resetar campos
     setDescricao("");
-    setValor(0);
+    setValor("");
     setCategoria("Alimentação");
     setTipo("entrada");
     setData(null);
@@ -73,7 +73,6 @@ export function TransactionDialog() {
               <Input
                 id="descricao"
                 name="name"
-                defaultValue=""
                 value={descricao}
                 onChange={(e) => setDescricao(e.target.value)}
                 required
@@ -83,11 +82,10 @@ export function TransactionDialog() {
               <Label htmlFor="valor">Valor</Label>
               <Input
                 id="valor"
-                name="username"
-                defaultValue=""
+                name="number"
                 type="number"
                 value={valor}
-                onChange={(e) => setValor(Number(e.target.value))}
+                onChange={(e) => setValor(e.target.value)}
                 required
               />
             </div>

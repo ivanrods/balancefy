@@ -33,11 +33,14 @@ export function EditTransactionDialog({
   const { updateTransaction } = useTransactions();
 
   const [descricao, setDescricao] = React.useState(transaction.descricao);
-  const [categoria, setCategoria] =
-    React.useState<Transaction["categoria"]>("Alimentação");
-  const [valor, setValor] = React.useState<number>(transaction.valor);
+  const [categoria, setCategoria] = React.useState<Transaction["categoria"]>(
+    transaction.categoria
+  );
+  const [valor, setValor] = React.useState(transaction.valor || "");
   const [tipo, setTipo] = React.useState<Transaction["tipo"]>(transaction.tipo);
-  const [data, setData] = React.useState<Date | null>(null);
+  const [data, setData] = React.useState<Date | null>(
+    transaction.data ? new Date(transaction.data) : null
+  );
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,18 +48,11 @@ export function EditTransactionDialog({
     updateTransaction.mutate({
       id: transaction.id,
       descricao,
-      valor,
+      valor: Number(valor),
       categoria,
       tipo,
       data: data ? data.toISOString() : new Date().toISOString(),
     });
-
-    // Resetar campos
-    setDescricao("");
-    setValor(0);
-    setCategoria("Alimentação");
-    setTipo("entrada");
-    setData(null);
   };
 
   return (
@@ -87,11 +83,10 @@ export function EditTransactionDialog({
               <Label htmlFor="valor">Valor</Label>
               <Input
                 id="valor"
-                name="username"
-                defaultValue=""
+                name="valor"
                 type="number"
                 value={valor}
-                onChange={(e) => setValor(Number(e.target.value))}
+                onChange={(e) => setValor(e.target.value)}
                 required
               />
             </div>
