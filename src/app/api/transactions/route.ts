@@ -53,7 +53,7 @@ export async function POST(req: Request) {
         categoria,
         valor,
         tipo,
-        data: new Date(data), // 👈 transforma string em Date
+        data: new Date(data),
         userId: user.id,
       },
     });

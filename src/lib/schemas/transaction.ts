@@ -7,9 +7,8 @@ export const transactionSchema = z.object({
     .max(100, "A descrição pode ter no máximo 100 caracteres"),
 
   valor: z
-    .number()
-    .positive("O valor deve ser maior que zero")
-    .refine((val) => !isNaN(val), { message: "Informe um valor válido" }),
+    .number("Informe um valor válido")
+    .positive("O valor deve ser maior que zero"),
 
   categoria: z.enum(
     ["Alimentacao", "Transporte", "Lazer", "Moradia", "Outros"],
