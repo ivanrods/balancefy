@@ -1,0 +1,28 @@
+import { z } from "zod";
+
+export const transactionSchema = z.object({
+  descricao: z
+    .string()
+    .min(3, "A descrição deve ter pelo menos 3 caracteres")
+    .max(100, "A descrição pode ter no máximo 100 caracteres"),
+
+  valor: z
+    .number()
+    .positive("O valor deve ser maior que zero")
+    .refine((val) => !isNaN(val), { message: "Informe um valor válido" }),
+
+  categoria: z.enum(
+    ["Alimentação", "Transporte", "Lazer", "Moradia", "Outros"],
+    {
+      message: "Selecione uma categoria válida",
+    }
+  ),
+
+  tipo: z.enum(["entrada", "saida"], { message: "Selecione um tipo válido" }),
+
+  data: z.date().refine((val) => val instanceof Date && !isNaN(val.getTime()), {
+    message: "Selecione uma data válida",
+  }),
+});
+
+export type TransactionFormData = z.infer<typeof transactionSchema>;
