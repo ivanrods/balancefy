@@ -2,7 +2,9 @@
 
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema, LoginFormData } from "@/lib/schemas/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -19,21 +21,26 @@ import Link from "next/link";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
-  async function handleLogin(e: React.FormEvent) {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+  });
+
+  const onSubmit = async (data: LoginFormData) => {
     const res = await signIn("credentials", {
-      email,
-      password,
+      email: data.email,
+      password: data.senha,
       redirect: false,
     });
 
     if (!res?.error) {
       router.push("/app/dashboard");
     }
-  }
+  };
 
   return (
     <div className="flex h-screen items-center justify-center">
@@ -52,17 +59,20 @@ export default function LoginPage() {
           </CardAction>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleLogin}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
-                  id="email"
                   type="email"
-                  placeholder="Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="E-mail"
+                  {...register("email")}
                 />
+                {errors.email && (
+                  <span className="text-red-500 text-sm">
+                    {errors.email.message}
+                  </span>
+                )}
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
@@ -75,19 +85,26 @@ export default function LoginPage() {
                   </a>
                 </div>
                 <Input
-                  id="password"
                   type="password"
                   placeholder="Senha"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  {...register("senha")}
                 />
+                {errors.senha && (
+                  <span className="text-red-500 text-sm">
+                    {errors.senha.message}
+                  </span>
+                )}
               </div>
             </div>
           </form>
         </CardContent>
 
         <CardFooter className="flex-col gap-2">
-          <Button onClick={handleLogin} type="submit" className="w-full">
+          <Button
+            onClick={handleSubmit(onSubmit)}
+            type="submit"
+            className="w-full"
+          >
             Entrar
           </Button>
           <Button
