@@ -12,7 +12,7 @@ export const transactionSchema = z.object({
     .refine((val) => !isNaN(val), { message: "Informe um valor válido" }),
 
   categoria: z.enum(
-    ["Alimentação", "Transporte", "Lazer", "Moradia", "Outros"],
+    ["Alimentacao", "Transporte", "Lazer", "Moradia", "Outros"],
     {
       message: "Selecione uma categoria válida",
     }
@@ -20,9 +20,7 @@ export const transactionSchema = z.object({
 
   tipo: z.enum(["entrada", "saida"], { message: "Selecione um tipo válido" }),
 
-  data: z.date().refine((val) => val instanceof Date && !isNaN(val.getTime()), {
-    message: "Selecione uma data válida",
-  }),
+  data: z.date("Selecione uma data válida"),
 });
 
 export type TransactionFormData = z.infer<typeof transactionSchema>;

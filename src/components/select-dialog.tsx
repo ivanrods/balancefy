@@ -30,7 +30,7 @@ export function SelectDialog({ value, onValueChange }: SelectDemoProps) {
         <SelectContent>
           <SelectGroup>
             <SelectLabel>Categoria</SelectLabel>
-            <SelectItem value="Alimentacao"> Alimentacao</SelectItem>
+            <SelectItem value="Alimentacao"> Alimentação</SelectItem>
             <SelectItem value="Transporte"> Transporte</SelectItem>
             <SelectItem value="Moradia">Moradia</SelectItem>
             <SelectItem value="Lazer">Lazer</SelectItem>
