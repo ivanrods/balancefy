@@ -25,7 +25,7 @@ export default function LoginPage() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
   });
@@ -104,6 +104,7 @@ export default function LoginPage() {
             onClick={handleSubmit(onSubmit)}
             type="submit"
             className="w-full"
+            disabled={isSubmitting}
           >
             Entrar
           </Button>

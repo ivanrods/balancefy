@@ -1,7 +1,9 @@
 "use client";
 
 import { signIn } from "next-auth/react";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { registerSchema, RegisterFormData } from "@/lib/schemas/auth";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,50 +21,33 @@ import Link from "next/link";
 
 export default function RegisterPage() {
   const router = useRouter();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
-  async function handleRegister(e: React.FormEvent) {
-    e.preventDefault();
-    await signIn("credentials", {
-      email,
-      password,
-      redirect: false,
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<RegisterFormData>({
+    resolver: zodResolver(registerSchema),
+  });
+
+  const onSubmit = async (data: RegisterFormData) => {
+    const res = await fetch("/api/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: data.nome,
+        email: data.email,
+        password: data.senha,
+        redirect: false,
+      }),
     });
 
-    setError("");
-    setLoading(true);
+    data = await res.json();
 
-    // Validações básicas
-    if (!name || !email || !password) {
-      setError("Todos os campos são obrigatórios");
-      setLoading(false);
-      return;
+    if (res.ok) {
+      router.push("/login");
     }
-
-    try {
-      const res = await fetch("/api/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password }),
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        router.push("/login");
-      } else {
-        setError(data.error || "Erro ao registrar usuário");
-      }
-    } catch (err) {
-      setError("Erro ao conectar com o servidor");
-    } finally {
-      setLoading(false);
-    }
-  }
+  };
 
   return (
     <div className="flex h-screen items-center justify-center">
@@ -79,48 +64,53 @@ export default function RegisterPage() {
           </CardAction>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleRegister}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
                 <Label htmlFor="nome">Nome</Label>
-                <Input
-                  id="nome"
-                  type="text"
-                  placeholder="Nome"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
+                <Input type="text" placeholder="Nome" {...register("nome")} />
+                {errors.nome && (
+                  <span className="text-red-500 text-sm">
+                    {errors.nome.message}
+                  </span>
+                )}
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
-                  id="email"
                   type="email"
-                  placeholder="Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="E-mail"
+                  {...register("email")}
                 />
+                {errors.email && (
+                  <span className="text-red-500 text-sm">
+                    {errors.email.message}
+                  </span>
+                )}
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="password">Senha</Label>
 
                 <Input
-                  id="password"
                   type="password"
                   placeholder="Senha"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  {...register("senha")}
                 />
+                {errors.senha && (
+                  <span className="text-red-500 text-sm">
+                    {errors.senha.message}
+                  </span>
+                )}
               </div>
             </div>
           </form>
         </CardContent>
         <CardFooter className="flex-col gap-2">
           <Button
-            onClick={handleRegister}
+            onClick={handleSubmit(onSubmit)}
             type="submit"
+            disabled={isSubmitting}
             className="w-full"
-            disabled={loading}
           >
             Criar conta
           </Button>
