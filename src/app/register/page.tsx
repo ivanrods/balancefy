@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema, RegisterFormData } from "@/lib/schemas/auth";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -45,7 +46,10 @@ export default function RegisterPage() {
     data = await res.json();
 
     if (res.ok) {
+      toast("usuário criado com sucesso");
       router.push("/login");
+    } else {
+      toast("Erro ao criar usuário");
     }
   };
 

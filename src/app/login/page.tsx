@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
+import { toast } from "sonner";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -39,6 +40,8 @@ export default function LoginPage() {
 
     if (!res?.error) {
       router.push("/app/dashboard");
+    } else {
+      toast("Erro ao entrar");
     }
   };
 

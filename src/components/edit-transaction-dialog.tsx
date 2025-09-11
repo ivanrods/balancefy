@@ -42,7 +42,7 @@ export function EditTransactionDialog({
     register,
     handleSubmit,
     control,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<TransactionFormData>({
     resolver: zodResolver(transactionSchema),
     defaultValues: {
@@ -150,7 +150,11 @@ export function EditTransactionDialog({
             <DialogClose asChild>
               <Button variant="outline">Cancelar</Button>
             </DialogClose>
-            <Button onClick={handleSubmit(onSubmit)} type="submit">
+            <Button
+              onClick={handleSubmit(onSubmit)}
+              type="submit"
+              disabled={isSubmitting}
+            >
               Salvar
             </Button>
           </DialogFooter>
