@@ -67,7 +67,7 @@ export function EditTransactionDialog({
     <Dialog>
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogTrigger asChild>
-          <p className="hidden md:block ">Editar Transação</p>
+          <p>Editar Transação</p>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>

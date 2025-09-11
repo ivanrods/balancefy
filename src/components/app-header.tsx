@@ -1,10 +1,3 @@
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
 import { SidebarTrigger } from "./ui/sidebar";
 import { Input } from "./ui/input";
 import {
@@ -16,25 +9,14 @@ import { Bell } from "lucide-react";
 import { DropdownMenuItem } from "./ui/dropdown-menu";
 import { ButtonTheme } from "./button-theme";
 import { TransactionDialog } from "./create-transaction-dialog";
+import DynamicBreadcrumb from "./dynamic-breadcrumb";
 
 export function AppHeader() {
   return (
     <header className=" flex items-center gap-4 p-4 border-b">
       <SidebarTrigger />
-      <div className="min-w-max hidden lg:block">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/">Dashboard</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/components">Components</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-          </BreadcrumbList>
-        </Breadcrumb>
-      </div>
+
+      <DynamicBreadcrumb />
 
       <Input placeholder="Buscar transação" />
 
