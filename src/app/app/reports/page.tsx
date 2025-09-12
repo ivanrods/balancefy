@@ -1,6 +1,5 @@
 import { ChartAreaFinance } from "@/components/chart-area-interactive";
 import { ChartPieDonut } from "@/components/chart-pie-donut";
-import { DataTableDemo } from "@/components/data-table";
 
 export default function ReportsPage() {
   return (
