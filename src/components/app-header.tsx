@@ -13,7 +13,7 @@ import DynamicBreadcrumb from "./dynamic-breadcrumb";
 
 export function AppHeader() {
   return (
-    <header className=" flex items-center gap-4 p-4 border-b">
+    <header className=" flex items-center gap-4 py-4 border-b">
       <SidebarTrigger />
 
       <DynamicBreadcrumb />

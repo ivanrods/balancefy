@@ -19,7 +19,7 @@ import {
   SidebarMenuButton,
 } from "@/components/ui/sidebar";
 
-import UserMenu from "./user-menu"; // client component
+import UserMenu from "./user-menu";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -40,7 +40,7 @@ export async function AppSidebar() {
   const session = await getServerSession(authOptions);
   const user = session?.user;
   return (
-    <Sidebar>
+    <Sidebar className="md:border-none">
       <SidebarContent className="flex flex-col h-full">
         <div className="flex-1">
           <div className="p-2">
