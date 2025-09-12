@@ -39,7 +39,7 @@ export default function TransactionsPage() {
                 />
               </TableCell>
               <TableCell className="flex gap-2">
-                <Button>Editar</Button>
+                <Button variant="outline">Editar</Button>
                 <Button variant="destructive">Excluir</Button>
               </TableCell>
             </TableRow>
