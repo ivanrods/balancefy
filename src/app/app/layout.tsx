@@ -22,10 +22,7 @@ export default async function RootLayout({
 
         <main className="w-full">
           <AppHeader />
-          <div className="w-full flex flex-col gap-4 p-4">
-            <h1 className="text-2xl font-bold">Finance Dashboard</h1>
-            {children}
-          </div>
+          <div className="w-full flex flex-col gap-4 p-4">{children}</div>
         </main>
       </SidebarProvider>
     </Providers>

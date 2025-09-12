@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -22,12 +23,15 @@ export default function DynamicBreadcrumb() {
             const label = segment.charAt(0).toUpperCase() + segment.slice(1);
 
             return (
-              <BreadcrumbItem key={segment}>
-                <BreadcrumbLink asChild>
-                  <Link href={href}>{label}</Link>
-                </BreadcrumbLink>
+              <React.Fragment key={segment}>
+                <BreadcrumbItem>
+                  <BreadcrumbLink asChild>
+                    <Link href={href}>{label}</Link>
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+
                 {index < segments.length - 1 && <BreadcrumbSeparator />}
-              </BreadcrumbItem>
+              </React.Fragment>
             );
           })}
         </BreadcrumbList>
