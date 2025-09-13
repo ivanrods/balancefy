@@ -2,12 +2,10 @@ import { ChartAreaFinance } from "@/components/chart-area-interactive";
 import { ChartPieDonut } from "@/components/chart-pie-donut";
 import { DataTableDemo } from "@/components/data-table";
 import Summary from "./components/summary";
-import { AppHeader } from "@/components/app-header";
 
 const Dashboard = () => {
   return (
     <div className="w-full h-full flex flex-col gap-4">
-      <AppHeader />
       <h1 className="text-2xl font-bold">Finance Dashboard</h1>
       <Summary />
       <section className="flex flex-col lg:flex-row gap-4">

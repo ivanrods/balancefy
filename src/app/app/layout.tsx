@@ -4,6 +4,7 @@ import { Providers } from "./providers";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "../api/auth/[...nextauth]/route";
+import { AppHeader } from "@/components/app-header";
 
 export default async function RootLayout({
   children,
@@ -20,6 +21,7 @@ export default async function RootLayout({
         <AppSidebar />
         <main className="w-full bg-sidebar md:p-3">
           <div className="w-full h-full flex flex-col gap-4 px-4 bg-background md:rounded-xl">
+            <AppHeader />
             {children}
           </div>
         </main>
