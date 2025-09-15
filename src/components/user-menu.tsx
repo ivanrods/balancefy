@@ -7,8 +7,9 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { LogOut, Settings } from "lucide-react";
+import { LogOut, UserPen } from "lucide-react";
 import { signOut } from "next-auth/react";
+import { EditProfile } from "./edit-profile";
 
 type UserMenuProps = {
   user?: {
@@ -42,9 +43,9 @@ export default function UserMenu({ user }: UserMenuProps) {
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-60">
-          <DropdownMenuItem>
-            <Settings className="w-4 h-4 mr-2" />
-            Configurações
+          <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+            <UserPen className="w-4 h-4 mr-2" />
+            <EditProfile />
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/login" })}>
             <LogOut className="w-4 h-4 mr-2" />
