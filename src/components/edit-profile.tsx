@@ -17,6 +17,7 @@ import { AvatarFallback, AvatarImage } from "./ui/avatar";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
+import { toast } from "sonner";
 
 const updateUserSchema = z.object({
   name: z.string().min(2, "Nome deve ter pelo menos 2 caracteres"),
@@ -57,9 +58,9 @@ export function EditProfile() {
     });
 
     if (res.ok) {
-      alert("Perfil atualizado com sucesso!");
+      toast("Perfil atualizado com sucesso!");
     } else {
-      alert("Erro ao atualizar perfil.");
+      toast("Erro ao atualizar perfil.");
     }
   }
 
@@ -81,7 +82,7 @@ export function EditProfile() {
           onSubmit={handleSubmit(onSubmit)}
         >
           <div className="flex justify-center ">
-            <Avatar className="mx-auto w-24 h-24 ">
+            <Avatar className="mx-auto w-24 h-24 rounded-full overflow-hidden">
               <AvatarImage
                 src={userImage ?? ""}
                 alt="User"
