@@ -12,6 +12,7 @@ import { DropdownMenuItem } from "./ui/dropdown-menu";
 import { ButtonTheme } from "./button-theme";
 import { TransactionDialog } from "./create-transaction-dialog";
 import DynamicBreadcrumb from "./dynamic-breadcrumb";
+import { InputSearch } from "./input-search";
 
 export function AppHeader() {
   const pathname = usePathname();
@@ -24,7 +25,7 @@ export function AppHeader() {
       </div>
 
       {(pathname === "/app/transactions" || pathname === "/app/dashboard") && (
-        <Input placeholder="Buscar transação" />
+        <InputSearch />
       )}
 
       {(pathname === "/app/transactions" || pathname === "/app/dashboard") && (
