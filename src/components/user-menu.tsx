@@ -37,10 +37,17 @@ export default function UserMenu() {
         <DropdownMenuTrigger asChild>
           <button className="flex items-center gap-2 w-full rounded-lg p-2 hover:bg-muted transition">
             <Avatar className="h-8 w-8">
-              <AvatarImage
-                src={user?.image ?? "/avatar.png"}
-                alt={user?.name ?? "User"}
-              />
+              <Avatar className="h-8 w-8">
+                <AvatarImage
+                  src={user?.image || "/avatar.png"}
+                  alt={user?.name ?? "User"}
+                  onError={(e) => {
+                    e.currentTarget.src = "/avatar.png";
+                  }}
+                />
+                <AvatarFallback>{user?.name?.[0] ?? "?"}</AvatarFallback>
+              </Avatar>
+
               <AvatarFallback>{user?.name?.[0] ?? "?"}</AvatarFallback>
             </Avatar>
             <div className="flex flex-col text-left">

@@ -16,6 +16,7 @@ export async function GET() {
       id: true,
       name: true,
       email: true,
+      image: true,
     },
   });
 
@@ -37,7 +38,7 @@ export async function PUT(req: Request) {
   }
 
   const body = await req.json();
-  const { name } = body;
+  const { name, image } = body;
 
   if (!name) {
     return NextResponse.json({ error: "Nome é obrigatório" }, { status: 400 });
@@ -47,8 +48,9 @@ export async function PUT(req: Request) {
     where: { email: session.user.email },
     data: {
       name,
+      image,
     },
-    select: { id: true, name: true, email: true },
+    select: { id: true, name: true, email: true, image: true },
   });
 
   return NextResponse.json(updated);

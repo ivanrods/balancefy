@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -26,6 +26,7 @@ const updateUserSchema = z.object({
 type updateFormData = z.infer<typeof updateUserSchema>;
 
 export function EditProfile() {
+  const [userImage, setUserImage] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
@@ -42,6 +43,7 @@ export function EditProfile() {
           name: data.name,
           email: data.email,
         });
+        setUserImage(data.image);
       }
     }
     fetchProfile();
@@ -78,9 +80,16 @@ export function EditProfile() {
           className="grid flex-1 auto-rows-min gap-6 px-4"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <div className="flex justify-center">
-            <Avatar className="mx-auto w-24 h-24">
-              <AvatarImage src="/avatar.png" alt="User" className="h-24 w-24" />
+          <div className="flex justify-center ">
+            <Avatar className="mx-auto w-24 h-24 ">
+              <AvatarImage
+                src={userImage ?? ""}
+                alt="User"
+                onError={(e) => {
+                  e.currentTarget.src = "/avatar.png";
+                }}
+                className="h-24 w-24"
+              />
               <AvatarFallback>{"?"}</AvatarFallback>
             </Avatar>
           </div>
