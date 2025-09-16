@@ -1,5 +1,3 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import {
   ChartBarStacked,
   CircleGauge,
@@ -37,8 +35,6 @@ const items = [
 ];
 
 export async function AppSidebar() {
-  const session = await getServerSession(authOptions);
-  const user = session?.user;
   return (
     <Sidebar className="md:border-none">
       <SidebarContent className="flex flex-col h-full">
@@ -88,7 +84,7 @@ export async function AppSidebar() {
         </div>
 
         {/* Rodapé com menu de usuário */}
-        <UserMenu user={user} />
+        <UserMenu />
       </SidebarContent>
     </Sidebar>
   );

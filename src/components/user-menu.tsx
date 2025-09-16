@@ -10,16 +10,27 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { LogOut, UserPen } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { EditProfile } from "./edit-profile";
+import { useEffect, useState } from "react";
 
-type UserMenuProps = {
-  user?: {
-    name?: string | null;
-    email?: string | null;
-    image?: string | null;
-  };
+type User = {
+  name: string;
+  email: string;
+  image?: string;
 };
 
-export default function UserMenu({ user }: UserMenuProps) {
+export default function UserMenu() {
+  const [user, setUser] = useState<User | null>(null);
+  useEffect(() => {
+    async function fetchUser() {
+      const res = await fetch("/api/profile", { cache: "no-store" });
+      if (res.ok) {
+        const data = await res.json();
+        setUser(data);
+      }
+    }
+    fetchUser();
+  }, []);
+
   return (
     <div className="p-2 border-t">
       <DropdownMenu>
