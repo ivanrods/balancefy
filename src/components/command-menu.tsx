@@ -26,7 +26,7 @@ export function CommandMenu() {
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
-      if (e.key === "j" && (e.metaKey || e.ctrlKey)) {
+      if (e.key === "Enter") {
         e.preventDefault();
         setOpen((open) => !open);
       }
@@ -39,9 +39,9 @@ export function CommandMenu() {
   return (
     <>
       <p className="text-muted-foreground text-sm">
-        Press{" "}
+        <span className="hidden md:inline-block">Press</span>{" "}
         <kbd className="bg-muted text-muted-foreground pointer-events-none inline-flex h-5 items-center gap-1 rounded border px-1.5 font-mono text-[10px] font-medium opacity-100 select-none">
-          <span className="text-xs">⌘</span>J
+          <span className="text-xs">↵</span>
         </kbd>
       </p>
       <CommandDialog open={open} onOpenChange={setOpen}>
