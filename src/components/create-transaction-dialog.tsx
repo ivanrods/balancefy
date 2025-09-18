@@ -52,17 +52,17 @@ export function TransactionDialog() {
       value: 0,
       categoryId: "",
       type: "income",
-      data: new Date(),
+      date: new Date(),
     },
   });
 
   function onSubmit(formData: TransactionFormData) {
     createTransaction.mutate({
-      ...formData,
+      description: formData.description,
       value: Number(formData.value),
-      data: formData.data
-        ? formData.data.toISOString()
-        : new Date().toISOString(),
+      type: formData.type,
+      date: formData.date.toISOString(),
+      categoryId: formData.categoryId,
     });
 
     reset();
@@ -125,15 +125,15 @@ export function TransactionDialog() {
               )}
 
               <Controller
-                name="data"
+                name="date"
                 control={control}
                 render={({ field }) => (
                   <DatePicker value={field.value} onChange={field.onChange} />
                 )}
               />
-              {errors.data && (
+              {errors.date && (
                 <span className="text-destructive text-sm">
-                  {errors.data.message}
+                  {errors.date.message}
                 </span>
               )}
             </div>

@@ -38,9 +38,9 @@ export async function PUT(
   }
 
   const body = await req.json();
-  const { descricao, categoria, valor, tipo, data } = body;
+  const { description, category, value, type, date } = body;
 
-  if (!descricao || !categoria || !valor || !tipo || !data) {
+  if (!description || !category || !value || !type || !date) {
     return NextResponse.json(
       { error: "Todos os campos são obrigatórios" },
       { status: 400 }
@@ -50,7 +50,7 @@ export async function PUT(
   try {
     const transaction = await prisma.transaction.update({
       where: { id: params.id },
-      data: { descricao, categoria, valor, tipo, data },
+      data: { description, categoryId: category, value, type, date },
     });
 
     return NextResponse.json(transaction, { status: 200 });

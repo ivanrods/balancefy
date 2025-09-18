@@ -72,7 +72,7 @@ model Transaction {
 model Category {
   id           String        @id @default(cuid())
   name         String        @unique
-  userId       String? // null = default category, not owned by any user
+  userId       String? 
   user         User?         @relation(fields: [userId], references: [id], onDelete: Cascade)
   transactions Transaction[]
 }

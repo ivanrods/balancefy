@@ -1,8 +1,7 @@
-export type Transaction = {
-  id: string;
-  descricao: string;
-  categoria: "Alimentacao" | "Transporte" | "Moradia" | "Lazer" | "Outros";
-  valor: number;
-  tipo: "entrada" | "saida";
-  data: string;
+export type TransactionFormData = {
+  description: string;
+  value: number;
+  type: "income" | "expense";
+  date: Date;
+  categoryId: string;
 };

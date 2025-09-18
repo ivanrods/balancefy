@@ -12,7 +12,7 @@ export async function GET() {
 
   const transactions = await prisma.transaction.findMany({
     where: { user: { email: session.user.email } },
-    orderBy: { data: "desc" },
+    orderBy: { date: "desc" },
   });
 
   return NextResponse.json(transactions);
@@ -27,9 +27,9 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
-    const { descricao, categoria, valor, tipo, data } = body;
+    const { description, categoryId, value, type, date } = body;
 
-    if (!descricao || !categoria || !valor || !tipo || !data) {
+    if (!description || !categoryId || !value || !type || !date) {
       return NextResponse.json(
         { error: "Todos os campos são obrigatórios" },
         { status: 400 }
@@ -49,11 +49,11 @@ export async function POST(req: Request) {
 
     const transaction = await prisma.transaction.create({
       data: {
-        descricao,
-        categoria,
-        valor,
-        tipo,
-        data: new Date(data),
+        description,
+        categoryId,
+        value,
+        type,
+        date: new Date(date),
         userId: user.id,
       },
     });
