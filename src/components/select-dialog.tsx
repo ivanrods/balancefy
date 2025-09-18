@@ -10,16 +10,23 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "./ui/label";
-import { Transaction } from "@/types/transaction";
 
-type Categoria = Transaction["categoria"];
-
-type SelectDemoProps = {
-  value: Categoria;
-  onValueChange: (val: Categoria) => void;
+type Category = {
+  id: string;
+  name: string;
 };
 
-export function SelectDialog({ value, onValueChange }: SelectDemoProps) {
+type SelectDialogProps = {
+  value: string;
+  onValueChange: (val: string) => void;
+  categories: Category[];
+};
+
+export function SelectDialog({
+  value,
+  onValueChange,
+  categories,
+}: SelectDialogProps) {
   return (
     <div className="flex flex-col gap-3">
       <Select value={value} onValueChange={onValueChange}>
@@ -29,12 +36,12 @@ export function SelectDialog({ value, onValueChange }: SelectDemoProps) {
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectLabel>Categoria</SelectLabel>
-            <SelectItem value="Alimentacao"> Alimentação</SelectItem>
-            <SelectItem value="Transporte"> Transporte</SelectItem>
-            <SelectItem value="Moradia">Moradia</SelectItem>
-            <SelectItem value="Lazer">Lazer</SelectItem>
-            <SelectItem value="Outros">Outros</SelectItem>
+            <SelectLabel>Categories</SelectLabel>
+            {categories.map((cat) => (
+              <SelectItem key={cat.id} value={cat.id}>
+                {cat.name}
+              </SelectItem>
+            ))}
           </SelectGroup>
         </SelectContent>
       </Select>
