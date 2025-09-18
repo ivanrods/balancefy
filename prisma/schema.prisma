@@ -8,15 +8,16 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String        @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?       @unique
   emailVerified DateTime?
+  password      String?
   image         String?
   accounts      Account[]
   sessions      Session[]
   transactions  Transaction[]
-  password       String?
+  categories    Category[]
 }
 
 model Account {
@@ -54,27 +55,29 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-
 model Transaction {
-  id         String   @id @default(cuid())
-  descricao  String
-  categoria  Categoria
-  valor      Float
-  tipo       Tipo
-  data       DateTime @default(now())
-  userId     String
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id          String          @id @default(cuid())
+  description String
+  value       Float
+  type        TransactionType
+  date        DateTime        @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 }
 
-enum Categoria {
-  Alimentacao
-  Transporte
-  Moradia
-  Lazer
-  Outros
+model Category {
+  id           String        @id @default(cuid())
+  name         String        @unique
+  userId       String? // null = default category, not owned by any user
+  user         User?         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions Transaction[]
 }
 
-enum Tipo {
-  entrada
-  saida
+enum TransactionType {
+  income
+  expense
 }
