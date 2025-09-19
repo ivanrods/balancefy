@@ -38,11 +38,11 @@ const months = [
 // 🔧 Agrupa transações por mês e calcula saldo
 function groupTransactionsByMonth(transactions: Transaction[]) {
   const grouped = transactions.reduce((acc, curr) => {
-    const date = new Date(curr.data);
+    const date = new Date(curr.date);
     const monthIndex = date.getMonth();
     const month = months[monthIndex];
 
-    const valor = curr.tipo === "entrada" ? curr.valor : -curr.valor;
+    const valor = curr.type === "income" ? curr.value : -curr.value;
 
     acc[month] = (acc[month] || 0) + valor;
     return acc;

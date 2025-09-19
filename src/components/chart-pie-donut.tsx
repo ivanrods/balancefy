@@ -35,16 +35,13 @@ const chartConfig = {
 // Função para agrupar transações por categoria
 function groupTransactions(transactions: Transaction[]) {
   const grouped = transactions.reduce((acc, curr) => {
-    const categoria = curr.categoria || "Outros";
-    acc[categoria] = (acc[categoria] || 0) + curr.valor;
+    const categoria = curr.category?.name || "Outros";
+    acc[categoria] = (acc[categoria] || 0) + curr.value;
     return acc;
-  }, {} as Record<Transaction["categoria"], number>);
+  }, {} as Record<string, number>);
 
   return Object.entries(grouped).map(([categoria, valor]) => {
-    // Se a categoria não existir no chartConfig, cai para "Outros"
-    const config =
-      chartConfig[categoria as Transaction["categoria"]] ??
-      chartConfig["Outros"];
+    const config = chartConfig[categoria] ?? chartConfig["Outros"];
 
     return {
       categoria,

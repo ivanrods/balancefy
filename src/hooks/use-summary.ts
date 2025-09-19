@@ -3,18 +3,18 @@ import { useTransactions } from "@/hooks/use-transactions";
 export function useSummary() {
   const { transactions } = useTransactions();
 
-  const entradas =
+  const income =
     transactions
-      ?.filter((t) => t.tipo === "entrada")
-      .reduce((acc, t) => acc + t.valor, 0) ?? 0;
+      ?.filter((t) => t.type === "income")
+      .reduce((acc, t) => acc + t.value, 0) ?? 0;
 
-  const saidas =
+  const expense =
     transactions
-      ?.filter((t) => t.tipo === "saida")
-      .reduce((acc, t) => acc + t.valor, 0) ?? 0;
+      ?.filter((t) => t.type === "expense")
+      .reduce((acc, t) => acc + t.value, 0) ?? 0;
 
-  const saldo = entradas - saidas;
-  const economia = saldo > 0 ? saldo : 0;
+  const balance = income - expense;
+  const economy = balance > 0 ? balance : 0;
 
-  return { entradas, saidas, saldo, economia };
+  return { income, expense, balance, economy };
 }

@@ -32,6 +32,15 @@ export async function POST(req: NextRequest) {
         name,
         email,
         password: hashedPassword,
+        categories: {
+          create: [
+            { name: "Alimentação" },
+            { name: "Transporte" },
+            { name: "Moradia" },
+            { name: "Lazer" },
+            { name: "Outros" },
+          ],
+        },
       },
     });
 

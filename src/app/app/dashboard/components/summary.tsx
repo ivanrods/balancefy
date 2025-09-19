@@ -17,7 +17,7 @@ import {
   TrendingDown,
 } from "lucide-react";
 const Summary = () => {
-  const { entradas, saidas, saldo, economia } = useSummary();
+  const { income, expense, balance, economy } = useSummary();
   return (
     <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
       <Card>
@@ -29,7 +29,7 @@ const Summary = () => {
           </CardAction>
         </CardHeader>
         <CardContent>
-          <p className="text-4xl font-bold">{formatCurrency(saldo)}</p>
+          <p className="text-4xl font-bold">{formatCurrency(balance)}</p>
         </CardContent>
         <CardFooter>
           <p>Tendências em alta neste mês</p>
@@ -45,7 +45,7 @@ const Summary = () => {
           </CardAction>
         </CardHeader>
         <CardContent>
-          <p className="text-4xl font-bold">{formatCurrency(entradas)}</p>
+          <p className="text-4xl font-bold">{formatCurrency(income)}</p>
         </CardContent>
         <CardFooter>
           <p>Tendências em alta neste mês</p>
@@ -60,7 +60,7 @@ const Summary = () => {
           </CardAction>
         </CardHeader>
         <CardContent>
-          <p className="text-4xl font-bold">{formatCurrency(saidas)}</p>
+          <p className="text-4xl font-bold">{formatCurrency(expense)}</p>
         </CardContent>
         <CardFooter>
           <p>Tendências em alta neste mês</p>
@@ -75,7 +75,7 @@ const Summary = () => {
           </CardAction>
         </CardHeader>
         <CardContent>
-          <p className="text-4xl font-bold">{formatCurrency(economia)}</p>
+          <p className="text-4xl font-bold">{formatCurrency(economy)}</p>
         </CardContent>
         <CardFooter>
           <p>Tendências em alta neste mês</p>

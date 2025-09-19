@@ -71,11 +71,12 @@ model Transaction {
 
 model Category {
   id           String        @id @default(cuid())
-  name         String        @unique
-  userId       String? 
-  user         User?         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name         String
+  userId       String 
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   transactions Transaction[]
 }
+
 
 enum TransactionType {
   income

@@ -68,26 +68,26 @@ export const columns = (
     enableHiding: false,
   },
   {
-    accessorKey: "descricao",
-    header: "Descrição",
-    cell: ({ row }) => <div>{row.getValue("descricao")}</div>,
+    accessorKey: "description",
+    header: "description",
+    cell: ({ row }) => <div>{row.getValue("description")}</div>,
   },
   {
-    accessorKey: "categoria",
+    accessorKey: "category.name",
     header: "Categoria",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("categoria")}</div>
+      <div className="capitalize">{row.original.category?.name ?? "—"}</div>
     ),
   },
   {
-    accessorKey: "tipo",
-    header: "Tipo",
+    accessorKey: "type",
+    header: "Type",
     cell: ({ row }) => {
-      const tipo = row.getValue("tipo") as string;
+      const tipo = row.getValue("type") as string;
       return (
         <span
           className={
-            tipo === "entrada"
+            tipo === "income"
               ? "text-chart-2 font-medium"
               : "text-destructive font-medium"
           }
@@ -98,7 +98,7 @@ export const columns = (
     },
   },
   {
-    accessorKey: "valor",
+    accessorKey: "value",
     header: () => (
       <Button variant="ghost">
         Valor
@@ -106,7 +106,7 @@ export const columns = (
       </Button>
     ),
     cell: ({ row }) => {
-      const valor = parseFloat(row.getValue("valor"));
+      const valor = parseFloat(row.getValue("value"));
       const formatted = new Intl.NumberFormat("pt-BR", {
         style: "currency",
         currency: "BRL",
@@ -116,10 +116,10 @@ export const columns = (
     },
   },
   {
-    accessorKey: "data",
-    header: "Data",
+    accessorKey: "date",
+    header: "Date",
     cell: ({ row }) => {
-      const date = new Date(row.getValue("data"));
+      const date = new Date(row.getValue("date"));
       return (
         <div>
           {date.toLocaleDateString("pt-BR", {
@@ -158,7 +158,7 @@ export const columns = (
 
             <DropdownMenuItem
               onClick={() =>
-                navigator.clipboard.writeText(transaction.descricao)
+                navigator.clipboard.writeText(transaction.description)
               }
             >
               Copiar descrição
@@ -223,10 +223,10 @@ export function DataTableDemo() {
         <Input
           placeholder="Filtrar descricão..."
           value={
-            (table.getColumn("descricao")?.getFilterValue() as string) ?? ""
+            (table.getColumn("description")?.getFilterValue() as string) ?? ""
           }
           onChange={(event) =>
-            table.getColumn("descricao")?.setFilterValue(event.target.value)
+            table.getColumn("description")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />

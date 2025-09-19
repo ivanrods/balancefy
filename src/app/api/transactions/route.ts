@@ -12,6 +12,9 @@ export async function GET() {
 
   const transactions = await prisma.transaction.findMany({
     where: { user: { email: session.user.email } },
+    include: {
+      category: true,
+    },
     orderBy: { date: "desc" },
   });
 
