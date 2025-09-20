@@ -37,6 +37,15 @@ export function EditTransactionDialog({
   transaction,
 }: EditTransactionDialogProps) {
   const { updateTransaction } = useTransactions();
+  const [categories, setCategories] = React.useState<
+    { id: string; name: string }[]
+  >([]);
+
+  React.useEffect(() => {
+    fetch("/api/categories")
+      .then((res) => res.json())
+      .then(setCategories);
+  }, []);
 
   const {
     register,
@@ -46,22 +55,23 @@ export function EditTransactionDialog({
   } = useForm<TransactionFormData>({
     resolver: zodResolver(transactionSchema),
     defaultValues: {
-      descricao: transaction.descricao,
-      valor: transaction.valor,
-      categoria: transaction.categoria,
-      tipo: transaction.tipo,
-      data: new Date(transaction.data),
+      description: transaction.description,
+      value: transaction.value,
+      categoryId: transaction.categoryId,
+      type: transaction.type,
+      date: new Date(transaction.date),
     },
   });
 
-  const onSubmit = (formData: TransactionFormData) => {
+  function onSubmit(formData: TransactionFormData) {
     updateTransaction.mutate({
-      ...formData,
       id: transaction.id,
-      valor: Number(formData.valor),
-      data: new Date().toISOString(),
+      description: formData.description,
+      value: Number(formData.value),
+      date: formData.date.toISOString(),
+      categoryId: formData.categoryId,
     });
-  };
+  }
 
   return (
     <Dialog>
@@ -79,10 +89,10 @@ export function EditTransactionDialog({
           <div className="grid gap-4">
             <div className="grid gap-3">
               <Label htmlFor="descricao">Descrição</Label>
-              <Input id="descricao" {...register("descricao")} />
-              {errors.descricao && (
+              <Input id="descricao" {...register("description")} />
+              {errors.description && (
                 <span className="text-destructive text-sm">
-                  {errors.descricao.message}
+                  {errors.description.message}
                 </span>
               )}
             </div>
@@ -91,47 +101,48 @@ export function EditTransactionDialog({
               <Input
                 id="valor"
                 type="number"
-                {...register("valor", { valueAsNumber: true })}
+                {...register("value", { valueAsNumber: true })}
               />
-              {errors.valor && (
+              {errors.value && (
                 <span className="text-destructive text-sm">
-                  {errors.valor.message}
+                  {errors.value.message}
                 </span>
               )}
             </div>
             <div className="flex gap-4 flex-col sm:flex-row">
               <Controller
-                name="categoria"
+                name="categoryId"
                 control={control}
                 render={({ field }) => (
                   <SelectDialog
                     value={field.value}
                     onValueChange={field.onChange}
+                    categories={categories}
                   />
                 )}
               />
-              {errors.categoria && (
+              {errors.categoryId && (
                 <span className="text-destructive text-sm">
-                  {errors.categoria.message}
+                  {errors.categoryId.message}
                 </span>
               )}
 
               <Controller
-                name="data"
+                name="date"
                 control={control}
                 render={({ field }) => (
                   <DatePicker value={field.value} onChange={field.onChange} />
                 )}
               />
-              {errors.data && (
+              {errors.date && (
                 <span className="text-destructive text-sm">
-                  {errors.data.message}
+                  {errors.date.message}
                 </span>
               )}
             </div>
 
             <Controller
-              name="tipo"
+              name="type"
               control={control}
               render={({ field }) => (
                 <RadioGroupDemo
@@ -140,9 +151,9 @@ export function EditTransactionDialog({
                 />
               )}
             />
-            {errors.tipo && (
+            {errors.type && (
               <span className="text-destructive text-sm">
-                {errors.tipo.message}
+                {errors.type.message}
               </span>
             )}
           </div>

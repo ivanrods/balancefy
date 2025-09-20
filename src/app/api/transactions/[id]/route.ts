@@ -50,7 +50,13 @@ export async function PUT(
   try {
     const transaction = await prisma.transaction.update({
       where: { id: params.id },
-      data: { description, categoryId: category, value, type, date },
+      data: {
+        description,
+        categoryId: category,
+        value,
+        type,
+        date: new Date(date),
+      },
     });
 
     return NextResponse.json(transaction, { status: 200 });
