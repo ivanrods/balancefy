@@ -1,8 +1,8 @@
 "use client";
 import { usePathname } from "next/navigation";
-import { SidebarTrigger } from "./ui/sidebar";
+import { SidebarTrigger } from "../ui/sidebar";
 import { ButtonTheme } from "./button-theme";
-import { TransactionDialog } from "./create-transaction-dialog";
+import { TransactionDialog } from "../dialogs/create-transaction-dialog";
 import DynamicBreadcrumb from "./dynamic-breadcrumb";
 import { InputSearch } from "./input-search";
 import { Notifications } from "./notifications";

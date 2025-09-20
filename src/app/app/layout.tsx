@@ -1,10 +1,10 @@
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { AppSidebar } from "../../components/app-sidebar";
+import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import { Providers } from "./providers";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "../api/auth/[...nextauth]/route";
-import { AppHeader } from "@/components/app-header";
+import { AppHeader } from "@/components/header/app-header";
 
 export default async function RootLayout({
   children,

@@ -16,7 +16,7 @@ type DatePickerProps = {
   onChange: (date: Date | null) => void;
 };
 
-export function DatePicker({ value, onChange }: DatePickerProps) {
+export function DateDialog({ value, onChange }: DatePickerProps) {
   const [open, setOpen] = React.useState(false);
 
   return (

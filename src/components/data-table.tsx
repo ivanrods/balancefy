@@ -39,7 +39,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { EditTransactionDialog } from "./edit-transaction-dialog";
+import { EditTransactionDialog } from "./dialogs/edit-transaction-dialog";
 
 export const columns = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

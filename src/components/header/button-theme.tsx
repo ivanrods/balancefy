@@ -1,6 +1,6 @@
 "use client";
 
-import { useTheme } from "../context/theme-context";
+import { useTheme } from "../../context/theme-context";
 import { Switch } from "@/components/ui/switch";
 import { Sun, Moon } from "lucide-react";
 

@@ -14,10 +14,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-import { SelectDialog } from "./select-dialog";
-import { RadioGroupDemo } from "./radio-group-dialog";
+import { SelectDialog } from "./components/select-dialog";
+import { RadioGroupDemo } from "./components/radio-group-dialog";
 
-import { DatePicker } from "./date-picker";
+import { DateDialog } from "./components/date-dialog";
 import { Transaction } from "@/types/transaction";
 
 import { Controller } from "react-hook-form";
@@ -131,7 +131,7 @@ export function EditTransactionDialog({
                 name="date"
                 control={control}
                 render={({ field }) => (
-                  <DatePicker value={field.value} onChange={field.onChange} />
+                  <DateDialog value={field.value} onChange={field.onChange} />
                 )}
               />
               {errors.date && (

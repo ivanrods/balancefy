@@ -9,7 +9,7 @@ import {
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { LogOut, UserPen } from "lucide-react";
 import { signOut } from "next-auth/react";
-import { EditProfile } from "./edit-profile";
+import { EditProfile } from "../dialogs/edit-profile";
 import { useEffect, useState } from "react";
 
 type User = {

@@ -1,6 +1,6 @@
 import { Search } from "lucide-react";
 import { CommandMenu } from "./command-menu";
-import { Input } from "./ui/input";
+import { Input } from "../ui/input";
 
 export function InputSearch() {
   return (
