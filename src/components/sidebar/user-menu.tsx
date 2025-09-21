@@ -7,11 +7,10 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { LogOut, Trash, UserPen } from "lucide-react";
+import { LogOut, UserPen } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { EditProfile } from "../dialogs/edit-profile";
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
 import { DeleteAccountDialog } from "../dialogs/delete-account-dialog";
 
 type User = {
