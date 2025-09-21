@@ -40,6 +40,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { EditTransactionDialog } from "./dialogs/edit-transaction-dialog";
+import { toast } from "sonner";
 
 export const columns = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -145,6 +146,17 @@ export const columns = (
     cell: ({ row }) => {
       const transaction = row.original;
 
+      function handleDeleteTransaction() {
+        deleteTransaction.mutate(transaction.id, {
+          onSuccess: () => {
+            toast.success("Transação apagada com sucesso!");
+          },
+          onError: () => {
+            toast.error("Erro ao apagar transação!");
+          },
+        });
+      }
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -184,7 +196,7 @@ export const columns = (
 
             <DropdownMenuItem
               className="text-red-600"
-              onClick={() => deleteTransaction.mutate(transaction.id)}
+              onClick={handleDeleteTransaction}
             >
               Excluir transação
             </DropdownMenuItem>

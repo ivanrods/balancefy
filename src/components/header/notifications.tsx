@@ -11,7 +11,7 @@ export function Notifications() {
       <PopoverTrigger asChild>
         <Bell />
       </PopoverTrigger>
-      <PopoverContent className="w-80">
+      <PopoverContent className="w-80 mx-4 my-2">
         <div className="grid gap-4">
           <div className="space-y-2">
             <h4 className="leading-none font-medium">Notificações</h4>

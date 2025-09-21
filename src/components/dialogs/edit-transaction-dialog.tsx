@@ -78,8 +78,7 @@ export function EditTransactionDialog({
         onSuccess: () => {
           toast.success("Transação editada com sucesso!");
         },
-        onError: (error: any) => {
-          console.error("Erro no updateTransaction:", error);
+        onError: () => {
           toast.error("Erro ao editar transação");
         },
       }
