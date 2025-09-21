@@ -38,6 +38,7 @@ export async function PUT(
   }
 
   const body = await req.json();
+  console.log(body);
   const { description, category, value, type, date } = body;
 
   if (!description || !category || !value || !type || !date) {
@@ -55,7 +56,7 @@ export async function PUT(
         categoryId: category,
         value,
         type,
-        date: new Date(date),
+        date,
       },
     });
 

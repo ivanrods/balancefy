@@ -12,8 +12,8 @@ import { Label } from "@/components/ui/label";
 import { ChevronDown } from "lucide-react";
 
 type DatePickerProps = {
-  value: Date | null;
-  onChange: (date: Date | null) => void;
+  value: Date;
+  onChange: (date: Date) => void;
 };
 
 export function DateDialog({ value, onChange }: DatePickerProps) {
@@ -43,7 +43,7 @@ export function DateDialog({ value, onChange }: DatePickerProps) {
             selected={value ?? undefined}
             captionLayout="dropdown"
             onSelect={(date) => {
-              onChange(date ?? null);
+              onChange(date);
               setOpen(false);
             }}
           />

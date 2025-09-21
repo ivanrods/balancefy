@@ -68,7 +68,7 @@ export function EditTransactionDialog({
       id: transaction.id,
       description: formData.description,
       value: Number(formData.value),
-      date: formData.date.toISOString(),
+      date: new Date().toISOString(),
       categoryId: formData.categoryId,
     });
   }

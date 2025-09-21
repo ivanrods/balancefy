@@ -69,7 +69,7 @@ export const columns = (
   },
   {
     accessorKey: "description",
-    header: "description",
+    header: "Descrição",
     cell: ({ row }) => <div>{row.getValue("description")}</div>,
   },
   {
@@ -81,18 +81,26 @@ export const columns = (
   },
   {
     accessorKey: "type",
-    header: "Type",
+    header: "Tipo",
     cell: ({ row }) => {
-      const tipo = row.getValue("type") as string;
+      const type = row.getValue("type") as string;
+
+      const label =
+        type === "income"
+          ? "Entrada"
+          : type === "expense"
+          ? "Saída"
+          : "Desconhecido";
+
       return (
         <span
           className={
-            tipo === "income"
+            type === "income"
               ? "text-chart-2 font-medium"
               : "text-destructive font-medium"
           }
         >
-          {tipo}
+          {label}
         </span>
       );
     },
@@ -117,7 +125,7 @@ export const columns = (
   },
   {
     accessorKey: "date",
-    header: "Date",
+    header: "Data",
     cell: ({ row }) => {
       const date = new Date(row.getValue("date"));
       return (
@@ -233,7 +241,7 @@ export function DataTableDemo() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
-              Columns <ChevronDown />
+              Colunas <ChevronDown />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
@@ -300,7 +308,7 @@ export function DataTableDemo() {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  Nenhum resultado.
                 </TableCell>
               </TableRow>
             )}
@@ -310,7 +318,7 @@ export function DataTableDemo() {
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="text-muted-foreground flex-1 text-sm">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
+          {table.getFilteredRowModel().rows.length} linha(s) selecionada(s)
         </div>
         <div className="space-x-2">
           <Button
@@ -319,7 +327,7 @@ export function DataTableDemo() {
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            Previous
+            Anterior
           </Button>
           <Button
             variant="outline"
@@ -327,7 +335,7 @@ export function DataTableDemo() {
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-            Next
+            Próxima
           </Button>
         </div>
       </div>
