@@ -58,9 +58,9 @@ export function EditProfile() {
     });
 
     if (res.ok) {
-      toast("Perfil atualizado com sucesso!");
+      toast.success("Perfil atualizado com sucesso!");
     } else {
-      toast("Erro ao atualizar perfil.");
+      toast.error("Erro ao atualizar perfil.");
     }
   }
 

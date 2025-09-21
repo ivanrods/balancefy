@@ -46,10 +46,10 @@ export default function RegisterPage() {
     data = await res.json();
 
     if (res.ok) {
-      toast("usuário criado com sucesso");
+      toast.success("usuário criado com sucesso");
       router.push("/login");
     } else {
-      toast("Erro ao criar usuário");
+      toast.error("Erro ao criar usuário");
     }
   };
 

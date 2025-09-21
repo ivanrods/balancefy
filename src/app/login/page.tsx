@@ -41,7 +41,7 @@ export default function LoginPage() {
     if (!res?.error) {
       router.push("/app/dashboard");
     } else {
-      toast("Erro ao entrar");
+      toast.error("Erro ao entrar");
     }
   };
 

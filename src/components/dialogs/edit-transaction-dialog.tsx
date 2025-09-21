@@ -70,15 +70,17 @@ export function EditTransactionDialog({
         id: transaction.id,
         description: formData.description,
         value: Number(formData.value),
+        type: formData.type,
         date: formData.date.toISOString(),
         categoryId: formData.categoryId,
       },
       {
         onSuccess: () => {
-          toast("Transação editada com sucesso!");
+          toast.success("Transação editada com sucesso!");
         },
-        onError: () => {
-          toast("Erro ao editar transação");
+        onError: (error: any) => {
+          console.error("Erro no updateTransaction:", error);
+          toast.error("Erro ao editar transação");
         },
       }
     );

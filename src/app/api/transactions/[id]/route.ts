@@ -38,10 +38,10 @@ export async function PUT(
   }
 
   const body = await req.json();
-  console.log(body);
-  const { description, category, value, type, date } = body;
 
-  if (!description || !category || !value || !type || !date) {
+  const { description, categoryId, value, type, date } = body;
+
+  if (!description || !categoryId || !value || !type || !date) {
     return NextResponse.json(
       { error: "Todos os campos são obrigatórios" },
       { status: 400 }
@@ -53,7 +53,7 @@ export async function PUT(
       where: { id: params.id },
       data: {
         description,
-        categoryId: category,
+        categoryId,
         value,
         type,
         date,

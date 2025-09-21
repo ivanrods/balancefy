@@ -60,7 +60,7 @@ export function TransactionDialog() {
   function onSubmit(formData: TransactionFormData) {
     createTransaction.mutate(
       {
-        descriptiodn: formData.description,
+        description: formData.description,
         value: Number(formData.value),
         type: formData.type,
         date: formData.date.toISOString(),
@@ -68,10 +68,10 @@ export function TransactionDialog() {
       },
       {
         onSuccess: () => {
-          toast("Transação criada");
+          toast.success("Transação criada");
         },
         onError: () => {
-          toast("Erro ao criar transação");
+          toast.error("Erro ao criar transação");
         },
       }
     );
