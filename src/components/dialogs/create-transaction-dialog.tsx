@@ -26,6 +26,7 @@ import {
   transactionSchema,
   TransactionFormData,
 } from "@/lib/schemas/transaction";
+import { toast } from "sonner";
 
 export function TransactionDialog() {
   const { createTransaction } = useTransactions();
@@ -57,13 +58,23 @@ export function TransactionDialog() {
   });
 
   function onSubmit(formData: TransactionFormData) {
-    createTransaction.mutate({
-      description: formData.description,
-      value: Number(formData.value),
-      type: formData.type,
-      date: formData.date.toISOString(),
-      categoryId: formData.categoryId,
-    });
+    createTransaction.mutate(
+      {
+        descriptiodn: formData.description,
+        value: Number(formData.value),
+        type: formData.type,
+        date: formData.date.toISOString(),
+        categoryId: formData.categoryId,
+      },
+      {
+        onSuccess: () => {
+          toast("Transação criada");
+        },
+        onError: () => {
+          toast("Erro ao criar transação");
+        },
+      }
+    );
 
     reset();
   }

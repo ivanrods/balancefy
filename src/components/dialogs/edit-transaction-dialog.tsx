@@ -28,6 +28,7 @@ import {
   transactionSchema,
   TransactionFormData,
 } from "@/lib/schemas/transaction";
+import { toast } from "sonner";
 
 type EditTransactionDialogProps = {
   transaction: Transaction;
@@ -64,13 +65,23 @@ export function EditTransactionDialog({
   });
 
   function onSubmit(formData: TransactionFormData) {
-    updateTransaction.mutate({
-      id: transaction.id,
-      description: formData.description,
-      value: Number(formData.value),
-      date: new Date().toISOString(),
-      categoryId: formData.categoryId,
-    });
+    updateTransaction.mutate(
+      {
+        id: transaction.id,
+        description: formData.description,
+        value: Number(formData.value),
+        date: formData.date.toISOString(),
+        categoryId: formData.categoryId,
+      },
+      {
+        onSuccess: () => {
+          toast("Transação editada com sucesso!");
+        },
+        onError: () => {
+          toast("Erro ao editar transação");
+        },
+      }
+    );
   }
 
   return (
