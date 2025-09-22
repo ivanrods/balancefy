@@ -29,6 +29,7 @@ import {
   TransactionFormData,
 } from "@/lib/schemas/transaction";
 import { toast } from "sonner";
+import { DropdownMenuItem } from "../ui/dropdown-menu";
 
 type EditTransactionDialogProps = {
   transaction: Transaction;
@@ -87,18 +88,26 @@ export function EditTransactionDialog({
 
   return (
     <Dialog>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <DialogTrigger asChild>
-          <p>Editar Transação</p>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Editar Transação</DialogTitle>
-            <DialogDescription>
-              Preencha todo o formulário com as novas informações da transação.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-4">
+      <DialogTrigger asChild>
+        <DropdownMenuItem
+          onSelect={(e) => {
+            // Impede o Dropdown de fechar
+            e.preventDefault();
+          }}
+        >
+          Editar Transação
+        </DropdownMenuItem>
+      </DialogTrigger>
+
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Editar Transação</DialogTitle>
+          <DialogDescription>
+            Preencha todo o formulário com as novas informações da transação.
+          </DialogDescription>
+        </DialogHeader>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="grid gap-4 pb-4">
             <div className="grid gap-3">
               <Label htmlFor="descricao">Descrição</Label>
               <Input id="descricao" {...register("description")} />
@@ -181,8 +190,8 @@ export function EditTransactionDialog({
               Salvar
             </Button>
           </DialogFooter>
-        </DialogContent>
-      </form>
+        </form>
+      </DialogContent>
     </Dialog>
   );
 }

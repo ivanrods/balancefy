@@ -62,13 +62,10 @@ export default function UserMenu() {
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-60">
-          <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-            <UserPen className="w-4 h-4 mr-2" />
-            <EditProfile />
-          </DropdownMenuItem>
-          <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-            <DeleteAccountDialog />
-          </DropdownMenuItem>
+          <EditProfile />
+
+          <DeleteAccountDialog />
+
           <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/login" })}>
             <LogOut className="w-4 h-4 mr-2" />
             Sair

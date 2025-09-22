@@ -18,6 +18,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 import { toast } from "sonner";
+import { UserPen } from "lucide-react";
+import { DropdownMenuItem } from "../ui/dropdown-menu";
 
 const updateUserSchema = z.object({
   name: z.string().min(2, "Nome deve ter pelo menos 2 caracteres"),
@@ -66,8 +68,10 @@ export function EditProfile() {
 
   return (
     <Sheet>
-      <SheetTrigger asChild>
-        <p>Editar perfil</p>
+      <SheetTrigger asChild className="w-full">
+        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+          <UserPen className="w-4 h-4 mr-2" /> Editar perfil
+        </DropdownMenuItem>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>

@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Trash } from "lucide-react";
 import { toast } from "sonner";
+import { DropdownMenuItem } from "../ui/dropdown-menu";
 export function DeleteAccountDialog() {
   async function handleDeleteAccount() {
     try {
@@ -31,9 +32,11 @@ export function DeleteAccountDialog() {
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger className="flex gap-2">
-        <Trash className="w-4 h-4 mr-2 text-destructive" />
-        Deletar conta
+      <AlertDialogTrigger className="w-full">
+        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+          <Trash className="w-4 h-4 mr-2 text-destructive" />
+          Deletar conta
+        </DropdownMenuItem>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

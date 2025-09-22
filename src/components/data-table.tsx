@@ -186,13 +186,7 @@ export const columns = (
 
             <DropdownMenuSeparator />
 
-            <DropdownMenuItem
-              onSelect={(e) => {
-                e.preventDefault(); // impede de fechar o menu
-              }}
-            >
-              <EditTransactionDialog transaction={transaction} />
-            </DropdownMenuItem>
+            <EditTransactionDialog transaction={transaction} />
 
             <DropdownMenuItem
               className="text-red-600"
