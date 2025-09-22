@@ -49,13 +49,39 @@ export const authOptions: AuthOptions = {
       },
     }),
   ],
+
   session: { strategy: "jwt" },
+
   callbacks: {
     async session({ session, token }) {
       if (session.user) {
         (session.user as { id?: string }).id = token.sub;
       }
       return session;
+    },
+  },
+
+  // 🔹 Adiciona categorias logo após criação do usuário
+  events: {
+    async createUser({ user }) {
+      console.log("✅ Novo usuário criado:", user);
+
+      if (!user.id) {
+        console.error("❌ Usuário sem ID, não é possível criar categorias");
+        return;
+      }
+
+      await prisma.category.createMany({
+        data: [
+          { name: "Alimentação", userId: user.id },
+          { name: "Transporte", userId: user.id },
+          { name: "Moradia", userId: user.id },
+          { name: "Lazer", userId: user.id },
+          { name: "Outros", userId: user.id },
+        ],
+      });
+
+      console.log("📌 Categorias padrão criadas para:", user.id);
     },
   },
 };

@@ -62,7 +62,7 @@ model Transaction {
   type        TransactionType
   date        DateTime        @default(now())
 
-  userId String
+  userId      String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   categoryId String
@@ -75,6 +75,7 @@ model Category {
   userId       String 
   user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   transactions Transaction[]
+  @@unique([name, userId])
 }
 
 

@@ -11,12 +11,12 @@ export function ButtonTheme() {
     <div className="relative flex items-center justify-center ">
       <Switch onClick={toggleTheme} className="relative" />
       <span className="pointer-events-none absolute left-0.5 top-0.5">
-        <Sun size={14} className=" text-primary" />
+        <Sun size={14} className="text-primary" />
       </span>
       <span className="pointer-events-none absolute right-0.5 top-0.5 ">
         <Moon
           size={14}
-          className=" text-gray-400 flex justify-center items-center"
+          className="text-gray-800 flex justify-center items-center"
         />
       </span>
     </div>
