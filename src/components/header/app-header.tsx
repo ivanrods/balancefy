@@ -6,6 +6,7 @@ import { TransactionDialog } from "../dialogs/create-transaction-dialog";
 import DynamicBreadcrumb from "./dynamic-breadcrumb";
 import { InputSearch } from "./input-search";
 import { Notifications } from "./notifications";
+import { CategoriesDialog } from "../dialogs/create-categories-dialog";
 
 export function AppHeader() {
   const pathname = usePathname();
@@ -24,7 +25,10 @@ export function AppHeader() {
       {(pathname === "/app/transactions" || pathname === "/app/dashboard") && (
         <TransactionDialog />
       )}
+
       <div className="flex items-center gap-2">
+        {pathname === "/app/categories" && <CategoriesDialog />}
+
         <ButtonTheme />
         <Notifications />
       </div>
