@@ -8,11 +8,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-export default function TransactionsPage() {
+export default function CategoriesPage() {
   const categorias = [
-    { id: 1, nome: "Alimantação", tipo: "Saída", cor: "red" },
-    { id: 2, nome: "Moradia", tipo: "Saída", cor: "green" },
-    { id: 3, nome: "Ganhos", tipo: "Entrada", cor: "blue" },
+    { id: 1, nome: "Alimantação", relationship: "", value: 200.9, number: 3 },
+    { id: 2, nome: "Moradia", relationship: "", value: 200.9, number: 3 },
+    { id: 3, nome: "Ganhos", relationship: "", value: 200.9, number: 3 },
   ];
   return (
     <div className="w-full flex flex-col gap-4">
@@ -21,8 +21,9 @@ export default function TransactionsPage() {
         <TableHeader>
           <TableRow>
             <TableHead>Nome</TableHead>
-            <TableHead>Tipo</TableHead>
-            <TableHead>Cor</TableHead>
+            <TableHead>Transações relacionadas</TableHead>
+            <TableHead>Valor das transações</TableHead>
+            <TableHead>Numero de transações</TableHead>
             <TableHead>Ações</TableHead>
           </TableRow>
         </TableHeader>
@@ -31,13 +32,9 @@ export default function TransactionsPage() {
           {categorias.map((cat) => (
             <TableRow key={cat.id}>
               <TableCell>{cat.nome}</TableCell>
-              <TableCell>{cat.tipo}</TableCell>
-              <TableCell>
-                <div
-                  className="w-4 h-4 rounded-full"
-                  style={{ background: cat.cor }}
-                />
-              </TableCell>
+              <TableCell>{cat.relationship}</TableCell>
+              <TableCell>{cat.value}</TableCell>
+              <TableCell>{cat.number}</TableCell>
               <TableCell className="flex gap-2">
                 <Button variant="outline">Editar</Button>
                 <Button variant="destructive">Excluir</Button>

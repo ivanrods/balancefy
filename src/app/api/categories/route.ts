@@ -21,7 +21,7 @@ export async function GET(req: Request) {
 
     const categories = await prisma.category.findMany({
       where: {
-        OR: [{ userId: user.id }, { userId: null }],
+        userId: user.id,
       },
       select: {
         id: true,
