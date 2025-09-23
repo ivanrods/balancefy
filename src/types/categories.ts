@@ -1,7 +1,7 @@
 export type Categories = {
   id: number;
   nome: string;
-  relationship: string;
+  relationship: [];
   value: number;
   number: number;
 };

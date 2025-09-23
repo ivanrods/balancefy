@@ -31,7 +31,7 @@ export async function GET(req: Request) {
       const result = categories.map((cat) => ({
         id: cat.id,
         nome: cat.name,
-        relationship: cat.transactions.map((t) => t.description).join(", "),
+        relationship: cat.transactions.map((t) => t.description),
         value: cat.transactions.reduce((acc, t) => acc + t.value, 0),
         number: cat.transactions.length,
       }));
