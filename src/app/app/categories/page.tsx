@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -7,13 +8,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useEffect, useState } from "react";
 
 export default function CategoriesPage() {
-  const categorias = [
-    { id: 1, nome: "Alimantação", relationship: "", value: 200.9, number: 3 },
-    { id: 2, nome: "Moradia", relationship: "", value: 200.9, number: 3 },
-    { id: 3, nome: "Ganhos", relationship: "", value: 200.9, number: 3 },
-  ];
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    fetch("/api/categories?type=summary")
+      .then((res) => res.json())
+      .then((data) => setCategories(data));
+  }, []);
   return (
     <div className="w-full flex flex-col gap-4">
       <h1 className="text-2xl font-bold">Categorias</h1>
@@ -29,7 +33,7 @@ export default function CategoriesPage() {
         </TableHeader>
 
         <TableBody>
-          {categorias.map((cat) => (
+          {categories.map((cat) => (
             <TableRow key={cat.id}>
               <TableCell>{cat.nome}</TableCell>
               <TableCell>{cat.relationship}</TableCell>

@@ -35,7 +35,7 @@ export function TransactionDialog() {
   >([]);
 
   React.useEffect(() => {
-    fetch("/api/categories")
+    fetch("/api/categories?type=select")
       .then((res) => res.json())
       .then(setCategories);
   }, []);

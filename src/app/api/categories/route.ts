@@ -5,8 +5,10 @@ import { authOptions } from "../auth/[...nextauth]/route";
 
 export async function GET(req: Request) {
   try {
-    const session = await getServerSession(authOptions);
+    const { searchParams } = new URL(req.url);
+    const type = searchParams.get("type") || "select";
 
+    const session = await getServerSession(authOptions);
     if (!session?.user?.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -14,19 +16,33 @@ export async function GET(req: Request) {
     const user = await prisma.user.findUnique({
       where: { email: session.user.email },
     });
-
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
+    if (type === "summary") {
+      const categories = await prisma.category.findMany({
+        where: { userId: user.id },
+        include: {
+          transactions: { select: { value: true, description: true } },
+        },
+      });
+
+      const result = categories.map((cat) => ({
+        id: cat.id,
+        nome: cat.name,
+        relationship: cat.transactions.map((t) => t.description).join(", "),
+        value: cat.transactions.reduce((acc, t) => acc + t.value, 0),
+        number: cat.transactions.length,
+      }));
+
+      return NextResponse.json(result);
+    }
+
+    // Default: select mode
     const categories = await prisma.category.findMany({
-      where: {
-        userId: user.id,
-      },
-      select: {
-        id: true,
-        name: true,
-      },
+      where: { userId: user.id },
+      select: { id: true, name: true },
     });
 
     return NextResponse.json(categories);
