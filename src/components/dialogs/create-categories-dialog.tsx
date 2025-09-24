@@ -14,11 +14,48 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Plus } from "lucide-react";
+import { useCategories } from "@/hooks/use-categories";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
+import { CategoriesFormData, categoriesSchema } from "@/lib/schemas/categories";
 
 export function CategoriesDialog() {
+  const { createCategories } = useCategories();
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<CategoriesFormData>({
+    resolver: zodResolver(categoriesSchema),
+    defaultValues: {
+      name: "",
+    },
+  });
+
+  function onSubmit(formData: CategoriesFormData) {
+    createCategories.mutate(
+      {
+        name: formData.name,
+      },
+      {
+        onSuccess: () => {
+          toast.success("Categoria criada");
+        },
+        onError: () => {
+          toast.error("Erro ao criar categoria");
+        },
+      }
+    );
+
+    reset();
+  }
+
   return (
     <Dialog>
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <DialogTrigger asChild>
           <Button>
             <Plus /> <p className="hidden md:block ">Nova Categoria</p>
@@ -33,14 +70,21 @@ export function CategoriesDialog() {
           </DialogHeader>
           <div className="grid gap-3">
             <Label htmlFor="description">Nome da categoria</Label>
-            <Input id="description" />
+            <Input id="name" {...register("name")} disabled={isSubmitting} />
+            {errors.name && (
+              <span className="text-destructive text-sm">
+                {errors.name.message}
+              </span>
+            )}
           </div>
 
           <DialogFooter>
             <DialogClose asChild>
               <Button variant="outline">Cancelar</Button>
             </DialogClose>
-            <Button type="submit">Salvar</Button>
+            <Button onClick={handleSubmit(onSubmit)} type="submit">
+              Salvar
+            </Button>
           </DialogFooter>
         </DialogContent>
       </form>
