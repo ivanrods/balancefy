@@ -59,7 +59,7 @@ export function useCategories() {
   });
 
   return {
-    transactions: data,
+    categories: data ?? [],
     isLoading,
     error,
     createCategories,

@@ -16,21 +16,28 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Categories } from "@/types/categories";
+import { useCategories } from "@/hooks/use-categories";
+
 import { formatCurrency } from "@/utils/format-currency";
 import { ArrowLeftRight } from "lucide-react";
-
-import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export default function CategoriesPage() {
-  const [categories, setCategories] = useState<Categories[]>([]);
+  const { categories, deleteCategories } = useCategories();
+  console.log(categories);
 
-  useEffect(() => {
-    fetch("/api/categories?type=summary")
-      .then((res) => res.json())
-      .then((data) => setCategories(data));
-  }, []);
-
+  /*  
+  function handleDeleteCategories() {
+    deleteCategories.mutate(categories.id, {
+      onSuccess: () => {
+        toast.success("Categoria apagada com sucesso!");
+      },
+      onError: () => {
+        toast.error("Erro ao apagar categoria!");
+      },
+    });
+  }
+*/
   return (
     <div className="w-full flex flex-col gap-4 px-4">
       <h1 className="text-2xl font-bold">Categorias</h1>
