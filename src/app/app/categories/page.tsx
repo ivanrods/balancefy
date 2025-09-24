@@ -1,5 +1,6 @@
 "use client";
 import { ChartPieDonut } from "@/components/chart-pie-donut";
+import { EditCategoriesDialog } from "@/components/dialogs/edit-categories-dialog";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -20,14 +21,13 @@ import { useCategories } from "@/hooks/use-categories";
 
 import { formatCurrency } from "@/utils/format-currency";
 import { ArrowLeftRight } from "lucide-react";
-import { toast } from "sonner";
+//import { toast } from "sonner";
 
 export default function CategoriesPage() {
   const { categories, deleteCategories } = useCategories();
-  console.log(categories);
 
   /*  
-  function handleDeleteCategories() {
+  function handleDeleteCategories(id) {
     deleteCategories.mutate(categories.id, {
       onSuccess: () => {
         toast.success("Categoria apagada com sucesso!");
@@ -76,7 +76,7 @@ export default function CategoriesPage() {
                 <TableCell>{formatCurrency(cat.value)}</TableCell>
                 <TableCell>{cat.number}</TableCell>
                 <TableCell className="flex gap-2">
-                  <Button variant="outline">Editar</Button>
+                  <EditCategoriesDialog />
                   <Button variant="destructive">Excluir</Button>
                 </TableCell>
               </TableRow>
