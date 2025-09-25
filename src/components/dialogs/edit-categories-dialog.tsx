@@ -41,10 +41,10 @@ export function EditCategoriesDialog() {
       },
       {
         onSuccess: () => {
-          toast.success("Categoria criada");
+          toast.success("Categoria atualizada");
         },
         onError: () => {
-          toast.error("Erro ao criar categoria");
+          toast.error("Erro ao atualizar categoria");
         },
       }
     );
