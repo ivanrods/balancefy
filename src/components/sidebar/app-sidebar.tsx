@@ -4,7 +4,7 @@ import {
   ArrowLeftRight,
   ClipboardMinus,
   Info,
-  Settings,
+  Wheat,
 } from "lucide-react";
 
 import {
@@ -15,15 +15,11 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
+  SidebarHeader,
 } from "@/components/ui/sidebar";
 
 import UserMenu from "./user-menu";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
+
 import Image from "next/image";
 
 const items = [
@@ -37,34 +33,30 @@ const items = [
 export async function AppSidebar() {
   return (
     <Sidebar className="md:border-none">
-      <SidebarContent className="flex flex-col h-full">
+      <SidebarHeader>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              asChild
+              className="data-[slot=sidebar-menu-button]:!p-1.5"
+            >
+              <a href="#">
+                <Image
+                  src="/logo.png"
+                  alt="logo"
+                  width={30}
+                  height={30}
+                  className="rounded-sm"
+                />
+
+                <span className="text-base font-semibold">Balancefy</span>
+              </a>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarHeader>
+      <SidebarContent className="flex flex-col h-full ">
         <div className="flex-1">
-          <div className="p-2">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button className="flex items-center gap-4 w-full p-2 hover:bg-muted transition">
-                  <Image
-                    src="/logo.png"
-                    alt="logo"
-                    width={35}
-                    height={35}
-                    className="rounded-sm"
-                  />
-                  <div className="flex flex-col text-left">
-                    <span className="text-md font-semibold line-clamp-1">
-                      Balancefy
-                    </span>
-                  </div>
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-60">
-                <DropdownMenuItem>
-                  <Settings className="w-4 h-4 mr-2" />
-                  Configurações
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
           <SidebarGroup>
             <SidebarGroupContent>
               <SidebarMenu>

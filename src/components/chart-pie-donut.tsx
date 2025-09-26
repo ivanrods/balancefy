@@ -59,7 +59,7 @@ export function ChartPieDonut() {
   const chartData = groupTransactions(transactions ?? []);
 
   if (isLoading) {
-    return <Skeleton className="h-full w-[250px] rounded-xl" />;
+    return <Skeleton className="h-96 w-full md:w-96 rounded-xl" />;
   }
 
   return (

@@ -68,7 +68,7 @@ export function ChartAreaFinance() {
   const chartData = groupTransactionsByMonth(transactions || []);
 
   if (isLoading) {
-    return <Skeleton className="w-full h-80 rounded-xl" />;
+    return <Skeleton className="h-96 w-full rounded-xl" />;
   }
 
   return (
