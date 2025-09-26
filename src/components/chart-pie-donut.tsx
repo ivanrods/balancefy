@@ -19,6 +19,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { Transaction } from "@/types/transaction";
+import { Skeleton } from "./ui/skeleton";
 
 export const description = "Distribuição de gastos por categoria";
 
@@ -52,10 +53,14 @@ function groupTransactions(transactions: Transaction[]) {
 }
 
 export function ChartPieDonut() {
-  const { transactions } = useTransactions();
+  const { transactions, isLoading } = useTransactions();
 
   // Agrupa as transações antes de enviar para o gráfico
   const chartData = groupTransactions(transactions ?? []);
+
+  if (isLoading) {
+    return <Skeleton className="h-full w-[250px] rounded-xl" />;
+  }
 
   return (
     <Card className="flex flex-col">

@@ -9,6 +9,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -24,7 +25,7 @@ import { ArrowLeftRight } from "lucide-react";
 import { toast } from "sonner";
 
 export default function CategoriesPage() {
-  const { categories, deleteCategories } = useCategories();
+  const { categories, deleteCategories, isLoading } = useCategories();
 
   function handleDeleteCategories(id: string) {
     deleteCategories.mutate(id, {
@@ -35,6 +36,10 @@ export default function CategoriesPage() {
         toast.error("Erro ao apagar categoria!");
       },
     });
+  }
+
+  if (isLoading) {
+    return <Skeleton className="w-full h-80 rounded-xl" />;
   }
 
   return (

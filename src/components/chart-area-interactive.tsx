@@ -19,6 +19,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { useTransactions } from "@/hooks/use-transactions";
+import { Skeleton } from "./ui/skeleton";
 
 const months = [
   "Jan",
@@ -62,9 +63,13 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function ChartAreaFinance() {
-  const { transactions } = useTransactions();
+  const { transactions, isLoading } = useTransactions();
 
   const chartData = groupTransactionsByMonth(transactions || []);
+
+  if (isLoading) {
+    return <Skeleton className="w-full h-80 rounded-xl" />;
+  }
 
   return (
     <Card className="flex flex-col flex-1">

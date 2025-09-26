@@ -41,6 +41,7 @@ import {
 } from "@/components/ui/table";
 import { EditTransactionDialog } from "./dialogs/edit-transaction-dialog";
 import { toast } from "sonner";
+import { Skeleton } from "./ui/skeleton";
 
 export const columns = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -202,7 +203,7 @@ export const columns = (
 ];
 
 export function DataTableDemo() {
-  const { transactions, deleteTransaction } = useTransactions();
+  const { transactions, deleteTransaction, isLoading } = useTransactions();
 
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -230,6 +231,10 @@ export function DataTableDemo() {
       rowSelection,
     },
   });
+
+  if (isLoading) {
+    return <Skeleton className="h-64 w-full rounded-xl" />;
+  }
 
   return (
     <div className="w-full">
