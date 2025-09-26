@@ -21,14 +21,13 @@ import { useCategories } from "@/hooks/use-categories";
 
 import { formatCurrency } from "@/utils/format-currency";
 import { ArrowLeftRight } from "lucide-react";
-//import { toast } from "sonner";
+import { toast } from "sonner";
 
 export default function CategoriesPage() {
-  const { categories } = useCategories();
+  const { categories, deleteCategories } = useCategories();
 
-  /*  
-  function handleDeleteCategories(id) {
-    deleteCategories.mutate(categories.id, {
+  function handleDeleteCategories(id: string) {
+    deleteCategories.mutate(id, {
       onSuccess: () => {
         toast.success("Categoria apagada com sucesso!");
       },
@@ -37,7 +36,7 @@ export default function CategoriesPage() {
       },
     });
   }
-*/
+
   return (
     <div className="w-full flex flex-col gap-4 px-4">
       <h1 className="text-2xl font-bold">Categorias</h1>
@@ -77,7 +76,12 @@ export default function CategoriesPage() {
                 <TableCell>{cat.number}</TableCell>
                 <TableCell className="flex gap-2">
                   <EditCategoriesDialog categories={cat} />
-                  <Button variant="destructive">Excluir</Button>
+                  <Button
+                    onClick={() => handleDeleteCategories(cat.id)}
+                    variant="destructive"
+                  >
+                    Excluir
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}

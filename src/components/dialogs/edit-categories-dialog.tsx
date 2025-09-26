@@ -30,7 +30,6 @@ export function EditCategoriesDialog({ categories }: EditCategoriesDialog) {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors, isSubmitting },
   } = useForm<CategoriesFormData>({
     resolver: zodResolver(categoriesSchema),
