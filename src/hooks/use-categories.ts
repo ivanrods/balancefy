@@ -32,8 +32,8 @@ export function useCategories() {
 
   //UPDATE
   const updateCategories = useMutation({
-    mutationFn: async (categories: Categories) => {
-      const res = await fetch(`/api/transactions/${categories.id}`, {
+    mutationFn: async (categories: Pick<Categories, "id" | "name">) => {
+      const res = await fetch(`/api/categories/${categories.id}`, {
         method: "PUT",
         body: JSON.stringify(categories),
         headers: { "Content-Type": "application/json" },

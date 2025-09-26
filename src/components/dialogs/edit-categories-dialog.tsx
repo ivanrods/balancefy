@@ -18,9 +18,14 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { CategoriesFormData, categoriesSchema } from "@/lib/schemas/categories";
+import { Categories } from "@/types/categories";
 
-export function EditCategoriesDialog() {
-  const { createCategories } = useCategories();
+type EditCategoriesDialog = {
+  categories: Categories;
+};
+
+export function EditCategoriesDialog({ categories }: EditCategoriesDialog) {
+  const { updateCategories } = useCategories();
 
   const {
     register,
@@ -30,13 +35,14 @@ export function EditCategoriesDialog() {
   } = useForm<CategoriesFormData>({
     resolver: zodResolver(categoriesSchema),
     defaultValues: {
-      name: "",
+      name: categories.name,
     },
   });
 
   function onSubmit(formData: CategoriesFormData) {
-    createCategories.mutate(
+    updateCategories.mutate(
       {
+        id: categories.id,
         name: formData.name,
       },
       {
@@ -48,8 +54,6 @@ export function EditCategoriesDialog() {
         },
       }
     );
-
-    reset();
   }
 
   return (

@@ -24,7 +24,7 @@ import { ArrowLeftRight } from "lucide-react";
 //import { toast } from "sonner";
 
 export default function CategoriesPage() {
-  const { categories, deleteCategories } = useCategories();
+  const { categories } = useCategories();
 
   /*  
   function handleDeleteCategories(id) {
@@ -56,7 +56,7 @@ export default function CategoriesPage() {
           <TableBody>
             {categories.map((cat) => (
               <TableRow key={cat.id}>
-                <TableCell>{cat.nome}</TableCell>
+                <TableCell>{cat.name}</TableCell>
                 <TableCell>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -76,7 +76,7 @@ export default function CategoriesPage() {
                 <TableCell>{formatCurrency(cat.value)}</TableCell>
                 <TableCell>{cat.number}</TableCell>
                 <TableCell className="flex gap-2">
-                  <EditCategoriesDialog />
+                  <EditCategoriesDialog categories={cat} />
                   <Button variant="destructive">Excluir</Button>
                 </TableCell>
               </TableRow>
