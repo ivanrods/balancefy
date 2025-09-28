@@ -4,6 +4,7 @@ import {
   ArrowLeftRight,
   ClipboardMinus,
   Info,
+  Wallet,
 } from "lucide-react";
 
 import {
@@ -24,6 +25,7 @@ import { NavUser } from "./nav-user";
 
 const items = [
   { title: "Dashboard", url: "dashboard", icon: CircleGauge },
+  { title: "Carteira", url: "wallet", icon: Wallet },
   { title: "Transações", url: "transactions", icon: ArrowLeftRight },
   { title: "Categorias", url: "categories", icon: ChartBarStacked },
   { title: "Relatórios", url: "reports", icon: ClipboardMinus },
@@ -46,7 +48,7 @@ export async function AppSidebar() {
                   alt="logo"
                   width={30}
                   height={30}
-                  className="rounded-sm"
+                  className="rounded-sm "
                 />
 
                 <span className="text-base font-semibold">Balancefy</span>
