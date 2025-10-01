@@ -23,39 +23,30 @@ import { Skeleton } from "./ui/skeleton";
 
 export const description = "Distribuição de gastos por categoria";
 
-// Configuração das categorias e cores
-const chartConfig = {
-  valor: { label: "Valor" },
-  Alimentação: { label: "Alimentação", color: "hsl(0, 85%, 70%)" }, // vermelho bem claro
-  Transporte: { label: "Transporte", color: "hsl(0, 80%, 60%)" }, // vermelho médio claro
-  Lazer: { label: "Lazer", color: "hsl(0, 75%, 50%)" }, // vermelho médio
-  Moradia: { label: "Moradia", color: "hsl(0, 70%, 40%)" }, // vermelho mais escuro
-  Outros: { label: "Outros", color: "hsl(0, 65%, 30%)" }, // vermelho bem escuro
-} satisfies ChartConfig;
-
 // Função para agrupar transações por categoria
 function groupTransactions(transactions: Transaction[]) {
   const grouped = transactions.reduce((acc, curr) => {
     const categoria = curr.category?.name || "Outros";
-    acc[categoria] = (acc[categoria] || 0) + curr.value;
+    const cor = curr.category?.color || "#cccccc"; // fallback cinza
+
+    if (!acc[categoria]) {
+      acc[categoria] = { valor: 0, cor };
+    }
+
+    acc[categoria].valor += curr.value;
     return acc;
-  }, {} as Record<string, number>);
+  }, {} as Record<string, { valor: number; cor: string }>);
 
-  return Object.entries(grouped).map(([categoria, valor]) => {
-    const config = chartConfig[categoria] ?? chartConfig["Outros"];
-
-    return {
-      categoria,
-      valor,
-      fill: config.color,
-    };
-  });
+  return Object.entries(grouped).map(([categoria, { valor, cor }]) => ({
+    categoria,
+    valor,
+    fill: cor, // passa direto para o gráfico
+  }));
 }
 
 export function ChartPieDonut() {
   const { transactions, isLoading } = useTransactions();
 
-  // Agrupa as transações antes de enviar para o gráfico
   const chartData = groupTransactions(transactions ?? []);
 
   if (isLoading) {
@@ -70,7 +61,8 @@ export function ChartPieDonut() {
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
-          config={chartConfig}
+          // você pode passar config vazio, já que as cores vêm do banco
+          config={{}}
           className="mx-auto aspect-square max-h-[250px]"
         >
           <PieChart>
