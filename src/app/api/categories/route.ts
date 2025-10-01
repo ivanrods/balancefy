@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]/route";
+import { color } from "framer-motion";
 
 export async function GET(req: Request) {
   try {
@@ -31,6 +32,7 @@ export async function GET(req: Request) {
       const result = categories.map((cat) => ({
         id: cat.id,
         name: cat.name,
+        color: cat.color,
         relationship: cat.transactions.map((t) => t.description),
         value: cat.transactions.reduce((acc, t) => acc + t.value, 0),
         number: cat.transactions.length,

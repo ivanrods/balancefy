@@ -78,6 +78,12 @@ export function CategoriesDialog() {
                 {errors.name.message}
               </span>
             )}
+            <Input id="color" {...register("color")} disabled={isSubmitting} />
+            {errors.name && (
+              <span className="text-destructive text-sm">
+                {errors.name.message}
+              </span>
+            )}
           </div>
 
           <DialogFooter>
