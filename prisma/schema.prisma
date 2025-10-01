@@ -72,6 +72,7 @@ model Transaction {
 model Category {
   id           String        @id @default(cuid())
   name         String
+  color        String
   userId       String 
   user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   transactions Transaction[]

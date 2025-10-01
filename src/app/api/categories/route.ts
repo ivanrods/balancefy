@@ -42,7 +42,7 @@ export async function GET(req: Request) {
     // Default: select mode
     const categories = await prisma.category.findMany({
       where: { userId: user.id },
-      select: { id: true, name: true },
+      select: { id: true, name: true, color: true },
     });
 
     return NextResponse.json(categories);
