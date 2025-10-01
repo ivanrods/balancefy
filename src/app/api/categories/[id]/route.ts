@@ -39,7 +39,7 @@ export async function PUT(
 
   const body = await req.json();
 
-  const { name } = body;
+  const { name, color } = body;
 
   if (!name) {
     return NextResponse.json(
@@ -53,6 +53,7 @@ export async function PUT(
       where: { id: params.id },
       data: {
         name,
+        color,
       },
     });
 

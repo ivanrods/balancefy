@@ -4,5 +4,6 @@ export const categoriesSchema = z.object({
     .string()
     .min(3, "O nome da categoria deve ter pelo menos 3 caracteres")
     .max(100, "O nome da categoria pode ter no máximo 100 caracteres"),
+  color: z.string().optional(),
 });
 export type CategoriesFormData = z.infer<typeof categoriesSchema>;

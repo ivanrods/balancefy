@@ -72,7 +72,7 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
-    const { name } = body;
+    const { name, color } = body;
 
     if (!name || name.trim() === "") {
       return NextResponse.json(
@@ -85,6 +85,7 @@ export async function POST(req: Request) {
     const existingCategory = await prisma.category.findFirst({
       where: {
         name,
+        color,
         userId: user.id,
       },
     });
@@ -99,6 +100,7 @@ export async function POST(req: Request) {
     const category = await prisma.category.create({
       data: {
         name,
+        color,
         userId: user.id,
       },
     });

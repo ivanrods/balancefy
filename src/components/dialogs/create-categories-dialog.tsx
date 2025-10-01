@@ -32,6 +32,7 @@ export function CategoriesDialog() {
     resolver: zodResolver(categoriesSchema),
     defaultValues: {
       name: "",
+      color: "#9c0f0f",
     },
   });
 
@@ -39,6 +40,7 @@ export function CategoriesDialog() {
     createCategories.mutate(
       {
         name: formData.name,
+        color: formData.color,
       },
       {
         onSuccess: () => {
