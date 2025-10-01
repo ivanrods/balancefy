@@ -34,7 +34,7 @@ export function CategoriesDialog() {
     resolver: zodResolver(categoriesSchema),
     defaultValues: {
       name: "",
-      color: "#e6adad",
+      color: "#000000",
     },
   });
 

@@ -14,11 +14,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useCategories } from "@/hooks/use-categories";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { CategoriesFormData, categoriesSchema } from "@/lib/schemas/categories";
 import { Categories } from "@/types/categories";
+import { SliderColor } from "./components/slider-color";
 
 type EditCategoriesDialog = {
   categories: Categories;
@@ -30,11 +31,13 @@ export function EditCategoriesDialog({ categories }: EditCategoriesDialog) {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors, isSubmitting },
   } = useForm<CategoriesFormData>({
     resolver: zodResolver(categoriesSchema),
     defaultValues: {
       name: categories.name,
+      color: categories.color,
     },
   });
 
@@ -43,6 +46,7 @@ export function EditCategoriesDialog({ categories }: EditCategoriesDialog) {
       {
         id: categories.id,
         name: formData.name,
+        color: formData.color,
       },
       {
         onSuccess: () => {
@@ -77,6 +81,22 @@ export function EditCategoriesDialog({ categories }: EditCategoriesDialog) {
               </span>
             )}
           </div>
+          <Controller
+            name="color"
+            control={control}
+            render={({ field }) => (
+              <>
+                <SliderColor
+                  value={field.value}
+                  onValueChange={field.onChange}
+                />
+                <div
+                  className="w-6 h-6 rounded-full border mt-2"
+                  style={{ backgroundColor: field.value }}
+                />
+              </>
+            )}
+          />
 
           <DialogFooter>
             <DialogClose asChild>
