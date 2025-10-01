@@ -21,7 +21,7 @@ import {
 import { useCategories } from "@/hooks/use-categories";
 
 import { formatCurrency } from "@/utils/format-currency";
-import { ArrowLeftRight, Circle, PaintBucket } from "lucide-react";
+import { ArrowLeftRight, Circle } from "lucide-react";
 import { toast } from "sonner";
 
 export default function CategoriesTable() {
@@ -47,10 +47,10 @@ export default function CategoriesTable() {
       <TableHeader>
         <TableRow>
           <TableHead>Nome</TableHead>
-          <TableHead>Transações relacionadas</TableHead>
+          <TableHead>Transações </TableHead>
           <TableHead>Cor</TableHead>
-          <TableHead>Valor das transações</TableHead>
-          <TableHead>Numero de transações</TableHead>
+          <TableHead>Valor </TableHead>
+          <TableHead>Quantidade</TableHead>
           <TableHead>Ações</TableHead>
         </TableRow>
       </TableHeader>

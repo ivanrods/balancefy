@@ -34,7 +34,7 @@ export function CategoriesDialog() {
     resolver: zodResolver(categoriesSchema),
     defaultValues: {
       name: "",
-      color: "#000000",
+      color: "#cccccc",
     },
   });
 
@@ -80,23 +80,25 @@ export function CategoriesDialog() {
                 {errors.name.message}
               </span>
             )}
-            <Label htmlFor="color">Selecione a cor</Label>
-            <Controller
-              name="color"
-              control={control}
-              render={({ field }) => (
-                <>
-                  <SliderColor
-                    value={field.value}
-                    onValueChange={field.onChange}
-                  />
-                  <div
-                    className="w-6 h-6 rounded-full border mt-2"
-                    style={{ backgroundColor: field.value }}
-                  />
-                </>
-              )}
-            />
+            <div className="grid gap-3">
+              <Label htmlFor="color">Selecione a cor</Label>
+              <Controller
+                name="color"
+                control={control}
+                render={({ field }) => (
+                  <>
+                    <SliderColor
+                      value={field.value}
+                      onValueChange={field.onChange}
+                    />
+                    <div
+                      className="w-6 h-6 rounded-full border mt-2"
+                      style={{ backgroundColor: field.value }}
+                    />
+                  </>
+                )}
+              />
+            </div>
           </div>
 
           <DialogFooter>

@@ -61,27 +61,25 @@ export const authOptions: AuthOptions = {
     },
   },
 
-  // 🔹 Adiciona categorias logo após criação do usuário
+  //  Adiciona categorias logo após criação do usuário
   events: {
     async createUser({ user }) {
-      console.log("✅ Novo usuário criado:", user);
-
       if (!user.id) {
-        console.error("❌ Usuário sem ID, não é possível criar categorias");
+        console.error("Usuário sem ID, não é possível criar categorias");
         return;
       }
 
       await prisma.category.createMany({
         data: [
-          { name: "Alimentação", userId: user.id },
-          { name: "Transporte", userId: user.id },
-          { name: "Moradia", userId: user.id },
-          { name: "Lazer", userId: user.id },
-          { name: "Outros", userId: user.id },
+          { name: "Alimentação", color: "#660000", userId: user.id },
+          { name: "Transporte", color: "#666666", userId: user.id },
+          { name: "Moradia", color: "#ff6666", userId: user.id },
+          { name: "Lazer", color: "#cc0000", userId: user.id },
+          { name: "Outros", color: "#cccccc", userId: user.id },
         ],
       });
 
-      console.log("📌 Categorias padrão criadas para:", user.id);
+      console.log("Categorias padrão criadas para:", user.id);
     },
   },
 };
