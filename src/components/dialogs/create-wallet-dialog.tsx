@@ -14,31 +14,25 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Plus } from "lucide-react";
-
+import { CategoriesFormData, walletSchema } from "@/lib/schemas/wallet";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 
-
-
 export function WalletDialog() {
-
-
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<>({
-    resolver: zodResolver(),
+  } = useForm<CategoriesFormData>({
+    resolver: zodResolver(walletSchema),
     defaultValues: {
       name: "",
     },
   });
 
-  function onSubmit(formData: ) {
-    
-  }
+  function onSubmit(formData: CategoriesFormData) {}
 
   return (
     <Dialog>
