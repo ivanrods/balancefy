@@ -18,6 +18,7 @@ model User {
   sessions      Session[]
   transactions  Transaction[]
   categories    Category[]
+  wallets       Wallet[]
 }
 
 model Account {
@@ -67,12 +68,23 @@ model Transaction {
 
   categoryId String
   category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  walletId String
+  wallet   Wallet @relation(fields: [walletId], references: [id], onDelete: Cascade)
 }
 
 model Category {
   id           String        @id @default(cuid())
   name         String
   color        String
+  userId       String 
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions Transaction[]
+  @@unique([name, userId])
+}
+model Wallet {
+  id           String        @id @default(cuid())
+  name         String
   userId       String 
   user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   transactions Transaction[]
