@@ -30,7 +30,7 @@ export function SelectWallet({
   return (
     <div className="flex flex-col gap-3">
       <Select value={value} onValueChange={onValueChange}>
-        <Label className="px-1">Carteiras</Label>
+        <Label className="px-1">Carteira</Label>
         <SelectTrigger className="w-full">
           <SelectValue placeholder="Selecione a categoria" />
         </SelectTrigger>

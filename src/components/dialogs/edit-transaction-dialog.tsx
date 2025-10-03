@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 import { SelectCategory } from "./components/select-category";
-import { RadioGroupDemo } from "./components/radio-group-dialog";
+import { RadioGroupSelect } from "./components/radio-group-select";
 
 import { DateDialog } from "./components/date-dialog";
 import { Transaction } from "@/types/transaction";
@@ -30,6 +30,7 @@ import {
 } from "@/lib/schemas/transaction";
 import { toast } from "sonner";
 import { DropdownMenuItem } from "../ui/dropdown-menu";
+import { SelectWallet } from "./components/select-wallet";
 
 type EditTransactionDialogProps = {
   transaction: Transaction;
@@ -43,10 +44,20 @@ export function EditTransactionDialog({
     { id: string; name: string }[]
   >([]);
 
+  const [wallets, setWallets] = React.useState<{ id: string; name: string }[]>(
+    []
+  );
+
   React.useEffect(() => {
     fetch("/api/categories")
       .then((res) => res.json())
       .then(setCategories);
+  }, []);
+
+  React.useEffect(() => {
+    fetch("/api/wallets?type=select")
+      .then((res) => res.json())
+      .then(setWallets);
   }, []);
 
   const {
@@ -60,6 +71,7 @@ export function EditTransactionDialog({
       description: transaction.description,
       value: transaction.value,
       categoryId: transaction.categoryId,
+      walletId: transaction.walletId,
       type: transaction.type,
       date: new Date(transaction.date),
     },
@@ -74,6 +86,7 @@ export function EditTransactionDialog({
         type: formData.type,
         date: formData.date.toISOString(),
         categoryId: formData.categoryId,
+        walletId: formData.walletId,
       },
       {
         onSuccess: () => {
@@ -132,6 +145,23 @@ export function EditTransactionDialog({
             </div>
             <div className="flex gap-4 flex-col sm:flex-row">
               <Controller
+                name="walletId"
+                control={control}
+                render={({ field }) => (
+                  <SelectWallet
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    wallets={wallets}
+                  />
+                )}
+              />
+              {errors.walletId && (
+                <span className="text-destructive text-sm">
+                  {errors.walletId.message}
+                </span>
+              )}
+
+              <Controller
                 name="categoryId"
                 control={control}
                 render={({ field }) => (
@@ -147,7 +177,8 @@ export function EditTransactionDialog({
                   {errors.categoryId.message}
                 </span>
               )}
-
+            </div>
+            <div className="flex gap-4 flex-col sm:flex-row ">
               <Controller
                 name="date"
                 control={control}
@@ -155,28 +186,22 @@ export function EditTransactionDialog({
                   <DateDialog value={field.value} onChange={field.onChange} />
                 )}
               />
-              {errors.date && (
+              <Controller
+                name="type"
+                control={control}
+                render={({ field }) => (
+                  <RadioGroupSelect
+                    value={field.value}
+                    onValueChange={field.onChange}
+                  />
+                )}
+              />
+              {errors.type && (
                 <span className="text-destructive text-sm">
-                  {errors.date.message}
+                  {errors.type.message}
                 </span>
               )}
             </div>
-
-            <Controller
-              name="type"
-              control={control}
-              render={({ field }) => (
-                <RadioGroupDemo
-                  value={field.value}
-                  onValueChange={field.onChange}
-                />
-              )}
-            />
-            {errors.type && (
-              <span className="text-destructive text-sm">
-                {errors.type.message}
-              </span>
-            )}
           </div>
           <DialogFooter>
             <DialogClose asChild>

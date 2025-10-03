@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Plus } from "lucide-react";
 import { SelectCategory } from "./components/select-category";
-import { RadioGroupDemo } from "./components/radio-group-dialog";
+import { RadioGroupSelect } from "./components/radio-group-select";
 import { DateDialog } from "./components/date-dialog";
 
 import { Controller } from "react-hook-form";
@@ -159,29 +159,14 @@ export function TransactionDialog() {
                   />
                 )}
               />
-              {errors.categoryId && (
+              {errors.walletId && (
                 <span className="text-destructive text-sm">
-                  {errors.categoryId.message}
+                  {errors.walletId.message}
                 </span>
               )}
             </div>
 
-            <div className="flex gap-4 flex-col sm:flex-row sm:justify-between">
-              <Controller
-                name="type"
-                control={control}
-                render={({ field }) => (
-                  <RadioGroupDemo
-                    value={field.value}
-                    onValueChange={field.onChange}
-                  />
-                )}
-              />
-              {errors.type && (
-                <span className="text-destructive text-sm">
-                  {errors.type.message}
-                </span>
-              )}
+            <div className="flex gap-4 flex-col sm:flex-row ">
               <Controller
                 name="date"
                 control={control}
@@ -192,6 +177,21 @@ export function TransactionDialog() {
               {errors.date && (
                 <span className="text-destructive text-sm">
                   {errors.date.message}
+                </span>
+              )}
+              <Controller
+                name="type"
+                control={control}
+                render={({ field }) => (
+                  <RadioGroupSelect
+                    value={field.value}
+                    onValueChange={field.onChange}
+                  />
+                )}
+              />
+              {errors.type && (
+                <span className="text-destructive text-sm">
+                  {errors.type.message}
                 </span>
               )}
             </div>

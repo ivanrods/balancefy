@@ -5,7 +5,6 @@ import WalletCard from "./components/wallet-card";
 import { useWalllets } from "@/hooks/use-wallets";
 export default function WalletPage() {
   const { wallets, isLoading } = useWalllets();
-  console.log(wallets);
 
   if (isLoading) {
     return <Skeleton className="w-full h-80 rounded-xl" />;
