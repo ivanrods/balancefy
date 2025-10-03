@@ -24,17 +24,40 @@ export async function GET(req: Request) {
       const wallets = await prisma.wallet.findMany({
         where: { userId: user.id },
         include: {
-          transactions: { select: { value: true, description: true } },
+          transactions: {
+            select: { value: true, description: true, type: true },
+          },
         },
       });
 
-      const result = wallets.map((wallet) => ({
-        id: wallet.id,
-        name: wallet.name,
-        relationship: wallet.transactions.map((t) => t.description),
-        value: wallet.transactions.reduce((acc, t) => acc + t.value, 0),
-        number: wallet.transactions.length,
-      }));
+      const result = wallets.map((wallet) => {
+        const totalIncome = wallet.transactions
+          .filter((t) => t.type === "income")
+          .reduce((acc, t) => acc + t.value, 0);
+
+        const totalExpense = wallet.transactions
+          .filter((t) => t.type === "expense")
+          .reduce((acc, t) => acc + t.value, 0);
+
+        const lastTransaction = wallet.transactions.length
+          ? wallet.transactions[wallet.transactions.length - 1]
+          : null;
+
+        return {
+          id: wallet.id,
+          name: wallet.name,
+          totalIncome,
+          totalExpense,
+          balance: totalIncome - totalExpense,
+          lastTransaction: lastTransaction
+            ? {
+                amount: lastTransaction.value,
+                date: lastTransaction.date.toISOString(),
+                type: lastTransaction.type,
+              }
+            : null,
+        };
+      });
 
       return NextResponse.json(result);
     }

@@ -8,7 +8,7 @@ export function useWalllets() {
   const { data, isLoading, error } = useQuery<Wallets[]>({
     queryKey: ["wallets"],
     queryFn: async () => {
-      const res = await fetch("/api/wallts?type=summary");
+      const res = await fetch("/api/wallets?type=summary");
       if (!res.ok) throw new Error("Erro ao buscar carteiras");
       return res.json();
     },
