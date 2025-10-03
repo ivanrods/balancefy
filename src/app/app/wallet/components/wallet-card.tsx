@@ -9,7 +9,25 @@ import {
 import { ArrowDown, ArrowUp, Wallet } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export default function WalletCard() {
+type WalletCardProps = {
+  name: string;
+  balance: number;
+  lastTransaction: {
+    amount: number;
+    date: string;
+    type: "income" | "expense";
+  };
+  totalIncome: number;
+  totalExpense: number;
+};
+
+export default function WalletCard({
+  name,
+  balance,
+  lastTransaction,
+  totalExpense,
+  totalIncome,
+}: WalletCardProps) {
   return (
     <Card className="w-full rounded-2xl shadow-md border">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -17,7 +35,7 @@ export default function WalletCard() {
           <Wallet className="w-8 h-8" />
 
           <div>
-            <CardTitle className="text-lg font-semibold">Nubank</CardTitle>
+            <CardTitle className="text-lg font-semibold">{name}</CardTitle>
             <CardDescription className="text-sm">Saldo atual</CardDescription>
           </div>
         </div>
@@ -25,11 +43,14 @@ export default function WalletCard() {
       </CardHeader>
 
       <CardContent className="space-y-2 flex flex-col justify-between ">
-        <p className="text-3xl font-bold ">R$ 2.350,00</p>
+        <p className="text-3xl font-bold ">{balance}</p>
         <p className="text-sm text-muted-foreground">
           Última movimentação:{" "}
-          <span className="font-semibold text-red-500">-R$ 120,00</span> em
-          28/09
+          <span className="font-semibold text-red-500">
+            {lastTransaction.amount}
+          </span>{" "}
+          em
+          {lastTransaction.date}
         </p>
       </CardContent>
 
@@ -40,7 +61,7 @@ export default function WalletCard() {
           </div>
 
           <div>
-            <p className="font-medium text-lg">+R$ 2000 </p>
+            <p className="font-medium text-lg">{totalIncome} </p>
             <span className="text-sm text-gray-400">Entradas</span>
           </div>
         </div>
@@ -51,7 +72,7 @@ export default function WalletCard() {
           </div>
 
           <div>
-            <p className=" font-medium text-lg">-R$ 1200 </p>
+            <p className=" font-medium text-lg">{totalExpense}</p>
             <span className="text-sm text-gray-400">Saídas</span>
           </div>
         </div>

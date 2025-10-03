@@ -26,6 +26,7 @@ import { toast } from "sonner";
 
 export default function CategoriesTable() {
   const { categories, deleteCategories, isLoading } = useCategories();
+  console.log(categories);
 
   function handleDeleteCategories(id: string) {
     deleteCategories.mutate(id, {
