@@ -21,34 +21,33 @@ export async function GET(req: Request) {
     }
 
     if (type === "summary") {
-      const categories = await prisma.category.findMany({
+      const wallets = await prisma.wallet.findMany({
         where: { userId: user.id },
         include: {
           transactions: { select: { value: true, description: true } },
         },
       });
 
-      const result = categories.map((cat) => ({
-        id: cat.id,
-        name: cat.name,
-        color: cat.color,
-        relationship: cat.transactions.map((t) => t.description),
-        value: cat.transactions.reduce((acc, t) => acc + t.value, 0),
-        number: cat.transactions.length,
+      const result = wallets.map((wallet) => ({
+        id: wallet.id,
+        name: wallet.name,
+        relationship: wallet.transactions.map((t) => t.description),
+        value: wallet.transactions.reduce((acc, t) => acc + t.value, 0),
+        number: wallet.transactions.length,
       }));
 
       return NextResponse.json(result);
     }
 
     // Default: select mode
-    const categories = await prisma.category.findMany({
+    const wallets = await prisma.wallet.findMany({
       where: { userId: user.id },
-      select: { id: true, name: true, color: true },
+      select: { id: true, name: true },
     });
 
-    return NextResponse.json(categories);
+    return NextResponse.json(wallets);
   } catch (err) {
-    console.error("Erro ao buscar categorias:", err);
+    console.error("Erro ao buscar carteiras:", err);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
@@ -73,42 +72,40 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
-    const { name, color } = body;
+    const { name } = body;
 
     if (!name || name.trim() === "") {
       return NextResponse.json(
-        { error: "O nome da categoria é obrigatório" },
+        { error: "O nome da cartetira é obrigatório" },
         { status: 400 }
       );
     }
 
-    // Verifica se o usuário já tem uma categoria com esse nome
-    const existingCategory = await prisma.category.findFirst({
+    // Verifica se o usuário já tem uma carteira com esse nome
+    const existingWallet = await prisma.wallet.findFirst({
       where: {
         name,
-        color,
         userId: user.id,
       },
     });
 
-    if (existingCategory) {
+    if (existingWallet) {
       return NextResponse.json(
         { error: "Você já tem uma categoria com esse nome" },
         { status: 400 }
       );
     }
 
-    const category = await prisma.category.create({
+    const wallet = await prisma.wallet.create({
       data: {
         name,
-        color,
         userId: user.id,
       },
     });
 
-    return NextResponse.json(category, { status: 201 });
+    return NextResponse.json(wallet, { status: 201 });
   } catch (err) {
-    console.error("Erro ao criar categoria:", err);
+    console.error("Erro ao criar carteira:", err);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
