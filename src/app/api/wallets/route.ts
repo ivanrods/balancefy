@@ -51,9 +51,9 @@ export async function GET(req: Request) {
           balance: totalIncome - totalExpense,
           lastTransaction: lastTransaction
             ? {
-                amount: lastTransaction.value,
-                date: lastTransaction.date.toISOString(),
-                type: lastTransaction.type,
+                amount: lastTransaction.value || 0,
+                date: lastTransaction.date.toISOString() || "",
+                type: lastTransaction.type as "income" | "expense",
               }
             : null,
         };

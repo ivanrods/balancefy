@@ -46,11 +46,21 @@ export default function WalletCard({
         <p className="text-3xl font-bold ">{balance}</p>
         <p className="text-sm text-muted-foreground">
           Última movimentação:{" "}
-          <span className="font-semibold text-red-500">
-            {lastTransaction.amount}
-          </span>{" "}
-          em
-          {lastTransaction.date}
+          {lastTransaction ? (
+            <span
+              className={`font-semibold ${
+                lastTransaction.type === "income"
+                  ? "text-green-500"
+                  : "text-red-500"
+              }`}
+            >
+              {lastTransaction.amount}
+            </span>
+          ) : (
+            <span className="text-muted-foreground italic">
+              Nenhuma movimentação
+            </span>
+          )}
         </p>
       </CardContent>
 

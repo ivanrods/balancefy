@@ -19,10 +19,10 @@ export default function WalletPage() {
           <WalletCard
             key={wallet.id}
             name={wallet.name}
-            balance={wallet.value}
-            lastTransaction={{ amount: 0, date: "", type: "expense" }}
-            totalExpense={100}
-            totalIncome={200}
+            balance={wallet.balance}
+            lastTransaction={wallet.lastTransaction}
+            totalExpense={wallet.totalExpense}
+            totalIncome={wallet.totalIncome}
           />
         ))}
       </div>
