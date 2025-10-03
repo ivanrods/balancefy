@@ -16,17 +16,17 @@ type Category = {
   name: string;
 };
 
-type SelectDialogProps = {
+type SelectCategoryProps = {
   value: string;
   onValueChange: (val: string) => void;
   categories: Category[];
 };
 
-export function SelectDialog({
+export function SelectCategory({
   value,
   onValueChange,
   categories,
-}: SelectDialogProps) {
+}: SelectCategoryProps) {
   return (
     <div className="flex flex-col gap-3">
       <Select value={value} onValueChange={onValueChange}>

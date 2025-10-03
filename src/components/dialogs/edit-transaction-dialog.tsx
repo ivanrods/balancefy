@@ -14,7 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-import { SelectDialog } from "./components/select-dialog";
+import { SelectCategory } from "./components/select-category";
 import { RadioGroupDemo } from "./components/radio-group-dialog";
 
 import { DateDialog } from "./components/date-dialog";
@@ -135,7 +135,7 @@ export function EditTransactionDialog({
                 name="categoryId"
                 control={control}
                 render={({ field }) => (
-                  <SelectDialog
+                  <SelectCategory
                     value={field.value}
                     onValueChange={field.onChange}
                     categories={categories}

@@ -25,7 +25,7 @@ export async function GET(req: Request) {
         where: { userId: user.id },
         include: {
           transactions: {
-            select: { value: true, description: true, type: true },
+            select: { value: true, description: true, date: true, type: true },
           },
         },
       });
@@ -51,9 +51,9 @@ export async function GET(req: Request) {
           balance: totalIncome - totalExpense,
           lastTransaction: lastTransaction
             ? {
-                amount: lastTransaction.value || 0,
-                date: lastTransaction.date.toISOString() || "",
-                type: lastTransaction.type as "income" | "expense",
+                amount: lastTransaction.value,
+                date: lastTransaction.date.toISOString(),
+                type: lastTransaction.type,
               }
             : null,
         };

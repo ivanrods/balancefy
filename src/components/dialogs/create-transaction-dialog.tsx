@@ -14,7 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Plus } from "lucide-react";
-import { SelectDialog } from "./components/select-dialog";
+import { SelectCategory } from "./components/select-category";
 import { RadioGroupDemo } from "./components/radio-group-dialog";
 import { DateDialog } from "./components/date-dialog";
 
@@ -27,6 +27,7 @@ import {
   TransactionFormData,
 } from "@/lib/schemas/transaction";
 import { toast } from "sonner";
+import { SelectWallet } from "./components/select-wallet";
 
 export function TransactionDialog() {
   const { createTransaction } = useTransactions();
@@ -34,10 +35,20 @@ export function TransactionDialog() {
     { id: string; name: string }[]
   >([]);
 
+  const [wallets, setWallets] = React.useState<{ id: string; name: string }[]>(
+    []
+  );
+
   React.useEffect(() => {
     fetch("/api/categories?type=select")
       .then((res) => res.json())
       .then(setCategories);
+  }, []);
+
+  React.useEffect(() => {
+    fetch("/api/wallets?type=select")
+      .then((res) => res.json())
+      .then(setWallets);
   }, []);
 
   const {
@@ -52,6 +63,7 @@ export function TransactionDialog() {
       description: "",
       value: 0,
       categoryId: "",
+      walletId: "",
       type: "income",
       date: new Date(),
     },
@@ -65,6 +77,7 @@ export function TransactionDialog() {
         type: formData.type,
         date: formData.date.toISOString(),
         categoryId: formData.categoryId,
+        walletId: formData.walletId,
       },
       {
         onSuccess: () => {
@@ -122,7 +135,7 @@ export function TransactionDialog() {
                 name="categoryId"
                 control={control}
                 render={({ field }) => (
-                  <SelectDialog
+                  <SelectCategory
                     value={field.value}
                     onValueChange={field.onChange}
                     categories={categories}
@@ -136,6 +149,40 @@ export function TransactionDialog() {
               )}
 
               <Controller
+                name="walletId"
+                control={control}
+                render={({ field }) => (
+                  <SelectWallet
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    wallets={wallets}
+                  />
+                )}
+              />
+              {errors.categoryId && (
+                <span className="text-destructive text-sm">
+                  {errors.categoryId.message}
+                </span>
+              )}
+            </div>
+
+            <div className="flex gap-4 flex-col sm:flex-row sm:justify-between">
+              <Controller
+                name="type"
+                control={control}
+                render={({ field }) => (
+                  <RadioGroupDemo
+                    value={field.value}
+                    onValueChange={field.onChange}
+                  />
+                )}
+              />
+              {errors.type && (
+                <span className="text-destructive text-sm">
+                  {errors.type.message}
+                </span>
+              )}
+              <Controller
                 name="date"
                 control={control}
                 render={({ field }) => (
@@ -148,22 +195,6 @@ export function TransactionDialog() {
                 </span>
               )}
             </div>
-
-            <Controller
-              name="type"
-              control={control}
-              render={({ field }) => (
-                <RadioGroupDemo
-                  value={field.value}
-                  onValueChange={field.onChange}
-                />
-              )}
-            />
-            {errors.type && (
-              <span className="text-destructive text-sm">
-                {errors.type.message}
-              </span>
-            )}
           </div>
           <DialogFooter>
             <DialogClose asChild>
