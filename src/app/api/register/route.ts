@@ -32,6 +32,7 @@ export async function POST(req: NextRequest) {
         name,
         email,
         password: hashedPassword,
+
         categories: {
           create: [
             { name: "Alimentação", color: "#660000" },
@@ -41,6 +42,7 @@ export async function POST(req: NextRequest) {
             { name: "Outros", color: "#cccccc" },
           ],
         },
+        wallets: { create: [{ name: "Carteira Padrão" }] },
       },
     });
 

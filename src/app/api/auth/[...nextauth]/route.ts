@@ -65,9 +65,14 @@ export const authOptions: AuthOptions = {
   events: {
     async createUser({ user }) {
       if (!user.id) {
-        console.error("Usuário sem ID, não é possível criar categorias");
+        console.error(
+          "Usuário sem ID, não é possível criar categorias e carteira"
+        );
         return;
       }
+      await prisma.wallet.create({
+        data: { name: "Carteira Padrão", userId: user.id },
+      });
 
       await prisma.category.createMany({
         data: [
@@ -78,8 +83,6 @@ export const authOptions: AuthOptions = {
           { name: "Outros", color: "#cccccc", userId: user.id },
         ],
       });
-
-      console.log("Categorias padrão criadas para:", user.id);
     },
   },
 };

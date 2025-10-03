@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Wallets } from "@/types/wallet";
 
-export function useCategories() {
+export function useWalllets() {
   const queryClient = useQueryClient();
 
   // GET

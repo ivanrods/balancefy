@@ -14,25 +14,44 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Plus } from "lucide-react";
-import { CategoriesFormData, walletSchema } from "@/lib/schemas/wallet";
+import { WalletsFormData, walletSchema } from "@/lib/schemas/wallet";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
+import { useWalllets } from "@/hooks/use-wallets";
 
 export function WalletDialog() {
+  const { createWallets } = useWalllets();
+
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<CategoriesFormData>({
+  } = useForm<WalletsFormData>({
     resolver: zodResolver(walletSchema),
     defaultValues: {
       name: "",
     },
   });
 
-  function onSubmit(formData: CategoriesFormData) {}
+  function onSubmit(formData: WalletsFormData) {
+    createWallets.mutate(
+      {
+        name: formData.name,
+      },
+      {
+        onSuccess: () => {
+          toast.success("Cartaira criada");
+        },
+        onError: () => {
+          toast.error("Erro ao criar carteira");
+        },
+      }
+    );
+
+    reset();
+  }
 
   return (
     <Dialog>
