@@ -10,7 +10,8 @@ export const transactionSchema = z.object({
     .number("Informe um valor válido")
     .positive("O valor deve ser maior que zero"),
 
-  categoryId: z.string().min(1, "Select a valid category"),
+  categoryId: z.string().min(1, "Selecione uma categoria válida"),
+  walletId: z.string().min(1, "Seleicione uma carteira válida"),
 
   type: z.enum(["income", "expense"], { message: "Select a valid type" }),
 

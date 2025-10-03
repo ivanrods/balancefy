@@ -4,6 +4,12 @@ export type Category = {
   userId: string | null;
 };
 
+export type Wallet = {
+  id: string;
+  name: string;
+  userId: string | null;
+};
+
 export type Transaction = {
   id: string;
   description: string;
@@ -12,4 +18,6 @@ export type Transaction = {
   date: Date;
   categoryId: string;
   category: Category;
+  walletId: string;
+  wallet: Wallet;
 };

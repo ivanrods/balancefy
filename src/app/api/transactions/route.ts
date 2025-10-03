@@ -14,6 +14,7 @@ export async function GET() {
     where: { user: { email: session.user.email } },
     include: {
       category: true,
+      wallet: true,
     },
     orderBy: { date: "desc" },
   });
@@ -30,9 +31,9 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
-    const { description, categoryId, value, type, date } = body;
+    const { description, categoryId, walletId, value, type, date } = body;
 
-    if (!description || !categoryId || !value || !type || !date) {
+    if (!description || !categoryId || !walletId || !value || !type || !date) {
       return NextResponse.json(
         { error: "Todos os campos são obrigatórios" },
         { status: 400 }
@@ -54,6 +55,7 @@ export async function POST(req: Request) {
       data: {
         description,
         categoryId,
+        walletId,
         value,
         type,
         date: new Date(date),
