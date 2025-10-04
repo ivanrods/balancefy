@@ -7,9 +7,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { ArrowDown, ArrowUp, Wallet } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { EditWalletDialog } from "@/components/dialogs/edit-wallet-dialog";
 
 type WalletCardProps = {
+  id: string;
   name: string;
   balance: number;
   lastTransaction: {
@@ -22,6 +23,7 @@ type WalletCardProps = {
 };
 
 export default function WalletCard({
+  id,
   name,
   balance,
   lastTransaction,
@@ -39,7 +41,7 @@ export default function WalletCard({
             <CardDescription className="text-sm">Saldo atual</CardDescription>
           </div>
         </div>
-        <Button variant="outline">Editar </Button>
+        <EditWalletDialog wallets={{ id, name }} />
       </CardHeader>
 
       <CardContent className="space-y-2 flex flex-col justify-between ">

@@ -16,6 +16,7 @@ export default function WalletPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
         {wallets.map((wallet) => (
           <WalletCard
+            id={wallet.id}
             key={wallet.id}
             name={wallet.name}
             balance={wallet.balance}
