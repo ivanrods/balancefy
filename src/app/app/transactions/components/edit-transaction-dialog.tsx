@@ -23,7 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   transactionSchema,
   TransactionFormData,
-} from "@/lib/schemas/transaction";
+} from "@/lib/schemas/transaction-schema";
 import { toast } from "sonner";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { SelectWallet } from "./select-wallet";

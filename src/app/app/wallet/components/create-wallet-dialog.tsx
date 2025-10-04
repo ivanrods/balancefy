@@ -14,7 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Plus } from "lucide-react";
-import { WalletsFormData, walletSchema } from "@/lib/schemas/wallet";
+import { WalletsFormData, walletSchema } from "@/lib/schemas/wallet-schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";

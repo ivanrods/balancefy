@@ -17,7 +17,7 @@ import { useWalllets } from "@/hooks/use-wallets";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { WalletsFormData, walletSchema } from "@/lib/schemas/wallet";
+import { WalletsFormData, walletSchema } from "@/lib/schemas/wallet-schema";
 
 type EditWalletsDialog = {
   wallets: { id: string; name: string };

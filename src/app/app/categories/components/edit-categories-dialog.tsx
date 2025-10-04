@@ -17,7 +17,10 @@ import { useCategories } from "@/hooks/use-categories";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { CategoriesFormData, categoriesSchema } from "@/lib/schemas/categories";
+import {
+  CategoriesFormData,
+  categoriesSchema,
+} from "@/lib/schemas/categories-schema";
 import { Categories } from "@/types/categories";
 import { SliderColor } from "./slider-color";
 
