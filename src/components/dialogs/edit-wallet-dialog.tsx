@@ -18,14 +18,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { WalletsFormData, walletSchema } from "@/lib/schemas/wallet";
-import { Wallets } from "@/types/wallet";
 
 type EditWalletsDialog = {
   wallets: { id: string; name: string };
 };
 
 export function EditWalletDialog({ wallets }: EditWalletsDialog) {
-  const { updateWallets } = useWalllets();
+  const { updateWallets, deleteWallets } = useWalllets();
 
   const {
     register,
@@ -55,6 +54,17 @@ export function EditWalletDialog({ wallets }: EditWalletsDialog) {
     );
   }
 
+  function handleDeleteWallet(id: string) {
+    deleteWallets.mutate(id, {
+      onSuccess: () => {
+        toast.success("Carteira apagada com sucesso!");
+      },
+      onError: () => {
+        toast.error("Erro ao apagar carteira!");
+      },
+    });
+  }
+
   return (
     <Dialog>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -79,6 +89,13 @@ export function EditWalletDialog({ wallets }: EditWalletsDialog) {
           </div>
 
           <DialogFooter>
+            <Button
+              variant="destructive"
+              onClick={() => handleDeleteWallet(wallets.id)}
+              disabled={isSubmitting}
+            >
+              Excluir
+            </Button>
             <DialogClose asChild>
               <Button variant="outline">Cancelar</Button>
             </DialogClose>

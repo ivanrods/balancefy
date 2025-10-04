@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import { ArrowDown, ArrowUp, Wallet } from "lucide-react";
 import { EditWalletDialog } from "@/components/dialogs/edit-wallet-dialog";
+import { formatCurrency } from "@/utils/format-currency";
 
 type WalletCardProps = {
   id: string;
@@ -45,7 +46,7 @@ export default function WalletCard({
       </CardHeader>
 
       <CardContent className="space-y-2 flex flex-col justify-between ">
-        <p className="text-3xl font-bold ">{balance}</p>
+        <p className="text-3xl font-bold ">{formatCurrency(balance)}</p>
         <p className="text-sm text-muted-foreground">
           Última movimentação:{" "}
           {lastTransaction ? (
@@ -56,7 +57,7 @@ export default function WalletCard({
                   : "text-red-500"
               }`}
             >
-              {lastTransaction.amount}
+              {formatCurrency(lastTransaction.amount)}
             </span>
           ) : (
             <span className="text-muted-foreground italic">
@@ -66,14 +67,16 @@ export default function WalletCard({
         </p>
       </CardContent>
 
-      <CardFooter className=" flex  pt-4  text-sm gap-4">
+      <CardFooter className="flex pt-4  text-sm gap-6">
         <div className="flex items-center gap-2">
           <div className="p-1.5 bg-chart-2 rounded-lg">
             <ArrowUp className="text-white" />
           </div>
 
           <div>
-            <p className="font-medium text-lg">{totalIncome} </p>
+            <p className="font-medium text-lg">
+              {formatCurrency(totalIncome)}{" "}
+            </p>
             <span className="text-sm text-gray-400">Entradas</span>
           </div>
         </div>
@@ -84,7 +87,9 @@ export default function WalletCard({
           </div>
 
           <div>
-            <p className=" font-medium text-lg">{totalExpense}</p>
+            <p className=" font-medium text-lg">
+              {formatCurrency(totalExpense)}
+            </p>
             <span className="text-sm text-gray-400">Saídas</span>
           </div>
         </div>
