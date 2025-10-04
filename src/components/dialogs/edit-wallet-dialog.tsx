@@ -24,7 +24,7 @@ type EditWalletsDialog = {
 };
 
 export function EditWalletDialog({ wallets }: EditWalletsDialog) {
-  const { updateWallets, deleteWallets } = useWalllets();
+  const { updateWallets } = useWalllets();
 
   const {
     register,
@@ -54,17 +54,6 @@ export function EditWalletDialog({ wallets }: EditWalletsDialog) {
     );
   }
 
-  function handleDeleteWallet(id: string) {
-    deleteWallets.mutate(id, {
-      onSuccess: () => {
-        toast.success("Carteira apagada com sucesso!");
-      },
-      onError: () => {
-        toast.error("Erro ao apagar carteira!");
-      },
-    });
-  }
-
   return (
     <Dialog>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -89,13 +78,6 @@ export function EditWalletDialog({ wallets }: EditWalletsDialog) {
           </div>
 
           <DialogFooter>
-            <Button
-              variant="destructive"
-              onClick={() => handleDeleteWallet(wallets.id)}
-              disabled={isSubmitting}
-            >
-              Excluir
-            </Button>
             <DialogClose asChild>
               <Button variant="outline">Cancelar</Button>
             </DialogClose>

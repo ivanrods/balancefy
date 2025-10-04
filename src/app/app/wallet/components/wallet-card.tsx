@@ -9,6 +9,7 @@ import {
 import { ArrowDown, ArrowUp, Wallet } from "lucide-react";
 import { EditWalletDialog } from "@/components/dialogs/edit-wallet-dialog";
 import { formatCurrency } from "@/utils/format-currency";
+import { DeleteWalletDialog } from "@/components/dialogs/delete-wallet-dialog";
 
 type WalletCardProps = {
   id: string;
@@ -33,7 +34,7 @@ export default function WalletCard({
 }: WalletCardProps) {
   return (
     <Card className="w-full rounded-2xl shadow-md border">
-      <CardHeader className="flex flex-row items-center justify-between pb-2">
+      <CardHeader className="flex flex-row  justify-between ">
         <div className="flex items-center gap-3">
           <Wallet className="w-8 h-8" />
 
@@ -42,7 +43,10 @@ export default function WalletCard({
             <CardDescription className="text-sm">Saldo atual</CardDescription>
           </div>
         </div>
-        <EditWalletDialog wallets={{ id, name }} />
+        <div>
+          <EditWalletDialog wallets={{ id, name }} />
+          <DeleteWalletDialog id={id} />
+        </div>
       </CardHeader>
 
       <CardContent className="space-y-2 flex flex-col justify-between ">
