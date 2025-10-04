@@ -1,7 +1,8 @@
 "use client";
 
+import { DeleteCategoriesDialog } from "@/components/dialogs/delete-categories-dialog";
 import { EditCategoriesDialog } from "@/components/dialogs/edit-categories-dialog";
-import { Button } from "@/components/ui/button";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,22 +23,9 @@ import { useCategories } from "@/hooks/use-categories";
 
 import { formatCurrency } from "@/utils/format-currency";
 import { ArrowLeftRight, Circle } from "lucide-react";
-import { toast } from "sonner";
 
 export default function CategoriesTable() {
-  const { categories, deleteCategories, isLoading } = useCategories();
-  console.log(categories);
-
-  function handleDeleteCategories(id: string) {
-    deleteCategories.mutate(id, {
-      onSuccess: () => {
-        toast.success("Categoria apagada com sucesso!");
-      },
-      onError: () => {
-        toast.error("Erro ao apagar categoria!");
-      },
-    });
-  }
+  const { categories, isLoading } = useCategories();
 
   if (isLoading) {
     return <Skeleton className="w-full h-96 rounded-xl" />;
@@ -81,12 +69,7 @@ export default function CategoriesTable() {
             <TableCell>{cat.number}</TableCell>
             <TableCell className="flex gap-2">
               <EditCategoriesDialog categories={cat} />
-              <Button
-                onClick={() => handleDeleteCategories(cat.id)}
-                variant="destructive"
-              >
-                Excluir
-              </Button>
+              <DeleteCategoriesDialog id={cat.id} />
             </TableCell>
           </TableRow>
         ))}
