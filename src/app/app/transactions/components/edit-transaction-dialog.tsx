@@ -13,10 +13,8 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Plus } from "lucide-react";
-import { SelectCategory } from "./components/select-category";
-import { RadioGroupSelect } from "./components/radio-group-select";
-import { DateDialog } from "./components/date-dialog";
+
+import { Transaction } from "@/types/transaction";
 
 import { Controller } from "react-hook-form";
 import { useTransactions } from "@/hooks/use-transactions";
@@ -27,10 +25,20 @@ import {
   TransactionFormData,
 } from "@/lib/schemas/transaction";
 import { toast } from "sonner";
-import { SelectWallet } from "./components/select-wallet";
+import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import { SelectWallet } from "./select-wallet";
+import { SelectCategory } from "./select-category";
+import { DateDialog } from "./date-dialog";
+import { RadioGroupSelect } from "./radio-group-select";
 
-export function TransactionDialog() {
-  const { createTransaction } = useTransactions();
+type EditTransactionDialogProps = {
+  transaction: Transaction;
+};
+
+export function EditTransactionDialog({
+  transaction,
+}: EditTransactionDialogProps) {
+  const { updateTransaction } = useTransactions();
   const [categories, setCategories] = React.useState<
     { id: string; name: string }[]
   >([]);
@@ -40,7 +48,7 @@ export function TransactionDialog() {
   );
 
   React.useEffect(() => {
-    fetch("/api/categories?type=select")
+    fetch("/api/categories")
       .then((res) => res.json())
       .then(setCategories);
   }, []);
@@ -55,23 +63,23 @@ export function TransactionDialog() {
     register,
     handleSubmit,
     control,
-    reset,
     formState: { errors, isSubmitting },
   } = useForm<TransactionFormData>({
     resolver: zodResolver(transactionSchema),
     defaultValues: {
-      description: "",
-      value: 0,
-      categoryId: "",
-      walletId: "",
-      type: "income",
-      date: new Date(),
+      description: transaction.description,
+      value: transaction.value,
+      categoryId: transaction.categoryId,
+      walletId: transaction.walletId,
+      type: transaction.type,
+      date: new Date(transaction.date),
     },
   });
 
   function onSubmit(formData: TransactionFormData) {
-    createTransaction.mutate(
+    updateTransaction.mutate(
       {
+        id: transaction.id,
         description: formData.description,
         value: Number(formData.value),
         type: formData.type,
@@ -81,36 +89,40 @@ export function TransactionDialog() {
       },
       {
         onSuccess: () => {
-          toast.success("Transação criada");
+          toast.success("Transação editada com sucesso!");
         },
         onError: () => {
-          toast.error("Erro ao criar transação");
+          toast.error("Erro ao editar transação");
         },
       }
     );
-
-    reset();
   }
 
   return (
     <Dialog>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <DialogTrigger asChild>
-          <Button>
-            <Plus /> <p className="hidden md:block ">Nova Transação</p>
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Adicionar Transação</DialogTitle>
-            <DialogDescription>
-              Preencha todo o formulário com informações da transação.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-4">
+      <DialogTrigger asChild>
+        <DropdownMenuItem
+          onSelect={(e) => {
+            // Impede o Dropdown de fechar
+            e.preventDefault();
+          }}
+        >
+          Editar Transação
+        </DropdownMenuItem>
+      </DialogTrigger>
+
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Editar Transação</DialogTitle>
+          <DialogDescription>
+            Preencha todo o formulário com as novas informações da transação.
+          </DialogDescription>
+        </DialogHeader>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="grid gap-4 pb-4">
             <div className="grid gap-3">
-              <Label htmlFor="description">Descrição</Label>
-              <Input id="description" {...register("description")} />
+              <Label htmlFor="descricao">Descrição</Label>
+              <Input id="descricao" {...register("description")} />
               {errors.description && (
                 <span className="text-destructive text-sm">
                   {errors.description.message}
@@ -132,23 +144,6 @@ export function TransactionDialog() {
             </div>
             <div className="flex gap-4 flex-col sm:flex-row">
               <Controller
-                name="categoryId"
-                control={control}
-                render={({ field }) => (
-                  <SelectCategory
-                    value={field.value}
-                    onValueChange={field.onChange}
-                    categories={categories}
-                  />
-                )}
-              />
-              {errors.categoryId && (
-                <span className="text-destructive text-sm">
-                  {errors.categoryId.message}
-                </span>
-              )}
-
-              <Controller
                 name="walletId"
                 control={control}
                 render={({ field }) => (
@@ -164,8 +159,24 @@ export function TransactionDialog() {
                   {errors.walletId.message}
                 </span>
               )}
-            </div>
 
+              <Controller
+                name="categoryId"
+                control={control}
+                render={({ field }) => (
+                  <SelectCategory
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    categories={categories}
+                  />
+                )}
+              />
+              {errors.categoryId && (
+                <span className="text-destructive text-sm">
+                  {errors.categoryId.message}
+                </span>
+              )}
+            </div>
             <div className="flex gap-4 flex-col sm:flex-row ">
               <Controller
                 name="date"
@@ -174,11 +185,6 @@ export function TransactionDialog() {
                   <DateDialog value={field.value} onChange={field.onChange} />
                 )}
               />
-              {errors.date && (
-                <span className="text-destructive text-sm">
-                  {errors.date.message}
-                </span>
-              )}
               <Controller
                 name="type"
                 control={control}
@@ -208,8 +214,8 @@ export function TransactionDialog() {
               Salvar
             </Button>
           </DialogFooter>
-        </DialogContent>
-      </form>
+        </form>
+      </DialogContent>
     </Dialog>
   );
 }

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Search } from "lucide-react";
-import { SearchDialog } from "../dialogs/search-dialog";
-import { Input } from "../ui/input";
+import { SearchDialog } from "./search-dialog";
+import { Input } from "../../ui/input";
 
 export function InputSearch() {
   const [open, setOpen] = React.useState(false);

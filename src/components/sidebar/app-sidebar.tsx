@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/sidebar";
 
 import Image from "next/image";
-import { NavUser } from "./nav-user";
+import { NavUser } from "./components/nav-user";
 
 const items = [
   { title: "Dashboard", url: "dashboard", icon: CircleGauge },

@@ -7,9 +7,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { ArrowDown, ArrowUp, Wallet } from "lucide-react";
-import { EditWalletDialog } from "@/components/dialogs/edit-wallet-dialog";
+import { EditWalletDialog } from "@/app/app/wallet/components/edit-wallet-dialog";
 import { formatCurrency } from "@/utils/format-currency";
-import { DeleteWalletDialog } from "@/components/dialogs/delete-wallet-dialog";
+import { DeleteWalletDialog } from "./delete-wallet-dialog";
 
 type WalletCardProps = {
   id: string;

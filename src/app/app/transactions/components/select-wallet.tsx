@@ -9,37 +9,37 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Label } from "../../ui/label";
+import { Label } from "../../../../components/ui/label";
 
-type Category = {
+type Wallet = {
   id: string;
   name: string;
 };
 
-type SelectCategoryProps = {
+type SelectDialogProps = {
   value: string;
   onValueChange: (val: string) => void;
-  categories: Category[];
+  wallets: Wallet[];
 };
 
-export function SelectCategory({
+export function SelectWallet({
   value,
   onValueChange,
-  categories,
-}: SelectCategoryProps) {
+  wallets,
+}: SelectDialogProps) {
   return (
     <div className="flex flex-col gap-3">
       <Select value={value} onValueChange={onValueChange}>
-        <Label className="px-1">Categoria</Label>
+        <Label className="px-1">Carteira</Label>
         <SelectTrigger className="w-full">
           <SelectValue placeholder="Selecione a categoria" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectLabel>Categories</SelectLabel>
-            {categories.map((cat) => (
-              <SelectItem key={cat.id} value={cat.id}>
-                {cat.name}
+            <SelectLabel>Carteiras</SelectLabel>
+            {wallets.map((wallet) => (
+              <SelectItem key={wallet.id} value={wallet.id}>
+                {wallet.name}
               </SelectItem>
             ))}
           </SelectGroup>

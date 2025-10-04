@@ -12,30 +12,30 @@ import {
 
 import { toast } from "sonner";
 
-import { Button } from "../ui/button";
-import { useWalllets } from "@/hooks/use-wallets";
+import { Button } from "@/components/ui/button";
+import { useCategories } from "@/hooks/use-categories";
 
-type DeleteWalletDialogProps = {
+type DeleteCategoriesDialogProps = {
   id: string;
 };
-export function DeleteWalletDialog({ id }: DeleteWalletDialogProps) {
-  const { deleteWallets } = useWalllets();
+export function DeleteCategoriesDialog({ id }: DeleteCategoriesDialogProps) {
+  const { deleteCategories } = useCategories();
 
-  function handleDeleteWallet(id: string) {
-    deleteWallets.mutate(id, {
+  function handleDeleteCategories(id: string) {
+    deleteCategories.mutate(id, {
       onSuccess: () => {
-        toast.success("Carteira apagada com sucesso!");
+        toast.success("Categoria apagada com sucesso!");
       },
       onError: () => {
-        toast.error("Erro ao apagar carteira!");
+        toast.error("Erro ao apagar categoria!");
       },
     });
   }
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger className="w-full">
-        <Button variant="link">Excluir</Button>
+      <AlertDialogTrigger>
+        <Button variant="destructive">Excluir</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -49,7 +49,7 @@ export function DeleteWalletDialog({ id }: DeleteWalletDialogProps) {
           <AlertDialogCancel>Cancelar</AlertDialogCancel>
           <AlertDialogAction asChild>
             <button
-              onClick={() => handleDeleteWallet(id)}
+              onClick={() => handleDeleteCategories(id)}
               className="bg-destructive text-white px-4 py-2 rounded-md"
             >
               Continue

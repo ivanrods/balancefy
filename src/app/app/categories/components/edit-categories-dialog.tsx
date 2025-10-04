@@ -13,63 +13,63 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Plus } from "lucide-react";
 import { useCategories } from "@/hooks/use-categories";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { CategoriesFormData, categoriesSchema } from "@/lib/schemas/categories";
-import { SliderColor } from "./components/slider-color";
+import { Categories } from "@/types/categories";
+import { SliderColor } from "./slider-color";
 
-export function CategoriesDialog() {
-  const { createCategories } = useCategories();
+type EditCategoriesDialog = {
+  categories: Categories;
+};
+
+export function EditCategoriesDialog({ categories }: EditCategoriesDialog) {
+  const { updateCategories } = useCategories();
 
   const {
     register,
     handleSubmit,
-    reset,
     control,
     formState: { errors, isSubmitting },
   } = useForm<CategoriesFormData>({
     resolver: zodResolver(categoriesSchema),
     defaultValues: {
-      name: "",
-      color: "#cccccc",
+      name: categories.name,
+      color: categories.color,
     },
   });
 
   function onSubmit(formData: CategoriesFormData) {
-    createCategories.mutate(
+    updateCategories.mutate(
       {
+        id: categories.id,
         name: formData.name,
         color: formData.color,
       },
       {
         onSuccess: () => {
-          toast.success("Categoria criada");
+          toast.success("Categoria atualizada");
         },
         onError: () => {
-          toast.error("Erro ao criar categoria");
+          toast.error("Erro ao atualizar categoria");
         },
       }
     );
-
-    reset();
   }
 
   return (
     <Dialog>
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogTrigger asChild>
-          <Button>
-            <Plus /> <p className="hidden md:block ">Nova Categoria</p>
-          </Button>
+          <Button variant="outline">Editar</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Adicionar Categoria</DialogTitle>
+            <DialogTitle>Editar Categoria</DialogTitle>
             <DialogDescription>
-              Preencha todo o formulário com informações da categoria.
+              Preencha todo o formulário com novas informações da categoria.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-3">
@@ -80,25 +80,25 @@ export function CategoriesDialog() {
                 {errors.name.message}
               </span>
             )}
-            <div className="grid gap-3">
-              <Label htmlFor="color">Selecione a cor</Label>
-              <Controller
-                name="color"
-                control={control}
-                render={({ field }) => (
-                  <>
-                    <SliderColor
-                      value={field.value}
-                      onValueChange={field.onChange}
-                    />
-                    <div
-                      className="w-6 h-6 rounded-full border mt-2"
-                      style={{ backgroundColor: field.value }}
-                    />
-                  </>
-                )}
-              />
-            </div>
+          </div>
+          <div className="grid gap-3">
+            <Label htmlFor="color">Selecione a cor</Label>
+            <Controller
+              name="color"
+              control={control}
+              render={({ field }) => (
+                <>
+                  <SliderColor
+                    value={field.value}
+                    onValueChange={field.onChange}
+                  />
+                  <div
+                    className="w-6 h-6 rounded-full border mt-2"
+                    style={{ backgroundColor: field.value }}
+                  />
+                </>
+              )}
+            />
           </div>
 
           <DialogFooter>

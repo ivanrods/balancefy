@@ -9,48 +9,47 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Trash } from "lucide-react";
+
 import { toast } from "sonner";
-import { DropdownMenuItem } from "../ui/dropdown-menu";
-export function DeleteAccountDialog() {
-  async function handleDeleteAccount() {
-    try {
-      const res = await fetch("/api/profile", {
-        method: "DELETE",
-      });
-      if (!res.ok) {
-        const error = await res.json();
-        throw new Error(error.error || "Erro ao excluir conta");
-      }
-      const data = await res.json();
-      toast.success(data.message || "Conta excluída com sucesso!");
-      window.location.href = "/login";
-    } catch (err) {
-      toast.error("Erro ao excluir conta");
-    }
+
+import { Button } from "@/components/ui/button";
+import { useWalllets } from "@/hooks/use-wallets";
+
+type DeleteWalletDialogProps = {
+  id: string;
+};
+export function DeleteWalletDialog({ id }: DeleteWalletDialogProps) {
+  const { deleteWallets } = useWalllets();
+
+  function handleDeleteWallet(id: string) {
+    deleteWallets.mutate(id, {
+      onSuccess: () => {
+        toast.success("Carteira apagada com sucesso!");
+      },
+      onError: () => {
+        toast.error("Erro ao apagar carteira!");
+      },
+    });
   }
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger className="w-full">
-        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-          <Trash className="w-4 h-4 mr-2 text-destructive" />
-          Deletar conta
-        </DropdownMenuItem>
+      <AlertDialogTrigger>
+        <Button variant="link">Excluir</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Você tem certeza absoluta?</AlertDialogTitle>
           <AlertDialogDescription>
             Esta ação não pode ser desfeita. Isso excluirá permanentemente sua
-            conta e removerá seus dados de nossos servidores.
+            carteira e as transações relacionadas a ela.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancelar</AlertDialogCancel>
           <AlertDialogAction asChild>
             <button
-              onClick={handleDeleteAccount}
+              onClick={() => handleDeleteWallet(id)}
               className="bg-destructive text-white px-4 py-2 rounded-md"
             >
               Continue

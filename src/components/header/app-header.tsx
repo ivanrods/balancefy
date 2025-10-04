@@ -1,13 +1,14 @@
 "use client";
 import { usePathname } from "next/navigation";
 import { SidebarTrigger } from "../ui/sidebar";
-import { ButtonTheme } from "./button-theme";
-import { TransactionDialog } from "../dialogs/create-transaction-dialog";
-import DynamicBreadcrumb from "./dynamic-breadcrumb";
-import { InputSearch } from "./input-search";
-import { Notifications } from "./notifications";
-import { CategoriesDialog } from "../dialogs/create-categories-dialog";
-import { WalletDialog } from "../dialogs/create-wallet-dialog";
+import { ButtonTheme } from "@/components/header/components/button-theme";
+
+import DynamicBreadcrumb from "./components/dynamic-breadcrumb";
+import { InputSearch } from "./components/input-search";
+import { Notifications } from "./components/notifications";
+import { CategoriesDialog } from "../../app/app/categories/components/create-categories-dialog";
+import { WalletDialog } from "../../app/app/wallet/components/create-wallet-dialog";
+import { TransactionDialog } from "@/app/app/transactions/components/create-transaction-dialog";
 
 export function AppHeader() {
   const pathname = usePathname();

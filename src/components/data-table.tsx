@@ -39,7 +39,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { EditTransactionDialog } from "./dialogs/edit-transaction-dialog";
+import { EditTransactionDialog } from "@/app/app/transactions/components/edit-transaction-dialog";
 import { toast } from "sonner";
 import { Skeleton } from "./ui/skeleton";
 

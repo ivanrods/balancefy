@@ -1,7 +1,7 @@
 "use client";
 
-import { DeleteCategoriesDialog } from "@/components/dialogs/delete-categories-dialog";
-import { EditCategoriesDialog } from "@/components/dialogs/edit-categories-dialog";
+import { DeleteCategoriesDialog } from "@/app/app/categories/components/delete-categories-dialog";
+import { EditCategoriesDialog } from "./edit-categories-dialog";
 
 import {
   DropdownMenu,
@@ -67,7 +67,7 @@ export default function CategoriesTable() {
             </TableCell>
             <TableCell>{formatCurrency(cat.value)}</TableCell>
             <TableCell>{cat.number}</TableCell>
-            <TableCell className="flex gap-2">
+            <TableCell className="flex justify-start gap-2">
               <EditCategoriesDialog categories={cat} />
               <DeleteCategoriesDialog id={cat.id} />
             </TableCell>

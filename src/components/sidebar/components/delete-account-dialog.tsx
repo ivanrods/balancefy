@@ -9,47 +9,48 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-
+import { Trash } from "lucide-react";
 import { toast } from "sonner";
-
-import { Button } from "../ui/button";
-import { useCategories } from "@/hooks/use-categories";
-
-type DeleteCategoriesDialogProps = {
-  id: string;
-};
-export function DeleteCategoriesDialog({ id }: DeleteCategoriesDialogProps) {
-  const { deleteCategories } = useCategories();
-
-  function handleDeleteCategories(id: string) {
-    deleteCategories.mutate(id, {
-      onSuccess: () => {
-        toast.success("Categoria apagada com sucesso!");
-      },
-      onError: () => {
-        toast.error("Erro ao apagar categoria!");
-      },
-    });
+import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
+export function DeleteAccountDialog() {
+  async function handleDeleteAccount() {
+    try {
+      const res = await fetch("/api/profile", {
+        method: "DELETE",
+      });
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || "Erro ao excluir conta");
+      }
+      const data = await res.json();
+      toast.success(data.message || "Conta excluída com sucesso!");
+      window.location.href = "/login";
+    } catch (err) {
+      toast.error("Erro ao excluir conta");
+    }
   }
 
   return (
     <AlertDialog>
       <AlertDialogTrigger className="w-full">
-        <Button variant="destructive">Excluir</Button>
+        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+          <Trash className="w-4 h-4 mr-2 text-destructive" />
+          Deletar conta
+        </DropdownMenuItem>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Você tem certeza absoluta?</AlertDialogTitle>
           <AlertDialogDescription>
             Esta ação não pode ser desfeita. Isso excluirá permanentemente sua
-            carteira e as transações relacionadas a ela.
+            conta e removerá seus dados de nossos servidores.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancelar</AlertDialogCancel>
           <AlertDialogAction asChild>
             <button
-              onClick={() => handleDeleteCategories(id)}
+              onClick={handleDeleteAccount}
               className="bg-destructive text-white px-4 py-2 rounded-md"
             >
               Continue

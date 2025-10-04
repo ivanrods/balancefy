@@ -18,8 +18,8 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { EditProfile } from "../dialogs/edit-profile";
-import { DeleteAccountDialog } from "../dialogs/delete-account-dialog";
+import { EditProfile } from "@/components/sidebar/components/edit-profile";
+import { DeleteAccountDialog } from "./delete-account-dialog";
 import { useEffect, useState } from "react";
 import { signOut } from "next-auth/react";
 

@@ -13,12 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
-import { SelectCategory } from "./components/select-category";
-import { RadioGroupSelect } from "./components/radio-group-select";
-
-import { DateDialog } from "./components/date-dialog";
-import { Transaction } from "@/types/transaction";
+import { Plus } from "lucide-react";
 
 import { Controller } from "react-hook-form";
 import { useTransactions } from "@/hooks/use-transactions";
@@ -29,17 +24,13 @@ import {
   TransactionFormData,
 } from "@/lib/schemas/transaction";
 import { toast } from "sonner";
-import { DropdownMenuItem } from "../ui/dropdown-menu";
-import { SelectWallet } from "./components/select-wallet";
+import { SelectCategory } from "./select-category";
+import { SelectWallet } from "./select-wallet";
+import { DateDialog } from "./date-dialog";
+import { RadioGroupSelect } from "./radio-group-select";
 
-type EditTransactionDialogProps = {
-  transaction: Transaction;
-};
-
-export function EditTransactionDialog({
-  transaction,
-}: EditTransactionDialogProps) {
-  const { updateTransaction } = useTransactions();
+export function TransactionDialog() {
+  const { createTransaction } = useTransactions();
   const [categories, setCategories] = React.useState<
     { id: string; name: string }[]
   >([]);
@@ -49,7 +40,7 @@ export function EditTransactionDialog({
   );
 
   React.useEffect(() => {
-    fetch("/api/categories")
+    fetch("/api/categories?type=select")
       .then((res) => res.json())
       .then(setCategories);
   }, []);
@@ -64,23 +55,23 @@ export function EditTransactionDialog({
     register,
     handleSubmit,
     control,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<TransactionFormData>({
     resolver: zodResolver(transactionSchema),
     defaultValues: {
-      description: transaction.description,
-      value: transaction.value,
-      categoryId: transaction.categoryId,
-      walletId: transaction.walletId,
-      type: transaction.type,
-      date: new Date(transaction.date),
+      description: "",
+      value: 0,
+      categoryId: "",
+      walletId: "",
+      type: "income",
+      date: new Date(),
     },
   });
 
   function onSubmit(formData: TransactionFormData) {
-    updateTransaction.mutate(
+    createTransaction.mutate(
       {
-        id: transaction.id,
         description: formData.description,
         value: Number(formData.value),
         type: formData.type,
@@ -90,40 +81,36 @@ export function EditTransactionDialog({
       },
       {
         onSuccess: () => {
-          toast.success("Transação editada com sucesso!");
+          toast.success("Transação criada");
         },
         onError: () => {
-          toast.error("Erro ao editar transação");
+          toast.error("Erro ao criar transação");
         },
       }
     );
+
+    reset();
   }
 
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <DropdownMenuItem
-          onSelect={(e) => {
-            // Impede o Dropdown de fechar
-            e.preventDefault();
-          }}
-        >
-          Editar Transação
-        </DropdownMenuItem>
-      </DialogTrigger>
-
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Editar Transação</DialogTitle>
-          <DialogDescription>
-            Preencha todo o formulário com as novas informações da transação.
-          </DialogDescription>
-        </DialogHeader>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="grid gap-4 pb-4">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <DialogTrigger asChild>
+          <Button>
+            <Plus /> <p className="hidden md:block ">Nova Transação</p>
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Adicionar Transação</DialogTitle>
+            <DialogDescription>
+              Preencha todo o formulário com informações da transação.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4">
             <div className="grid gap-3">
-              <Label htmlFor="descricao">Descrição</Label>
-              <Input id="descricao" {...register("description")} />
+              <Label htmlFor="description">Descrição</Label>
+              <Input id="description" {...register("description")} />
               {errors.description && (
                 <span className="text-destructive text-sm">
                   {errors.description.message}
@@ -145,23 +132,6 @@ export function EditTransactionDialog({
             </div>
             <div className="flex gap-4 flex-col sm:flex-row">
               <Controller
-                name="walletId"
-                control={control}
-                render={({ field }) => (
-                  <SelectWallet
-                    value={field.value}
-                    onValueChange={field.onChange}
-                    wallets={wallets}
-                  />
-                )}
-              />
-              {errors.walletId && (
-                <span className="text-destructive text-sm">
-                  {errors.walletId.message}
-                </span>
-              )}
-
-              <Controller
                 name="categoryId"
                 control={control}
                 render={({ field }) => (
@@ -177,7 +147,25 @@ export function EditTransactionDialog({
                   {errors.categoryId.message}
                 </span>
               )}
+
+              <Controller
+                name="walletId"
+                control={control}
+                render={({ field }) => (
+                  <SelectWallet
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    wallets={wallets}
+                  />
+                )}
+              />
+              {errors.walletId && (
+                <span className="text-destructive text-sm">
+                  {errors.walletId.message}
+                </span>
+              )}
             </div>
+
             <div className="flex gap-4 flex-col sm:flex-row ">
               <Controller
                 name="date"
@@ -186,6 +174,11 @@ export function EditTransactionDialog({
                   <DateDialog value={field.value} onChange={field.onChange} />
                 )}
               />
+              {errors.date && (
+                <span className="text-destructive text-sm">
+                  {errors.date.message}
+                </span>
+              )}
               <Controller
                 name="type"
                 control={control}
@@ -215,8 +208,8 @@ export function EditTransactionDialog({
               Salvar
             </Button>
           </DialogFooter>
-        </form>
-      </DialogContent>
+        </DialogContent>
+      </form>
     </Dialog>
   );
 }
