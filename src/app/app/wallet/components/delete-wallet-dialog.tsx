@@ -34,7 +34,7 @@ export function DeleteWalletDialog({ id }: DeleteWalletDialogProps) {
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger>
+      <AlertDialogTrigger asChild>
         <Button variant="link">Excluir</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>

@@ -16,7 +16,7 @@ export function useWalllets() {
 
   // CREATE
   const createWallets = useMutation({
-    mutationFn: async (wallets: Omit<Wallets, "id" | "createdAt">) => {
+    mutationFn: async (wallets: Pick<Wallets, "name">) => {
       const res = await fetch("/api/wallets", {
         method: "POST",
         body: JSON.stringify(wallets),

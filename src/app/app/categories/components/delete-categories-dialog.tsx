@@ -34,7 +34,7 @@ export function DeleteCategoriesDialog({ id }: DeleteCategoriesDialogProps) {
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger>
+      <AlertDialogTrigger asChild>
         <Button variant="destructive">Excluir</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>

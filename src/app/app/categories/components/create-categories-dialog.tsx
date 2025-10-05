@@ -45,7 +45,10 @@ export function CategoriesDialog() {
     createCategories.mutate(
       {
         name: formData.name,
-        color: formData.color,
+        color: formData.color ?? "#cccccc",
+        relationship: [],
+        value: 0,
+        number: 0,
       },
       {
         onSuccess: () => {
