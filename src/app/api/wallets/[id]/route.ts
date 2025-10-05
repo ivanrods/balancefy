@@ -6,15 +6,16 @@ import { authOptions } from "../../auth/[...nextauth]/route";
 // GET - detalhe de uma cartira
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await context.params;
   const session = await getServerSession(authOptions);
   if (!session?.user?.email) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const wallets = await prisma.wallet.findUnique({
-    where: { id: params.id },
+    where: { id },
   });
 
   if (!wallets) {
@@ -30,8 +31,9 @@ export async function GET(
 // PUT - atualizar transação
 export async function PUT(
   req: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await context.params;
   const session = await getServerSession(authOptions);
   if (!session?.user?.email) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -50,7 +52,7 @@ export async function PUT(
 
   try {
     const wallets = await prisma.wallet.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         name,
       },
@@ -68,8 +70,9 @@ export async function PUT(
 // DELETE - remover transação
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await context.params;
   const session = await getServerSession(authOptions);
   if (!session?.user?.email) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -77,7 +80,7 @@ export async function DELETE(
 
   try {
     await prisma.wallet.delete({
-      where: { id: params.id },
+      where: { id },
     });
 
     return NextResponse.json({ message: "Carteira removida com sucesso" });

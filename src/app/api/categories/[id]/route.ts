@@ -6,15 +6,16 @@ import { authOptions } from "../../auth/[...nextauth]/route";
 // GET - detalhe de uma transação
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await context.params;
   const session = await getServerSession(authOptions);
   if (!session?.user?.email) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const categories = await prisma.category.findUnique({
-    where: { id: params.id },
+    where: { id },
   });
 
   if (!categories) {
@@ -30,8 +31,9 @@ export async function GET(
 // PUT - atualizar transação
 export async function PUT(
   req: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await context.params;
   const session = await getServerSession(authOptions);
   if (!session?.user?.email) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -50,7 +52,7 @@ export async function PUT(
 
   try {
     const categories = await prisma.category.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         name,
         color,
@@ -69,8 +71,9 @@ export async function PUT(
 // DELETE - remover transação
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await context.params;
   const session = await getServerSession(authOptions);
   if (!session?.user?.email) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -78,7 +81,7 @@ export async function DELETE(
 
   try {
     await prisma.category.delete({
-      where: { id: params.id },
+      where: { id },
     });
 
     return NextResponse.json({ message: "Transação removida com sucesso" });
