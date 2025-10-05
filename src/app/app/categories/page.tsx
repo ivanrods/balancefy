@@ -8,7 +8,6 @@ export default function CategoriesPage() {
       <h1 className="text-2xl font-bold">Categorias</h1>
       <div className="w-full flex flex-col xl:flex-row-reverse gap-4 ">
         <CategoriesTable />
-        <ChartPieDonut />
       </div>
     </div>
   );

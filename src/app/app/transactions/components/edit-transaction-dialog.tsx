@@ -143,39 +143,42 @@ export function EditTransactionDialog({
               )}
             </div>
             <div className="flex gap-4 flex-col sm:flex-row">
-              <Controller
-                name="walletId"
-                control={control}
-                render={({ field }) => (
-                  <SelectWallet
-                    value={field.value}
-                    onValueChange={field.onChange}
-                    wallets={wallets}
-                  />
+              <div className="flex flex-col gap-2">
+                <Controller
+                  name="walletId"
+                  control={control}
+                  render={({ field }) => (
+                    <SelectWallet
+                      value={field.value}
+                      onValueChange={field.onChange}
+                      wallets={wallets}
+                    />
+                  )}
+                />
+                {errors.walletId && (
+                  <span className="text-destructive text-sm">
+                    {errors.walletId.message}
+                  </span>
                 )}
-              />
-              {errors.walletId && (
-                <span className="text-destructive text-sm">
-                  {errors.walletId.message}
-                </span>
-              )}
-
-              <Controller
-                name="categoryId"
-                control={control}
-                render={({ field }) => (
-                  <SelectCategory
-                    value={field.value}
-                    onValueChange={field.onChange}
-                    categories={categories}
-                  />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Controller
+                  name="categoryId"
+                  control={control}
+                  render={({ field }) => (
+                    <SelectCategory
+                      value={field.value}
+                      onValueChange={field.onChange}
+                      categories={categories}
+                    />
+                  )}
+                />
+                {errors.categoryId && (
+                  <span className="text-destructive text-sm">
+                    {errors.categoryId.message}
+                  </span>
                 )}
-              />
-              {errors.categoryId && (
-                <span className="text-destructive text-sm">
-                  {errors.categoryId.message}
-                </span>
-              )}
+              </div>
             </div>
             <div className="flex gap-4 flex-col sm:flex-row ">
               <Controller

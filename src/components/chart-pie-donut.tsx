@@ -1,7 +1,7 @@
 "use client";
 
 import { useTransactions } from "@/hooks/use-transactions";
-import { TrendingDown } from "lucide-react";
+import { ChartPie } from "lucide-react";
 import { Pie, PieChart } from "recharts";
 
 import {
@@ -46,6 +46,11 @@ function groupTransactions(transactions: Transaction[]) {
 export function ChartPieDonut() {
   const { transactions, isLoading } = useTransactions();
 
+  const MonthYear = new Date().toLocaleDateString("pt-BR", {
+    month: "long", // nome completo do mês
+    year: "numeric", // exibe o ano
+  });
+
   const chartData = groupTransactions(transactions ?? []);
 
   if (isLoading) {
@@ -56,7 +61,7 @@ export function ChartPieDonut() {
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
         <CardTitle>Distribuição de Gastos</CardTitle>
-        <CardDescription>Agosto 2025</CardDescription>
+        <CardDescription>{MonthYear}</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
@@ -80,10 +85,11 @@ export function ChartPieDonut() {
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
         <div className="flex items-center gap-2 leading-none font-medium">
-          Gastos aumentaram 3.4% este mês <TrendingDown className="h-4 w-4" />
+          Baseado nas transações de todo o periodo{" "}
+          <ChartPie className="h-4 w-4" />
         </div>
         <div className="text-muted-foreground leading-none">
-          Baseado nas transações do mês atual
+          Passe o mouse sobre o gráfico para ver detalhes
         </div>
       </CardFooter>
     </Card>
