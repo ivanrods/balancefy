@@ -24,7 +24,7 @@ const Summary = () => {
   const { isLoading } = useTransactions();
 
   if (isLoading) {
-    return <Skeleton className="w-full h-80 rounded-xl" />;
+    return <Skeleton className="w-full h-52 rounded-xl" />;
   }
 
   return (

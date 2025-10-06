@@ -233,7 +233,7 @@ export function DataTableDemo() {
   });
 
   if (isLoading) {
-    return <Skeleton className="h-64 w-full rounded-xl" />;
+    return <Skeleton className="h-96 w-full rounded-xl" />;
   }
 
   return (

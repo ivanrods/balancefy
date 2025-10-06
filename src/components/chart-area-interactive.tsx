@@ -36,7 +36,7 @@ const months = [
   "Dez",
 ];
 
-// 🔧 Agrupa transações por mês e calcula saldo
+// Agrupa transações por mês e calcula saldo
 function groupTransactionsByMonth(transactions: Transaction[]) {
   const grouped = transactions.reduce((acc, curr) => {
     const date = new Date(curr.date);
@@ -112,11 +112,11 @@ export function ChartAreaFinance() {
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
         <div className="flex items-center gap-2 leading-none font-medium">
-          Saldo subiu 12% nos últimos meses
+          Baseado nas transações de todo o periodo
           <TrendingUp className="h-4 w-4 " />
         </div>
         <div className="text-muted-foreground leading-none">
-          Baseado no total de entradas e saídas
+          Passe o mouse sobre o gráfico para ver detalhes
         </div>
       </CardFooter>
     </Card>
