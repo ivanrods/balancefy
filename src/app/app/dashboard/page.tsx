@@ -40,7 +40,7 @@ const Dashboard = () => {
         <ChartAreaFinance mode={mode} />
       </section>
       <section>
-        <DataTableDemo />
+        <DataTableDemo mode={mode} />
       </section>
     </div>
   );

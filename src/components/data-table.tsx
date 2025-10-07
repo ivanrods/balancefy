@@ -202,8 +202,18 @@ export const columns = (
   },
 ];
 
-export function DataTableDemo() {
-  const { transactions, deleteTransaction, isLoading } = useTransactions();
+type TableProps = {
+  mode: "month" | "all";
+};
+
+export function DataTableDemo({ mode }: TableProps) {
+  const now = new Date();
+  const month = now.getMonth() + 1;
+  const year = now.getFullYear();
+
+  const { transactions, deleteTransaction, isLoading } = useTransactions(
+    mode === "month" ? { month, year } : undefined
+  );
 
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
