@@ -19,20 +19,19 @@ import {
 import { useTransactions } from "@/hooks/use-transactions";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useSummaryMonth } from "@/hooks/use-summary-month";
+import { usePeriod } from "@/context/period-context";
 
-type SummaryProps = {
-  summaryType: "month" | "all";
-};
+const Summary = () => {
+  const { mode } = usePeriod();
 
-const Summary = ({ summaryType }: SummaryProps) => {
   const { incomeAll, expenseAll, balanceAll, economyAll } = useSummaryAll();
   const { incomeMonth, expenseMonth, economyMonth } = useSummaryMonth();
 
   // Escolhe qual conjunto de dados exibir com base no modo
-  const income = summaryType === "month" ? incomeMonth : incomeAll;
-  const expense = summaryType === "month" ? expenseMonth : expenseAll;
-  const balance = summaryType === "month" ? balanceAll : balanceAll;
-  const economy = summaryType === "month" ? economyMonth : economyAll;
+  const income = mode === "month" ? incomeMonth : incomeAll;
+  const expense = mode === "month" ? expenseMonth : expenseAll;
+  const balance = mode === "month" ? balanceAll : balanceAll;
+  const economy = mode === "month" ? economyMonth : economyAll;
 
   const { isLoading } = useTransactions();
 

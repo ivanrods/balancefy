@@ -42,6 +42,7 @@ import {
 import { EditTransactionDialog } from "@/app/app/transactions/components/edit-transaction-dialog";
 import { toast } from "sonner";
 import { Skeleton } from "./ui/skeleton";
+import { usePeriod } from "@/context/period-context";
 
 export const columns = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -202,11 +203,8 @@ export const columns = (
   },
 ];
 
-type TableProps = {
-  mode: "month" | "all";
-};
-
-export function DataTableDemo({ mode }: TableProps) {
+export function DataTableDemo() {
+  const { mode } = usePeriod();
   const now = new Date();
   const month = now.getMonth() + 1;
   const year = now.getFullYear();

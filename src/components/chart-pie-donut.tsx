@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/chart";
 import { Transaction } from "@/types/transaction";
 import { Skeleton } from "./ui/skeleton";
+import { usePeriod } from "@/context/period-context";
 
 export const description = "Distribuição de gastos por categoria";
 
@@ -42,11 +43,9 @@ function groupTransactions(transactions: Transaction[]) {
     fill: cor, // passa direto para o gráfico
   }));
 }
-type ChartProps = {
-  mode: "month" | "all";
-};
 
-export function ChartPieDonut({ mode }: ChartProps) {
+export function ChartPieDonut() {
+  const { mode } = usePeriod();
   const now = new Date();
   const month = now.getMonth() + 1;
   const year = now.getFullYear();

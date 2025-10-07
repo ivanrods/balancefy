@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/chart";
 import { useTransactions } from "@/hooks/use-transactions";
 import { Skeleton } from "./ui/skeleton";
+import { usePeriod } from "@/context/period-context";
 
 const months = [
   "Jan",
@@ -62,11 +63,8 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-type ChartProps = {
-  mode: "month" | "all";
-};
-
-export function ChartAreaFinance({ mode }: ChartProps) {
+export function ChartAreaFinance() {
+  const { mode } = usePeriod();
   const now = new Date();
   const month = now.getMonth() + 1;
   const year = now.getFullYear();
