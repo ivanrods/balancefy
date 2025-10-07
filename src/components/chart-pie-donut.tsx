@@ -42,14 +42,18 @@ function groupTransactions(transactions: Transaction[]) {
     fill: cor, // passa direto para o gráfico
   }));
 }
+type ChartProps = {
+  mode: "month" | "all";
+};
 
-export function ChartPieDonut() {
-  const { transactions, isLoading } = useTransactions();
+export function ChartPieDonut({ mode }: ChartProps) {
+  const now = new Date();
+  const month = now.getMonth() + 1;
+  const year = now.getFullYear();
 
-  const MonthYear = new Date().toLocaleDateString("pt-BR", {
-    month: "long", // nome completo do mês
-    year: "numeric", // exibe o ano
-  });
+  const { transactions, isLoading } = useTransactions(
+    mode === "month" ? { month, year } : undefined
+  );
 
   const chartData = groupTransactions(transactions ?? []);
 
@@ -61,7 +65,7 @@ export function ChartPieDonut() {
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
         <CardTitle>Distribuição de Gastos</CardTitle>
-        <CardDescription>{MonthYear}</CardDescription>
+        <CardDescription>Mes</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
