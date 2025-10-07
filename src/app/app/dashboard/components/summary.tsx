@@ -1,5 +1,5 @@
 "use client";
-import { useSummary } from "@/hooks/use-summary";
+import { useSummaryAll } from "@/hooks/use-summary-all";
 import { formatCurrency } from "@/utils/format-currency";
 import {
   Card,
@@ -19,10 +19,20 @@ import {
 import { useTransactions } from "@/hooks/use-transactions";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useSummaryMonth } from "@/hooks/use-summary-month";
-const Summary = () => {
-  const { income, expense, balance, economy } = useSummary();
-  const { incomeMonth, expenseMonth, balanceMonth, economyMonth } =
-    useSummaryMonth();
+
+type SummaryProps = {
+  summaryType: "month" | "all";
+};
+
+const Summary = ({ summaryType }: SummaryProps) => {
+  const { incomeAll, expenseAll, balanceAll, economyAll } = useSummaryAll();
+  const { incomeMonth, expenseMonth, economyMonth } = useSummaryMonth();
+
+  // Escolhe qual conjunto de dados exibir com base no modo
+  const income = summaryType === "month" ? incomeMonth : incomeAll;
+  const expense = summaryType === "month" ? expenseMonth : expenseAll;
+  const balance = summaryType === "month" ? balanceAll : balanceAll;
+  const economy = summaryType === "month" ? economyMonth : economyAll;
 
   const { isLoading } = useTransactions();
 
@@ -57,7 +67,7 @@ const Summary = () => {
           </CardAction>
         </CardHeader>
         <CardContent>
-          <p className="text-4xl font-bold">{formatCurrency(incomeMonth)}</p>
+          <p className="text-4xl font-bold">{formatCurrency(income)}</p>
         </CardContent>
         <CardFooter>
           <p>Tendências em alta neste mês</p>
@@ -72,7 +82,7 @@ const Summary = () => {
           </CardAction>
         </CardHeader>
         <CardContent>
-          <p className="text-4xl font-bold">{formatCurrency(expenseMonth)}</p>
+          <p className="text-4xl font-bold">{formatCurrency(expense)}</p>
         </CardContent>
         <CardFooter>
           <p>Tendências em alta neste mês</p>
@@ -87,7 +97,7 @@ const Summary = () => {
           </CardAction>
         </CardHeader>
         <CardContent>
-          <p className="text-4xl font-bold">{formatCurrency(economyMonth)}</p>
+          <p className="text-4xl font-bold">{formatCurrency(economy)}</p>
         </CardContent>
         <CardFooter>
           <p>Tendências em alta neste mês</p>
