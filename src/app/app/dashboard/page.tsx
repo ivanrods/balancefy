@@ -37,7 +37,7 @@ const Dashboard = () => {
       <Summary summaryType={mode} />
       <section className="flex flex-col lg:flex-row gap-4">
         <ChartPieDonut mode={mode} />
-        <ChartAreaFinance />
+        <ChartAreaFinance mode={mode} />
       </section>
       <section>
         <DataTableDemo />

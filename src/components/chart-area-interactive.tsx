@@ -62,8 +62,18 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function ChartAreaFinance() {
-  const { transactions, isLoading } = useTransactions();
+type ChartProps = {
+  mode: "month" | "all";
+};
+
+export function ChartAreaFinance({ mode }: ChartProps) {
+  const now = new Date();
+  const month = now.getMonth() + 1;
+  const year = now.getFullYear();
+
+  const { transactions, isLoading } = useTransactions(
+    mode === "month" ? { month, year } : undefined
+  );
 
   const chartData = groupTransactionsByMonth(transactions || []);
 
