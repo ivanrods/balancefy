@@ -1,14 +1,28 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Transaction } from "@/types/transaction";
 
-export function useTransactions() {
+type UseTransactionsProps = {
+  month?: number;
+  year?: number;
+};
+
+export function useTransactions({ month, year }: UseTransactionsProps = {}) {
   const queryClient = useQueryClient();
 
   // GET
+
+  const queryKey = ["transactions", { month, year }];
+
   const { data, isLoading, error } = useQuery<Transaction[]>({
-    queryKey: ["transactions"],
+    queryKey,
     queryFn: async () => {
-      const res = await fetch("/api/transactions");
+      let url = "/api/transactions";
+
+      if (month && year) {
+        url += `?month=${month}&year=${year}`;
+      }
+
+      const res = await fetch(url);
       if (!res.ok) throw new Error("Erro ao buscar transações");
       return res.json();
     },

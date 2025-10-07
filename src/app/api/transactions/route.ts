@@ -4,14 +4,36 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
 
 // GET - lista todas as transações do usuário logado
-export async function GET() {
+export async function GET(req: Request) {
   const session = await getServerSession(authOptions);
+
   if (!session?.user?.email) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  const { searchParams } = new URL(req.url);
+  const month = searchParams.get("month");
+  const year = searchParams.get("year");
+
+  // Se tiver month e year -> aplica filtro por data
+  let dateFilter = {};
+  if (month && year) {
+    const startDate = new Date(Number(year), Number(month) - 1, 1);
+    const endDate = new Date(Number(year), Number(month), 0, 23, 59, 59);
+
+    dateFilter = {
+      date: {
+        gte: startDate,
+        lte: endDate,
+      },
+    };
+  }
+
   const transactions = await prisma.transaction.findMany({
-    where: { user: { email: session.user.email } },
+    where: {
+      user: { email: session.user.email },
+      ...dateFilter,
+    },
     include: {
       category: true,
       wallet: true,

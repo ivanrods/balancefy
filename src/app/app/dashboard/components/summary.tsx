@@ -18,8 +18,11 @@ import {
 } from "lucide-react";
 import { useTransactions } from "@/hooks/use-transactions";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useSummaryMonth } from "@/hooks/use-summary-month";
 const Summary = () => {
   const { income, expense, balance, economy } = useSummary();
+  const { incomeMonth, expenseMonth, balanceMonth, economyMonth } =
+    useSummaryMonth();
 
   const { isLoading } = useTransactions();
 
@@ -54,7 +57,7 @@ const Summary = () => {
           </CardAction>
         </CardHeader>
         <CardContent>
-          <p className="text-4xl font-bold">{formatCurrency(income)}</p>
+          <p className="text-4xl font-bold">{formatCurrency(incomeMonth)}</p>
         </CardContent>
         <CardFooter>
           <p>Tendências em alta neste mês</p>
@@ -69,7 +72,7 @@ const Summary = () => {
           </CardAction>
         </CardHeader>
         <CardContent>
-          <p className="text-4xl font-bold">{formatCurrency(expense)}</p>
+          <p className="text-4xl font-bold">{formatCurrency(expenseMonth)}</p>
         </CardContent>
         <CardFooter>
           <p>Tendências em alta neste mês</p>
@@ -84,7 +87,7 @@ const Summary = () => {
           </CardAction>
         </CardHeader>
         <CardContent>
-          <p className="text-4xl font-bold">{formatCurrency(economy)}</p>
+          <p className="text-4xl font-bold">{formatCurrency(economyMonth)}</p>
         </CardContent>
         <CardFooter>
           <p>Tendências em alta neste mês</p>
