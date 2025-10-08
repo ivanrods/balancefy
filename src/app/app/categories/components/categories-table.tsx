@@ -23,9 +23,17 @@ import { useCategories } from "@/hooks/use-categories";
 
 import { formatCurrency } from "@/utils/format-currency";
 import { ArrowLeftRight, Circle } from "lucide-react";
+import { usePeriod } from "@/context/period-context";
 
 export default function CategoriesTable() {
-  const { categories, isLoading } = useCategories();
+  const { mode } = usePeriod();
+  const now = new Date();
+  const month = now.getMonth() + 1;
+  const year = now.getFullYear();
+
+  const { categories, isLoading } = useCategories(
+    mode === "month" ? { month, year } : undefined
+  );
 
   if (isLoading) {
     return <Skeleton className="w-full h-96 rounded-xl" />;

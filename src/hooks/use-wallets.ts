@@ -9,12 +9,12 @@ type UseWalletsProps = {
 export function useWalllets({ month, year }: UseWalletsProps = {}) {
   const queryClient = useQueryClient();
 
+  // GET
   const queryString =
     month && year
       ? `?type=summary&month=${month}&year=${year}`
       : `?type=summary`;
 
-  // GET
   const { data, isLoading, error } = useQuery<Wallets[]>({
     queryKey: ["wallets", month, year],
     queryFn: async () => {

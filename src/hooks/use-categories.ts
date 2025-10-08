@@ -1,14 +1,21 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Categories } from "@/types/categories";
 
-export function useCategories() {
+type UseCategoriesProps = { month?: number; year?: number };
+
+export function useCategories({ month, year }: UseCategoriesProps = {}) {
   const queryClient = useQueryClient();
 
   // GET
+  const queryString =
+    month && year
+      ? `?type=summary&month=${month}&year=${year}`
+      : `?type=summary`;
+
   const { data, isLoading, error } = useQuery<Categories[]>({
-    queryKey: ["categories"],
+    queryKey: ["categories", month, year],
     queryFn: async () => {
-      const res = await fetch("/api/categories?type=summary");
+      const res = await fetch(`/api/categories${queryString}`);
       if (!res.ok) throw new Error("Erro ao buscar transações");
       return res.json();
     },
