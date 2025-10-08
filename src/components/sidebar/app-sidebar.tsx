@@ -43,13 +43,7 @@ export async function AppSidebar() {
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
               <a href="#">
-                <Image
-                  src="/logo.png"
-                  alt="logo"
-                  width={30}
-                  height={30}
-                  className="rounded-sm "
-                />
+                <Wallet className="text-primary !size-5" />
 
                 <span className="text-base font-semibold">Balancefy</span>
               </a>
