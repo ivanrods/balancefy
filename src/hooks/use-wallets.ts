@@ -1,14 +1,24 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Wallets } from "@/types/wallet";
 
-export function useWalllets() {
+type UseWalletsProps = {
+  month?: number;
+  year?: number;
+};
+
+export function useWalllets({ month, year }: UseWalletsProps = {}) {
   const queryClient = useQueryClient();
+
+  const queryString =
+    month && year
+      ? `?type=summary&month=${month}&year=${year}`
+      : `?type=summary`;
 
   // GET
   const { data, isLoading, error } = useQuery<Wallets[]>({
-    queryKey: ["wallets"],
+    queryKey: ["wallets", month, year],
     queryFn: async () => {
-      const res = await fetch("/api/wallets?type=summary");
+      const res = await fetch(`/api/wallets${queryString}`);
       if (!res.ok) throw new Error("Erro ao buscar carteiras");
       return res.json();
     },

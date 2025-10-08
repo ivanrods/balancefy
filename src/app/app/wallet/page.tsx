@@ -3,8 +3,17 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 import WalletCard from "./components/wallet-card";
 import { useWalllets } from "@/hooks/use-wallets";
+import { PeriodFilterHeader } from "@/components/period-filter-header";
+import { usePeriod } from "@/context/period-context";
 export default function WalletPage() {
-  const { wallets, isLoading } = useWalllets();
+  const { mode } = usePeriod();
+  const now = new Date();
+  const month = now.getMonth() + 1;
+  const year = now.getFullYear();
+
+  const { wallets, isLoading } = useWalllets(
+    mode === "month" ? { month, year } : undefined
+  );
 
   if (isLoading) {
     return (
@@ -17,10 +26,11 @@ export default function WalletPage() {
   }
 
   return (
-    <section>
-      <h1 className="text-2xl font-bold pb-4">Carteira</h1>
+    <div className="w-full h-full flex flex-col gap-4">
+      <PeriodFilterHeader title="Carteira" />
+
       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
-        {wallets.map((wallet) => (
+        {(wallets ?? []).map((wallet) => (
           <WalletCard
             id={wallet.id}
             key={wallet.id}
@@ -32,6 +42,6 @@ export default function WalletPage() {
           />
         ))}
       </div>
-    </section>
+    </div>
   );
 }

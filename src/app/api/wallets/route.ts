@@ -7,6 +7,8 @@ export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
     const type = searchParams.get("type") || "select";
+    const month = searchParams.get("month");
+    const year = searchParams.get("year");
 
     const session = await getServerSession(authOptions);
     if (!session?.user?.email) {
@@ -25,7 +27,17 @@ export async function GET(req: Request) {
         where: { userId: user.id },
         include: {
           transactions: {
+            where:
+              month && year
+                ? {
+                    date: {
+                      gte: new Date(Number(year), Number(month) - 1, 1),
+                      lt: new Date(Number(year), Number(month), 1),
+                    },
+                  }
+                : {}, // se não passar nada, pega todas
             select: { value: true, description: true, date: true, type: true },
+            orderBy: { date: "asc" },
           },
         },
       });
