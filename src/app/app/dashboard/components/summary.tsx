@@ -23,6 +23,7 @@ import { usePeriod } from "@/context/period-context";
 
 const Summary = () => {
   const { mode } = usePeriod();
+  console.log("Mode in Summary:", mode);
 
   const { incomeAll, expenseAll, balanceAll, economyAll } = useSummaryAll();
   const { incomeMonth, expenseMonth, economyMonth } = useSummaryMonth();
@@ -39,6 +40,8 @@ const Summary = () => {
     return <Skeleton className="w-full h-52 rounded-xl" />;
   }
 
+  const dateToday = new Date().toLocaleString("pt-BR", { month: "long" });
+
   return (
     <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
       <Card>
@@ -53,14 +56,20 @@ const Summary = () => {
           <p className="text-4xl font-bold">{formatCurrency(balance)}</p>
         </CardContent>
         <CardFooter>
-          <p>Tendências em alta neste mês</p>
+          <p>Tendências em todo o período</p>
         </CardFooter>
       </Card>
 
       <Card>
         <CardHeader>
           <CardTitle>Entradas</CardTitle>
-          <CardDescription>Total recebido no período</CardDescription>
+          <CardDescription>
+            {mode === "month" ? (
+              <p>Total recebido no mês atual</p>
+            ) : (
+              <p>Total recebido em todo o período</p>
+            )}
+          </CardDescription>
           <CardAction>
             <ChartNoAxesCombined />
           </CardAction>
@@ -69,13 +78,23 @@ const Summary = () => {
           <p className="text-4xl font-bold">{formatCurrency(income)}</p>
         </CardContent>
         <CardFooter>
-          <p>Tendências em alta neste mês</p>
+          {mode === "month" ? (
+            <p>Tendências no mês de {dateToday}</p>
+          ) : (
+            <p>Tendências em todo o período</p>
+          )}
         </CardFooter>
       </Card>
       <Card>
         <CardHeader>
           <CardTitle>Saídas</CardTitle>
-          <CardDescription>Total gasto no período</CardDescription>
+          <CardDescription>
+            {mode === "month" ? (
+              <p>Total gastos no mês atual</p>
+            ) : (
+              <p>Total gastos em todo o período</p>
+            )}
+          </CardDescription>
           <CardAction>
             <TrendingDown />
           </CardAction>
@@ -84,13 +103,23 @@ const Summary = () => {
           <p className="text-4xl font-bold">{formatCurrency(expense)}</p>
         </CardContent>
         <CardFooter>
-          <p>Tendências em alta neste mês</p>
+          {mode === "month" ? (
+            <p> Tendências no mês de {dateToday}</p>
+          ) : (
+            <p>Tendências em todo o período</p>
+          )}
         </CardFooter>
       </Card>
       <Card>
         <CardHeader>
           <CardTitle>Economia</CardTitle>
-          <CardDescription>Quanto conseguiu economizar</CardDescription>
+          <CardDescription>
+            {mode === "month" ? (
+              <p>Total economizado no mês atual</p>
+            ) : (
+              <p>Total economizado em todo o período</p>
+            )}
+          </CardDescription>
           <CardAction>
             <DollarSign />
           </CardAction>
@@ -99,7 +128,11 @@ const Summary = () => {
           <p className="text-4xl font-bold">{formatCurrency(economy)}</p>
         </CardContent>
         <CardFooter>
-          <p>Tendências em alta neste mês</p>
+          {mode === "month" ? (
+            <p>Tendências no mês de {dateToday}</p>
+          ) : (
+            <p>Tendências em todo o período</p>
+          )}
         </CardFooter>
       </Card>
     </section>
