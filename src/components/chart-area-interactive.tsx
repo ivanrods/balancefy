@@ -75,6 +75,8 @@ export function ChartAreaFinance() {
 
   const chartData = groupTransactionsByMonth(transactions || []);
 
+  const dateToday = new Date().toLocaleString("pt-BR", { month: "long" });
+
   if (isLoading) {
     return <Skeleton className="h-96 w-full rounded-xl" />;
   }
@@ -120,7 +122,11 @@ export function ChartAreaFinance() {
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
         <div className="flex items-center gap-2 leading-none font-medium">
-          Baseado nas transações de todo o periodo
+          {mode === "month" ? (
+            <p>Baseado nas transações do mês de {dateToday} </p>
+          ) : (
+            <p>Baseado nas transações de todo o período </p>
+          )}
           <TrendingUp className="h-4 w-4 " />
         </div>
         <div className="text-muted-foreground leading-none">

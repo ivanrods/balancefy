@@ -60,11 +60,15 @@ export function ChartPieDonut() {
     return <Skeleton className="h-96 w-full md:w-96 rounded-xl" />;
   }
 
+  const dateToday = new Date().toLocaleString("pt-BR", { month: "long" });
+
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
         <CardTitle>Distribuição de Gastos</CardTitle>
-        <CardDescription>Mes</CardDescription>
+        <CardDescription>
+          {mode === "month" ? <p>{dateToday}</p> : <p>Total</p>}
+        </CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
@@ -88,7 +92,11 @@ export function ChartPieDonut() {
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
         <div className="flex items-center gap-2 leading-none font-medium">
-          Baseado nas transações de todo o periodo{" "}
+          {mode === "month" ? (
+            <p>Baseado nas transações do mês de {dateToday} </p>
+          ) : (
+            <p>Baseado nas transações de todo o período </p>
+          )}
           <ChartPie className="h-4 w-4" />
         </div>
         <div className="text-muted-foreground leading-none">
