@@ -20,7 +20,6 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 
-import Image from "next/image";
 import { NavUser } from "./components/nav-user";
 
 const items = [

@@ -22,6 +22,7 @@ import { EditProfile } from "@/components/sidebar/components/edit-profile";
 import { DeleteAccountDialog } from "./delete-account-dialog";
 import { useEffect, useState } from "react";
 import { signOut } from "next-auth/react";
+import { DrawerConfig } from "./drawer-config";
 
 type User = {
   name: string;
@@ -100,7 +101,7 @@ export function NavUser() {
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <EditProfile />
-
+              <DrawerConfig />
               <DeleteAccountDialog />
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
