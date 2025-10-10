@@ -29,6 +29,13 @@ const updateUserSchema = z.object({
 type updateFormData = z.infer<typeof updateUserSchema>;
 
 export function EditProfile() {
+  const [currentAvatar, setcurrentAvatar] = useState("/profile.png");
+  const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
+
+  const handleImageUpload = (imageUrl: string) => {
+    setUploadedImageUrl(imageUrl);
+  };
+
   const {
     register,
     handleSubmit,
@@ -45,6 +52,7 @@ export function EditProfile() {
           name: data.name,
           email: data.email,
         });
+        setcurrentAvatar(data.image || "/profile.png");
       }
     }
     fetchProfile();
@@ -54,7 +62,10 @@ export function EditProfile() {
     const res = await fetch("/api/profile", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...data }),
+      body: JSON.stringify({
+        ...data,
+        image: uploadedImageUrl || currentAvatar,
+      }),
     });
 
     if (res.ok) {
@@ -84,7 +95,10 @@ export function EditProfile() {
           onSubmit={handleSubmit(onSubmit)}
         >
           <div className="flex justify-center ">
-            <AvatarProfile />
+            <AvatarProfile
+              imageUrl={currentAvatar}
+              onUpload={handleImageUpload}
+            />
           </div>
           <div className="grid gap-3">
             <Label htmlFor="name">Nome</Label>
