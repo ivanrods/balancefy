@@ -29,12 +29,8 @@ const updateUserSchema = z.object({
 type updateFormData = z.infer<typeof updateUserSchema>;
 
 export function EditProfile() {
-  const [currentAvatar, setcurrentAvatar] = useState("/profile.png");
-  const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
-
-  const handleImageUpload = (imageUrl: string) => {
-    setUploadedImageUrl(imageUrl);
-  };
+  const [avatar, setAvatar] = useState("/profile.png");
+  const [isGoogleUser, setIsGoogleUser] = useState(false);
 
   const {
     register,
@@ -52,7 +48,20 @@ export function EditProfile() {
           name: data.name,
           email: data.email,
         });
-        setcurrentAvatar(data.image || "/profile.png");
+        setAvatar(data.image || "/profile.png");
+      }
+    }
+    fetchProfile();
+  }, [reset]);
+
+  useEffect(() => {
+    async function fetchProfile() {
+      const res = await fetch("/api/profile");
+      if (res.ok) {
+        const data = await res.json();
+        setIsGoogleUser(data.provider === "google");
+        reset({ name: data.name, email: data.email });
+        setAvatar(data.image || "/profile.png");
       }
     }
     fetchProfile();
@@ -64,7 +73,7 @@ export function EditProfile() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         ...data,
-        image: uploadedImageUrl || currentAvatar,
+        image: avatar,
       }),
     });
 
@@ -96,13 +105,19 @@ export function EditProfile() {
         >
           <div className="flex justify-center ">
             <AvatarProfile
-              imageUrl={currentAvatar}
-              onUpload={handleImageUpload}
+              imageUrl={avatar}
+              onUpload={(url) => setAvatar(url)}
+              disabled={isGoogleUser}
             />
           </div>
           <div className="grid gap-3">
             <Label htmlFor="name">Nome</Label>
-            <Input type="text" placeholder="Nome" {...register("name")} />
+            <Input
+              type="text"
+              placeholder="Nome"
+              {...register("name")}
+              disabled={isGoogleUser}
+            />
             {errors.name && (
               <span className="text-red-500 text-sm">
                 {errors.name.message}
@@ -111,7 +126,12 @@ export function EditProfile() {
           </div>
           <div className="grid gap-3">
             <Label htmlFor="email">Email</Label>
-            <Input type="email" placeholder="E-mail" {...register("email")} />
+            <Input
+              type="email"
+              placeholder="E-mail"
+              {...register("email")}
+              disabled={isGoogleUser}
+            />
             {errors.email && (
               <span className="text-red-500 text-sm">
                 {errors.email.message}

@@ -6,9 +6,14 @@ import { useEffect, useState } from "react";
 type AvatarProfileProps = {
   imageUrl?: string | null;
   onUpload?: (base64: string) => void;
+  disabled?: boolean;
 };
 
-export function AvatarProfile({ imageUrl, onUpload }: AvatarProfileProps) {
+export function AvatarProfile({
+  imageUrl,
+  onUpload,
+  disabled,
+}: AvatarProfileProps) {
   const [preview, setPreview] = useState(imageUrl || null);
 
   useEffect(() => {
@@ -56,7 +61,7 @@ export function AvatarProfile({ imageUrl, onUpload }: AvatarProfileProps) {
       </Avatar>
       <label
         htmlFor="avatar-upload"
-        className="absolute bottom-2 right-2 bg-primary p-1 rounded-full shadow-md cursor-pointer hover:opacity-80 transition text-white"
+        className="absolute bottom-2 right-2 bg-primary p-1 rounded-full shadow-md cursor-pointer opacity-90 hover:opacity-100 transition text-white"
         title="Alterar foto"
       >
         <Camera className="w-8 h-8 p-1" />
@@ -66,6 +71,7 @@ export function AvatarProfile({ imageUrl, onUpload }: AvatarProfileProps) {
           accept="image/*"
           className="hidden"
           onChange={handleImage}
+          disabled={disabled}
         />
       </label>
     </div>

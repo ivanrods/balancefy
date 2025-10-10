@@ -26,8 +26,15 @@ export async function GET() {
       { status: 404 }
     );
   }
+  const account = await prisma.account.findFirst({
+    where: { user: { email: session.user.email } },
+    select: { provider: true },
+  });
 
-  return NextResponse.json(user);
+  return NextResponse.json({
+    ...user,
+    provider: account?.provider ?? "credentials",
+  });
 }
 
 export async function PUT(req: Request) {
@@ -35,6 +42,18 @@ export async function PUT(req: Request) {
 
   if (!session?.user?.email) {
     return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+  }
+
+  // Busca a conta para ver o provedor
+  const account = await prisma.account.findFirst({
+    where: { user: { email: session.user.email } },
+  });
+
+  if (account?.provider === "google") {
+    return NextResponse.json(
+      { error: "Usuários do Google não podem editar dados aqui." },
+      { status: 403 }
+    );
   }
 
   const body = await req.json();
