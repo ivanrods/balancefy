@@ -12,14 +12,14 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Avatar } from "@radix-ui/react-avatar";
-import { AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 import { toast } from "sonner";
 import { UserPen } from "lucide-react";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import { AvatarProfile } from "./avatar-profile";
 
 const updateUserSchema = z.object({
   name: z.string().min(2, "Nome deve ter pelo menos 2 caracteres"),
@@ -29,7 +29,6 @@ const updateUserSchema = z.object({
 type updateFormData = z.infer<typeof updateUserSchema>;
 
 export function EditProfile() {
-  const [userImage, setUserImage] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
@@ -46,7 +45,6 @@ export function EditProfile() {
           name: data.name,
           email: data.email,
         });
-        setUserImage(data.image);
       }
     }
     fetchProfile();
@@ -86,17 +84,7 @@ export function EditProfile() {
           onSubmit={handleSubmit(onSubmit)}
         >
           <div className="flex justify-center ">
-            <Avatar className="mx-auto w-24 h-24 rounded-full overflow-hidden">
-              <AvatarImage
-                src={userImage ?? ""}
-                alt="User"
-                onError={(e) => {
-                  e.currentTarget.src = "/avatar.png";
-                }}
-                className="h-24 w-24"
-              />
-              <AvatarFallback>{"?"}</AvatarFallback>
-            </Avatar>
+            <AvatarProfile />
           </div>
           <div className="grid gap-3">
             <Label htmlFor="name">Nome</Label>
