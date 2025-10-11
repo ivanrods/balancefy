@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
 
     if (!name || !email || !password) {
       return NextResponse.json(
-        { error: "Name, email and password are required" },
+        { error: "Nome, e-mail e senha são obrigatórios." },
         { status: 400 }
       );
     }
@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
       return NextResponse.json(
-        { error: "User already exists" },
+        { error: "Este e-mail já está cadastrado." },
         { status: 400 }
       );
     }

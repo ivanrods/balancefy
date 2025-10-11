@@ -43,13 +43,13 @@ export default function RegisterPage() {
       }),
     });
 
-    data = await res.json();
+    const responseData = await res.json();
 
     if (res.ok) {
       toast.success("usuário criado com sucesso");
       router.push("/login");
     } else {
-      toast.error("Erro ao criar usuário");
+      toast.error(responseData.error || "Erro ao criar usuário");
     }
   };
 

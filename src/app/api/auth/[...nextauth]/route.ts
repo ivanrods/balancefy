@@ -32,13 +32,17 @@ export const authOptions: AuthOptions = {
           },
         });
 
-        if (!user || !user.password) return null;
+        if (!user || !user.password) {
+          throw new Error("E-mail não encontrado");
+        }
 
         const isValid = await bcrypt.compare(
           credentials.password,
           user.password
         );
-        if (!isValid) return null;
+        if (!isValid) {
+          throw new Error("E-mail ou Senha incorreta");
+        }
 
         return {
           id: user.id,
