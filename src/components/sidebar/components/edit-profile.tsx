@@ -17,9 +17,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 import { toast } from "sonner";
-import { UserPen } from "lucide-react";
+import { AlertCircleIcon, UserPen } from "lucide-react";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { AvatarProfile } from "./avatar-profile";
+import { Alert, AlertTitle } from "@/components/ui/alert";
 
 const updateUserSchema = z.object({
   name: z.string().min(2, "Nome deve ter pelo menos 2 caracteres"),
@@ -140,7 +141,19 @@ export function EditProfile() {
           </div>
         </form>
         <SheetFooter>
-          <Button type="submit" onClick={handleSubmit(onSubmit)}>
+          {isGoogleUser && (
+            <Alert variant="destructive">
+              <AlertCircleIcon />
+              <AlertTitle>
+                Usuários do Google não podem editar dados aqui.
+              </AlertTitle>
+            </Alert>
+          )}
+          <Button
+            type="submit"
+            onClick={handleSubmit(onSubmit)}
+            disabled={isGoogleUser}
+          >
             Salvar alterações
           </Button>
           <SheetClose asChild>

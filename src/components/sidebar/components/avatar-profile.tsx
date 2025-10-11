@@ -61,7 +61,9 @@ export function AvatarProfile({
       </Avatar>
       <label
         htmlFor="avatar-upload"
-        className="absolute bottom-2 right-2 bg-primary p-1 rounded-full shadow-md cursor-pointer opacity-90 hover:opacity-100 transition text-white"
+        className={`absolute bottom-2 right-2 bg-primary p-1 rounded-full shadow-md cursor-pointer opacity-90 hover:opacity-100 transition text-white ${
+          disabled ? "hidden" : ""
+        }`}
         title="Alterar foto"
       >
         <Camera className="w-8 h-8 p-1" />
