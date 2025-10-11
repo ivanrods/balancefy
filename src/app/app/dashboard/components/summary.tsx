@@ -23,7 +23,6 @@ import { usePeriod } from "@/context/period-context";
 
 const Summary = () => {
   const { mode } = usePeriod();
-  console.log("Mode in Summary:", mode);
 
   const { incomeAll, expenseAll, balanceAll, economyAll } = useSummaryAll();
   const { incomeMonth, expenseMonth, economyMonth } = useSummaryMonth();

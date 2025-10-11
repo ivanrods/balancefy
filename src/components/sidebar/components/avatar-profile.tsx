@@ -50,14 +50,11 @@ export function AvatarProfile({
     <div className="relative w-32 h-26">
       <Avatar className="mx-auto w-24 h-24 rounded-full overflow-hidden">
         <AvatarImage
-          src={preview ?? ""}
+          src={preview || "/avatar.png"}
           alt="User"
-          onError={(e) => {
-            e.currentTarget.src = "/avatar.png";
-          }}
           className="h-24 w-24"
         />
-        <AvatarFallback>{"?"}</AvatarFallback>
+        <AvatarFallback>CN</AvatarFallback>
       </Avatar>
       <label
         htmlFor="avatar-upload"

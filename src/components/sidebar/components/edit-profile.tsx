@@ -30,7 +30,7 @@ const updateUserSchema = z.object({
 type updateFormData = z.infer<typeof updateUserSchema>;
 
 export function EditProfile() {
-  const [avatar, setAvatar] = useState("/profile.png");
+  const [avatar, setAvatar] = useState(String);
   const [isGoogleUser, setIsGoogleUser] = useState(false);
 
   const {
@@ -49,7 +49,7 @@ export function EditProfile() {
           name: data.name,
           email: data.email,
         });
-        setAvatar(data.image || "/profile.png");
+        setAvatar(data.image || null);
       }
     }
     fetchProfile();
@@ -62,7 +62,7 @@ export function EditProfile() {
         const data = await res.json();
         setIsGoogleUser(data.provider === "google");
         reset({ name: data.name, email: data.email });
-        setAvatar(data.image || "/profile.png");
+        setAvatar(data.image || null);
       }
     }
     fetchProfile();
