@@ -2,6 +2,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import bcrypt from "bcrypt";
+import type { User } from "@prisma/client";
 
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -57,22 +59,26 @@ export async function PUT(req: Request) {
   }
 
   const body = await req.json();
-  const { name, email, image } = body;
+  const { name, email, image, password } = body;
 
-  if (!name && email) {
+  if (!name || !email) {
     return NextResponse.json(
       { error: "Nome e email são obrigatórios" },
       { status: 400 }
     );
   }
 
+  const dataToUpdate: Partial<User> = { name, email, image };
+
+  // Se o usuário informou uma nova senha → gera o hash
+  if (password && password.trim().length > 0) {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    dataToUpdate.password = hashedPassword;
+  }
+
   const updated = await prisma.user.update({
     where: { email: session.user.email },
-    data: {
-      name,
-      email,
-      image,
-    },
+    data: dataToUpdate,
     select: { id: true, name: true, email: true, image: true },
   });
 

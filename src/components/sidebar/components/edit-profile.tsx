@@ -48,19 +48,7 @@ export function EditProfile() {
           email: data.email,
         });
         setAvatar(data.image || null);
-      }
-    }
-    fetchProfile();
-  }, [reset]);
-
-  useEffect(() => {
-    async function fetchProfile() {
-      const res = await fetch("/api/profile");
-      if (res.ok) {
-        const data = await res.json();
         setIsGoogleUser(data.provider === "google");
-        reset({ name: data.name, email: data.email });
-        setAvatar(data.image || null);
       }
     }
     fetchProfile();
@@ -77,9 +65,7 @@ export function EditProfile() {
     });
 
     if (res.ok) {
-      toast.success(
-        "Perfil atualizado com sucesso. Faça login novamente para continuar"
-      );
+      toast.success("Perfil atualizado. Faça login novamente para continuar");
       router.push("/login");
     } else {
       toast.error("Erro ao atualizar perfil.");
@@ -113,7 +99,7 @@ export function EditProfile() {
             />
           </div>
           <div className="grid gap-3">
-            <Label htmlFor="name">Nome</Label>
+            <Label htmlFor="name">Nome*</Label>
             <Input
               type="text"
               placeholder="Nome"
@@ -127,7 +113,7 @@ export function EditProfile() {
             )}
           </div>
           <div className="grid gap-3">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">Email*</Label>
             <Input
               type="email"
               placeholder="E-mail"
@@ -138,6 +124,19 @@ export function EditProfile() {
               <span className="text-red-500 text-sm">
                 {errors.email.message}
               </span>
+            )}
+          </div>
+          <div className="grid gap-3">
+            <Label>Senha</Label>
+            <Input
+              type="password"
+              {...register("password")}
+              className="input"
+              placeholder="Deixe em branco para não alterar"
+              disabled={isGoogleUser}
+            />
+            {errors.password && (
+              <p className="text-red-500 text-sm">{errors.password.message}</p>
             )}
           </div>
         </form>
