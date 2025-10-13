@@ -1,47 +1,37 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Wallet, PieChart, BarChart3 } from "lucide-react";
-import { motion } from "framer-motion";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
+import { authOptions } from "./api/auth/[...nextauth]/route";
+
 import Link from "next/link";
 import Image from "next/image";
 
-export default function Page() {
+export default async function Page() {
+  const session = await getServerSession(authOptions);
+  if (session) {
+    redirect("/app/dashboard");
+  }
   return (
     <div className="min-h-screen flex flex-col">
       {/* Hero Section */}
       <header className="flex flex-col items-center justify-center text-center py-20 px-6 bg-gradient-to-b from-primary/10 to-background">
-        <motion.h1
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-4xl md:text-6xl font-bold tracking-tight text-primary"
-        >
+        <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-primary">
           Controle suas finanças com facilidade
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-          className="mt-4 text-lg md:text-xl text-muted-foreground max-w-2xl"
-        >
+        </h1>
+        <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-2xl">
           Balancefy ajuda você a gerenciar categorias, relatórios e sua carteira
           em um só lugar. Organize, acompanhe e alcance suas metas financeiras.
-        </motion.p>
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
-          className="mt-8 flex gap-4"
-        >
+        </p>
+        <div className="mt-8 flex gap-4">
           <Button size="lg">
-            {" "}
             <Link href="/app/dashboard">Começar agora</Link>{" "}
           </Button>
           <Button variant="outline" size="lg">
             <Link href="/app/dashboard"> Ver demonstração</Link>
           </Button>
-        </motion.div>
+        </div>
       </header>
 
       {/* Benefícios */}
