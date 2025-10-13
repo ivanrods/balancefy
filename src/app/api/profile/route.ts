@@ -57,16 +57,20 @@ export async function PUT(req: Request) {
   }
 
   const body = await req.json();
-  const { name, image } = body;
+  const { name, email, image } = body;
 
-  if (!name) {
-    return NextResponse.json({ error: "Nome é obrigatório" }, { status: 400 });
+  if (!name && email) {
+    return NextResponse.json(
+      { error: "Nome e email são obrigatórios" },
+      { status: 400 }
+    );
   }
 
   const updated = await prisma.user.update({
     where: { email: session.user.email },
     data: {
       name,
+      email,
       image,
     },
     select: { id: true, name: true, email: true, image: true },

@@ -21,6 +21,7 @@ import { AlertCircleIcon, UserPen } from "lucide-react";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { AvatarProfile } from "./avatar-profile";
 import { Alert, AlertTitle } from "@/components/ui/alert";
+import { useRouter } from "next/navigation";
 
 const updateUserSchema = z.object({
   name: z.string().min(2, "Nome deve ter pelo menos 2 caracteres"),
@@ -30,6 +31,7 @@ const updateUserSchema = z.object({
 type updateFormData = z.infer<typeof updateUserSchema>;
 
 export function EditProfile() {
+  const router = useRouter();
   const [avatar, setAvatar] = useState(String);
   const [isGoogleUser, setIsGoogleUser] = useState(false);
 
@@ -80,6 +82,7 @@ export function EditProfile() {
 
     if (res.ok) {
       toast.success("Perfil atualizado com sucesso!");
+      router.push("/login");
     } else {
       toast.error("Erro ao atualizar perfil.");
     }
