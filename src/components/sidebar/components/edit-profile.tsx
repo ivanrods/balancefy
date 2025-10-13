@@ -22,11 +22,7 @@ import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { AvatarProfile } from "./avatar-profile";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { useRouter } from "next/navigation";
-
-const updateUserSchema = z.object({
-  name: z.string().min(2, "Nome deve ter pelo menos 2 caracteres"),
-  email: z.string().email("E-mail inválido"),
-});
+import { updateUserSchema } from "@/lib/schemas/update-user-schema";
 
 type updateFormData = z.infer<typeof updateUserSchema>;
 
@@ -81,7 +77,9 @@ export function EditProfile() {
     });
 
     if (res.ok) {
-      toast.success("Perfil atualizado com sucesso!");
+      toast.success(
+        "Perfil atualizado com sucesso. Faça login novamente para continuar"
+      );
       router.push("/login");
     } else {
       toast.error("Erro ao atualizar perfil.");
