@@ -57,7 +57,9 @@ export function ChartPieDonut() {
   const chartData = groupTransactions(transactions ?? []);
 
   if (isLoading) {
-    return <Skeleton className="h-96 w-full md:w-96 rounded-xl" />;
+    return (
+      <Skeleton className="h-96 w-full md:w-96 rounded-xl animate-pulse" />
+    );
   }
 
   const dateToday = new Date().toLocaleString("pt-BR", { month: "long" });

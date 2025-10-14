@@ -78,7 +78,7 @@ export function ChartAreaFinance() {
   const dateToday = new Date().toLocaleString("pt-BR", { month: "long" });
 
   if (isLoading) {
-    return <Skeleton className="h-96 w-full rounded-xl" />;
+    return <Skeleton className="h-96 w-full rounded-xl animate-pulse" />;
   }
 
   return (

@@ -36,7 +36,7 @@ const Summary = () => {
   const { isLoading } = useTransactions();
 
   if (isLoading) {
-    return <Skeleton className="w-full h-52 rounded-xl" />;
+    return <Skeleton className="w-full h-52 rounded-xl animate-pulse" />;
   }
 
   const dateToday = new Date().toLocaleString("pt-BR", { month: "long" });

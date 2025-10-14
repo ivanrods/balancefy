@@ -36,7 +36,7 @@ export default function CategoriesTable() {
   );
 
   if (isLoading) {
-    return <Skeleton className="w-full h-96 rounded-xl" />;
+    return <Skeleton className="w-full h-96 rounded-xl animate-pulse" />;
   }
 
   return (
