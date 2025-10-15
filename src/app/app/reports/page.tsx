@@ -1,18 +1,19 @@
 "use client";
 import { PeriodFilterHeader } from "@/components/period-filter-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import SummaryCardReport from "./components/summary-card-report";
 
 export default function ReportsPage() {
   return (
-    <div className="p-4 md:p-8 space-y-8">
+    <div className="w-full h-full flex flex-col gap-4 mb-4">
       <PeriodFilterHeader title=" Relatórios Financeiros" />
 
-      {/* 🧾 Cards Comparativos */}
+      {/* Cards Comparativos */}
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <ResumoCard titulo="Período" valor="Out 2025" />
-        <ResumoCard titulo="Entradas" valor="+12%" positivo />
-        <ResumoCard titulo="Saídas" valor="-5%" positivo />
-        <ResumoCard titulo="Saldo Médio" valor="R$ 1.245,00" />
+        <SummaryCardReport title="Período" value="Out 2025" />
+        <SummaryCardReport title="Entradas" value="+12%" positive />
+        <SummaryCardReport title="Saídas" value="-5%" positive />
+        <SummaryCardReport title="Saldo Médio" value="R$ 1.245,00" />
       </section>
 
       {/* Gráficos Analíticos */}
@@ -67,35 +68,5 @@ export default function ReportsPage() {
         </Card>
       </section>
     </div>
-  );
-}
-
-/* Componente de Card de Resumo */
-type ResumoCardProps = {
-  titulo: string;
-  valor: string;
-  positivo?: boolean;
-};
-
-function ResumoCard({ titulo, valor, positivo }: ResumoCardProps) {
-  return (
-    <Card>
-      <CardHeader className="pb-2">
-        <CardTitle className="text-sm text-muted-foreground">
-          {titulo}
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <p
-          className={`text-xl font-semibold ${
-            positivo
-              ? "text-green-600 dark:text-green-400"
-              : "text-red-600 dark:text-red-400"
-          }`}
-        >
-          {valor}
-        </p>
-      </CardContent>
-    </Card>
   );
 }
