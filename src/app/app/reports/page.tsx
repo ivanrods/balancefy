@@ -1,6 +1,6 @@
 "use client";
 import { PeriodFilterHeader } from "@/components/period-filter-header";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import SummaryCardReport from "./components/summary-card-report";
 import { useSummaryReportAll } from "@/hooks/use-summary-report-all";
 import { formatCurrency } from "@/utils/format-currency";
@@ -8,6 +8,7 @@ import { useSummaryReportMonth } from "@/hooks/use-summary-report-all-month";
 import { usePeriod } from "@/context/period-context";
 import { ChartAreaReport } from "./components/chart-area-report";
 import { ChartPieReport } from "./components/chart-pie-report";
+import { DataTableReport } from "./components/data-table-report";
 
 export default function ReportsPage() {
   const { mode } = usePeriod();
@@ -47,36 +48,9 @@ export default function ReportsPage() {
 
         <ChartPieReport />
       </section>
-
-      <section>
-        <Card>
-          <CardHeader>
-            <CardTitle>Comparativo por Período</CardTitle>
-          </CardHeader>
-          <CardContent className="h-64 flex items-center justify-center text-muted-foreground">
-            [ Gráfico de Barras aqui ]
-          </CardContent>
-        </Card>
-      </section>
-
-      {/* Insights */}
-      <section>
-        <h2 className="text-xl font-semibold mb-4">Insights</h2>
-        <ul className="space-y-2 text-sm">
-          <li> Você economizou 20% a mais este mês comparado ao anterior.</li>
-          <li> Gastos com Transporte aumentaram 45% em relação à média.</li>
-          <li> Sua categoria mais constante é “Moradia”.</li>
-        </ul>
-      </section>
-
-      {/* Tabela */}
       <section>
         <h2 className="text-xl font-semibold mb-4">Histórico de Transações</h2>
-        <Card>
-          <CardContent className="py-6 flex items-center justify-center text-muted-foreground">
-            [ Tabela detalhada de transações aqui ]
-          </CardContent>
-        </Card>
+        <DataTableReport />
       </section>
     </div>
   );
