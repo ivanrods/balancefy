@@ -7,6 +7,7 @@ import { formatCurrency } from "@/utils/format-currency";
 import { useSummaryReportMonth } from "@/hooks/use-summary-report-all-month";
 import { usePeriod } from "@/context/period-context";
 import { ChartAreaReport } from "./components/chart-area-report";
+import { ChartPieReport } from "./components/chart-pie-report";
 
 export default function ReportsPage() {
   const { mode } = usePeriod();
@@ -41,17 +42,10 @@ export default function ReportsPage() {
       </section>
 
       {/* Gráficos Analíticos */}
-      <section className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <section className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <ChartAreaReport />
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Distribuição por Categoria</CardTitle>
-          </CardHeader>
-          <CardContent className="h-64 flex items-center justify-center text-muted-foreground">
-            [ Gráfico de Pizza aqui ]
-          </CardContent>
-        </Card>
+        <ChartPieReport />
       </section>
 
       <section>
