@@ -41,8 +41,9 @@ import {
 } from "@/components/ui/table";
 import { EditTransactionDialog } from "@/app/app/transactions/components/edit-transaction-dialog";
 import { toast } from "sonner";
-import { Skeleton } from "./ui/skeleton";
+
 import { usePeriod } from "@/context/period-context";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const columns = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -203,7 +204,7 @@ export const columns = (
   },
 ];
 
-export function DataTableDemo() {
+export function TransactionsTable() {
   const { mode } = usePeriod();
   const now = new Date();
   const month = now.getMonth() + 1;

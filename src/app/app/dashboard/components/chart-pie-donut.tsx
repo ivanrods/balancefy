@@ -18,8 +18,9 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { Transaction } from "@/types/transaction";
-import { Skeleton } from "./ui/skeleton";
+
 import { usePeriod } from "@/context/period-context";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const description = "Distribuição de gastos por categoria";
 

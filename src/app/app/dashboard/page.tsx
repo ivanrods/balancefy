@@ -1,7 +1,7 @@
 "use client";
-import { ChartAreaFinance } from "@/components/chart-area-interactive";
-import { ChartPieDonut } from "@/components/chart-pie-donut";
-import { DataTableDemo } from "@/components/data-table";
+import { ChartAreaFinance } from "./components/chart-area-interactive";
+import { ChartPieDonut } from "./components/chart-pie-donut";
+import { TransactionsTable } from "@/app/app/dashboard/components/transactions-table";
 import Summary from "./components/summary";
 
 import { PeriodFilterHeader } from "@/components/period-filter-header";
@@ -17,7 +17,7 @@ const Dashboard = () => {
         <ChartAreaFinance />
       </section>
       <section>
-        <DataTableDemo />
+        <TransactionsTable />
       </section>
     </div>
   );

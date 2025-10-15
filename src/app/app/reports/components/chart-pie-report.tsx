@@ -31,24 +31,24 @@ const chartConfig = {
     label: "Visitors",
   },
   chrome: {
-    label: "Chrome",
-    color: "var(--chart-1)",
+    label: "Saúde",
+    color: "#cc0000",
   },
   safari: {
-    label: "Safari",
-    color: "var(--chart-2)",
+    label: "Lazer",
+    color: "#ff9999",
   },
   firefox: {
-    label: "Firefox",
-    color: "var(--chart-3)",
+    label: "Transporte",
+    color: "#330000",
   },
   edge: {
-    label: "Edge",
-    color: "var(--chart-4)",
+    label: "Alimentação",
+    color: "#ff3333",
   },
   other: {
-    label: "Other",
-    color: "var(--chart-5)",
+    label: "outros",
+    color: "#cccccc",
   },
 } satisfies ChartConfig;
 

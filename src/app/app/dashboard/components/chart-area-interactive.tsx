@@ -19,8 +19,9 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { useTransactions } from "@/hooks/use-transactions";
-import { Skeleton } from "./ui/skeleton";
+
 import { usePeriod } from "@/context/period-context";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const months = [
   "Jan",

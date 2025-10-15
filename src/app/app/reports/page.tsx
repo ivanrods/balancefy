@@ -1,6 +1,5 @@
 "use client";
 import { PeriodFilterHeader } from "@/components/period-filter-header";
-import { Card, CardContent } from "@/components/ui/card";
 import SummaryCardReport from "./components/summary-card-report";
 import { useSummaryReportAll } from "@/hooks/use-summary-report-all";
 import { formatCurrency } from "@/utils/format-currency";
@@ -45,7 +44,6 @@ export default function ReportsPage() {
       {/* Gráficos Analíticos */}
       <section className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <ChartAreaReport />
-
         <ChartPieReport />
       </section>
       <section>
