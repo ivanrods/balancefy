@@ -6,6 +6,7 @@ import { useSummaryReportAll } from "@/hooks/use-summary-report-all";
 import { formatCurrency } from "@/utils/format-currency";
 import { useSummaryReportMonth } from "@/hooks/use-summary-report-all-month";
 import { usePeriod } from "@/context/period-context";
+import { ChartAreaReport } from "./components/chart-area-report";
 
 export default function ReportsPage() {
   const { mode } = usePeriod();
@@ -41,14 +42,7 @@ export default function ReportsPage() {
 
       {/* Gráficos Analíticos */}
       <section className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <Card>
-          <CardHeader>
-            <CardTitle>Evolução Mensal</CardTitle>
-          </CardHeader>
-          <CardContent className="h-64 flex items-center justify-center text-muted-foreground">
-            [ Gráfico de Linhas aqui ]
-          </CardContent>
-        </Card>
+        <ChartAreaReport />
 
         <Card>
           <CardHeader>
