@@ -27,17 +27,12 @@ export default function ReportsPage() {
       <PeriodFilterHeader title=" Relatórios Financeiros" />
 
       {/* Cards Comparativos */}
-      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <SummaryCardReport title="Período" value={month} />
+      <section className="">
         <SummaryCardReport
-          title="Entradas"
-          value={formatCurrency(income)}
-          positive
-        />
-        <SummaryCardReport title="Saídas" value={formatCurrency(expense)} />
-        <SummaryCardReport
-          title="Saldo Médio"
-          value={formatCurrency(balance)}
+          title="Distribuição de Gastos"
+          value={month}
+          income={income}
+          expense={expense}
         />
       </section>
 
