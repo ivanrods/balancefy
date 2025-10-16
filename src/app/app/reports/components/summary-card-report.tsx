@@ -23,7 +23,6 @@ export default function SummaryCardReport({
   value,
   income,
   expense,
-  positive,
 }: SummaryCardReportProps) {
   return (
     <Card className="w-full h-full flex flex-row justify-between">
