@@ -23,6 +23,7 @@ import {
 } from "@/lib/schemas/categories-schema";
 import { Categories } from "@/types/categories";
 import { SliderColor } from "./slider-color";
+import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 
 type EditCategoriesDialog = {
   categories: Categories;
@@ -66,7 +67,14 @@ export function EditCategoriesDialog({ categories }: EditCategoriesDialog) {
     <Dialog>
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogTrigger asChild>
-          <Button variant="outline">Editar</Button>
+          <DropdownMenuItem
+            onSelect={(e) => {
+              // Impede o Dropdown de fechar
+              e.preventDefault();
+            }}
+          >
+            Editar Categoria
+          </DropdownMenuItem>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>

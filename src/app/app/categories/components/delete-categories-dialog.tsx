@@ -12,8 +12,8 @@ import {
 
 import { toast } from "sonner";
 
-import { Button } from "@/components/ui/button";
 import { useCategories } from "@/hooks/use-categories";
+import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 
 type DeleteCategoriesDialogProps = {
   id: string;
@@ -35,7 +35,15 @@ export function DeleteCategoriesDialog({ id }: DeleteCategoriesDialogProps) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="destructive">Excluir</Button>
+        <DropdownMenuItem
+          onSelect={(e) => {
+            // Impede o Dropdown de fechar
+            e.preventDefault();
+          }}
+          className="text-primary"
+        >
+          Excluir Transação
+        </DropdownMenuItem>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

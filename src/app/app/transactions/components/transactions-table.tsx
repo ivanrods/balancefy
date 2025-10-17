@@ -192,7 +192,7 @@ export const columns = (
             <EditTransactionDialog transaction={transaction} />
 
             <DropdownMenuItem
-              className="text-red-600"
+              className="text-primary"
               onClick={handleDeleteTransaction}
             >
               Excluir transação
@@ -247,7 +247,7 @@ export function TransactionsTable() {
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
+      <div className="flex items-center py-4 gap-2">
         <Input
           placeholder="Filtrar descricão..."
           value={

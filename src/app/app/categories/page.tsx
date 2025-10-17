@@ -1,7 +1,7 @@
 "use client";
 
 import { PeriodFilterHeader } from "@/components/period-filter-header";
-import CategoriesTable from "./components/categories-table";
+import { CategoriesDataTable } from "./components/categories-table";
 
 export default function CategoriesPage() {
   return (
@@ -9,7 +9,7 @@ export default function CategoriesPage() {
       <PeriodFilterHeader title="Categorias" />
 
       <div className="w-full flex flex-col xl:flex-row-reverse gap-4 ">
-        <CategoriesTable />
+        <CategoriesDataTable />
       </div>
     </div>
   );
