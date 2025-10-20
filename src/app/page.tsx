@@ -80,15 +80,15 @@ export default async function Page() {
           </p>
           <div className="mt-10 hidden md:block">
             <div className="rounded-xl shadow-xl border bg-background p-4">
-              <div className="relative w-full h-96">
+              <div className="relative w-full h-[450px]">
                 <Image
-                  src="https://i.ibb.co/DPkCB4sw/Balancefy.png"
+                  src="https://i.ibb.co/GYrQstH/balancefy-dark.png"
                   alt="preview"
                   fill
                   className="object-cover rounded-lg dark:block"
                 />
                 <Image
-                  src="https://i.ibb.co/XrWFCYJ5/Balancefy2.png"
+                  src="https://i.ibb.co/Kx5whCcn/balancefy.png"
                   alt="preview"
                   fill
                   className="object-cover rounded-lg dark:hidden"

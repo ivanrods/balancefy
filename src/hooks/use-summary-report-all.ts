@@ -1,7 +1,7 @@
 import { useTransactions } from "@/hooks/use-transactions";
 
 export function useSummaryReportAll() {
-  const { transactions } = useTransactions();
+  const { transactions, isLoading } = useTransactions();
 
   const incomeAll =
     transactions
@@ -15,5 +15,5 @@ export function useSummaryReportAll() {
 
   const balanceAll = incomeAll - expenseAll;
 
-  return { incomeAll, expenseAll, balanceAll };
+  return { incomeAll, expenseAll, balanceAll, isLoading };
 }

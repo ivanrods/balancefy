@@ -85,7 +85,7 @@ export default function SummaryCardReport({
       </div>
 
       <Image
-        src="/grafc.webp"
+        src="https://i.ibb.co/DhYnrxK/grafc.webp"
         width={300}
         height={300}
         alt="Picture of the author"

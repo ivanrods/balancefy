@@ -2,24 +2,23 @@
 import { PeriodFilterHeader } from "@/components/period-filter-header";
 import SummaryCardReport from "./components/summary-card-report";
 import { useSummaryReportAll } from "@/hooks/use-summary-report-all";
-import { formatCurrency } from "@/utils/format-currency";
 import { useSummaryReportMonth } from "@/hooks/use-summary-report-all-month";
 import { usePeriod } from "@/context/period-context";
 import { ChartAreaReport } from "./components/chart-area-report";
 import { ChartPieReport } from "./components/chart-pie-report";
 import { DataTableReport } from "./components/data-table-report";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function ReportsPage() {
   const { mode } = usePeriod();
 
-  const { incomeAll, expenseAll, balanceAll } = useSummaryReportAll();
+  const { incomeAll, expenseAll, isLoading } = useSummaryReportAll();
 
   const { incomeMonth, expenseMonth, dateToday } = useSummaryReportMonth();
 
   // Escolhe qual conjunto de dados exibir com base no modo
   const income = mode === "month" ? incomeMonth : incomeAll;
   const expense = mode === "month" ? expenseMonth : expenseAll;
-  const balance = mode === "month" ? balanceAll : balanceAll;
   const month = mode === "month" ? dateToday : "Todo o período";
 
   return (
@@ -28,12 +27,17 @@ export default function ReportsPage() {
 
       {/* Cards Comparativos */}
       <section className="">
-        <SummaryCardReport
-          title="Distribuição de Gastos"
-          value={month}
-          income={income}
-          expense={expense}
-        />
+        {isLoading && (
+          <Skeleton className="h-64 w-full rounded-xl animate-pulse" />
+        )}
+        {!isLoading && (
+          <SummaryCardReport
+            title="Distribuição de Gastos"
+            value={month}
+            income={income}
+            expense={expense}
+          />
+        )}
       </section>
 
       {/* Gráficos Analíticos */}
