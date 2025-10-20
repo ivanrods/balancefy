@@ -77,6 +77,13 @@ export const columns = (
     cell: ({ row }) => <div>{row.getValue("description")}</div>,
   },
   {
+    accessorKey: "wallet.name",
+    header: "Carteira",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.original.wallet?.name ?? "—"}</div>
+    ),
+  },
+  {
     accessorKey: "category.name",
     header: "Categoria",
     cell: ({ row }) => (

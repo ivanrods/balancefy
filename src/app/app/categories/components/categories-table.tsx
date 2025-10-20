@@ -117,7 +117,9 @@ export const columns: ColumnDef<Category>[] = [
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
-    cell: ({ row }) => <span>{formatCurrency(row.original.value)}</span>,
+    cell: ({ row }) => (
+      <span className="px-4">{formatCurrency(row.original.value)}</span>
+    ),
   },
   {
     accessorKey: "number",

@@ -77,12 +77,20 @@ export const columns = (
     cell: ({ row }) => <div>{row.getValue("description")}</div>,
   },
   {
+    accessorKey: "wallet.name",
+    header: "Carteira",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.original.wallet?.name ?? "—"}</div>
+    ),
+  },
+  {
     accessorKey: "category.name",
     header: "Categoria",
     cell: ({ row }) => (
       <div className="capitalize">{row.original.category?.name ?? "—"}</div>
     ),
   },
+
   {
     accessorKey: "type",
     header: "Tipo",
@@ -111,8 +119,11 @@ export const columns = (
   },
   {
     accessorKey: "value",
-    header: () => (
-      <Button variant="ghost">
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
         Valor
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
