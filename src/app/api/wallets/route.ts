@@ -27,15 +27,6 @@ export async function GET(req: Request) {
         where: { userId: user.id },
         include: {
           transactions: {
-            where:
-              month && year
-                ? {
-                    date: {
-                      gte: new Date(Number(year), Number(month) - 1, 1),
-                      lt: new Date(Number(year), Number(month), 1),
-                    },
-                  }
-                : {}, // se não passar nada, pega todas
             select: { value: true, description: true, date: true, type: true },
             orderBy: { date: "asc" },
           },
@@ -43,11 +34,33 @@ export async function GET(req: Request) {
       });
 
       const result = wallets.map((wallet) => {
-        const totalIncome = wallet.transactions
+        //  Transações filtradas por mês/ano (para totalIncome/totalExpense do período)
+        const filteredTransactions =
+          month && year
+            ? wallet.transactions.filter((t) => {
+                const d = new Date(t.date);
+                return (
+                  d.getMonth() + 1 === Number(month) &&
+                  d.getFullYear() === Number(year)
+                );
+              })
+            : wallet.transactions;
+
+        //  Totais do período filtrado
+        const totalIncomePeriod = filteredTransactions
           .filter((t) => t.type === "income")
           .reduce((acc, t) => acc + t.value, 0);
 
-        const totalExpense = wallet.transactions
+        const totalExpensePeriod = filteredTransactions
+          .filter((t) => t.type === "expense")
+          .reduce((acc, t) => acc + t.value, 0);
+
+        //  Totais gerais (para o saldo completo)
+        const totalIncomeAllTime = wallet.transactions
+          .filter((t) => t.type === "income")
+          .reduce((acc, t) => acc + t.value, 0);
+
+        const totalExpenseAllTime = wallet.transactions
           .filter((t) => t.type === "expense")
           .reduce((acc, t) => acc + t.value, 0);
 
@@ -58,9 +71,9 @@ export async function GET(req: Request) {
         return {
           id: wallet.id,
           name: wallet.name,
-          totalIncome,
-          totalExpense,
-          balance: totalIncome - totalExpense,
+          totalIncome: totalIncomePeriod,
+          totalExpense: totalExpensePeriod,
+          balance: totalIncomeAllTime - totalExpenseAllTime,
           lastTransaction: lastTransaction
             ? {
                 amount: lastTransaction.value,
