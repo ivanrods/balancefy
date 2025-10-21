@@ -1,9 +1,9 @@
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import { Providers } from "./providers";
-import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import { authOptions } from "../api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/authOptions";
+import { getServerSession } from "next-auth/next";
 import { AppHeader } from "@/components/header/app-header";
 import { PeriodProvider } from "@/context/period-context";
 

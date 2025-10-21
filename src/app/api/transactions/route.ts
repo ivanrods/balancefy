@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/route";
+import { authOptions } from "@/lib/authOptions";
+import { getServerSession } from "next-auth/next";
 
 // GET - lista todas as transações do usuário logado
 export async function GET(req: Request) {
