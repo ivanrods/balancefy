@@ -30,7 +30,9 @@ export function useTransactions({ month, year }: UseTransactionsProps = {}) {
 
   // CREATE
   const createTransaction = useMutation({
-    mutationFn: async (transaction: Omit<Transaction, "id" | "createdAt">) => {
+    mutationFn: async (
+      transaction: Omit<Transaction, "id" | "createdAt" | "category" | "wallet">
+    ) => {
       const res = await fetch("/api/transactions", {
         method: "POST",
         body: JSON.stringify(transaction),
@@ -46,7 +48,9 @@ export function useTransactions({ month, year }: UseTransactionsProps = {}) {
 
   //UPDATE
   const updateTransaction = useMutation({
-    mutationFn: async (transaction: Transaction) => {
+    mutationFn: async (
+      transaction: Omit<Transaction, "createdAt" | "category" | "wallet">
+    ) => {
       const res = await fetch(`/api/transactions/${transaction.id}`, {
         method: "PUT",
         body: JSON.stringify(transaction),

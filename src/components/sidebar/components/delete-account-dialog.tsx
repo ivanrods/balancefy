@@ -25,6 +25,7 @@ export function DeleteAccountDialog() {
       const data = await res.json();
       toast.success(data.message || "Conta excluída com sucesso!");
       window.location.href = "/login";
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       toast.error("Erro ao excluir conta");
     }

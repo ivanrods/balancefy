@@ -64,6 +64,7 @@ export async function PUT(
     });
 
     return NextResponse.json(transaction, { status: 200 });
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     return NextResponse.json(
       { error: "Erro ao atualizar transação" },

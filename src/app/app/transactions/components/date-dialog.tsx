@@ -42,10 +42,7 @@ export function DateDialog({ value, onChange }: DatePickerProps) {
             mode="single"
             selected={value ?? undefined}
             captionLayout="dropdown"
-            onSelect={(date) => {
-              onChange(date);
-              setOpen(false);
-            }}
+            onSelect={(date) => date && onChange(date)}
           />
         </PopoverContent>
       </Popover>

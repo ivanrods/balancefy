@@ -59,6 +59,7 @@ export async function PUT(
     });
 
     return NextResponse.json(wallets, { status: 200 });
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     return NextResponse.json(
       { error: "Erro ao atualizar carteira" },

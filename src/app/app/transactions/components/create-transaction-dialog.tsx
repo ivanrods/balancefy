@@ -75,7 +75,7 @@ export function TransactionDialog() {
         description: formData.description,
         value: Number(formData.value),
         type: formData.type,
-        date: formData.date.toISOString(),
+        date: new Date(formData.date),
         categoryId: formData.categoryId,
         walletId: formData.walletId,
       },
