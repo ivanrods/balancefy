@@ -6,7 +6,7 @@ import WalletGrid from "./components/wallet-grid";
 
 export default function WalletPage() {
   return (
-    <div className="w-full h-full flex flex-col gap-4">
+    <div className="w-full h-full flex flex-col gap-4 pb-4">
       <PeriodFilterHeader title="Carteiras" />
       <WalletGrid />
     </div>

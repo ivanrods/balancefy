@@ -22,11 +22,7 @@ export function Notifications() {
           <div className="grid gap-2">
             <div className="flex gap-2 p-3 rounded-md bg-secondary">
               <Megaphone size={20} />{" "}
-              <span className="text-sm">Nova notificaçao</span>
-            </div>
-            <div className="flex gap-2 p-3 rounded-md bg-secondary">
-              <Megaphone size={20} />{" "}
-              <span className="text-sm">Outra notificaçao</span>
+              <span className="text-sm">Sem notificações</span>
             </div>
           </div>
         </div>
