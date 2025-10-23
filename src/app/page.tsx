@@ -25,10 +25,10 @@ export default async function Page() {
           em um só lugar. Organize, acompanhe e alcance suas metas financeiras.
         </p>
         <div className="mt-8 flex gap-4">
-          <Button size="lg">
-            <Link href="/app/dashboard">Começar agora</Link>{" "}
+          <Button asChild size="lg">
+            <Link href="/app/dashboard">Começar agora</Link>
           </Button>
-          <Button variant="outline" size="lg">
+          <Button asChild variant="outline" size="lg">
             <Link href="/app/dashboard"> Ver demonstração</Link>
           </Button>
         </div>
@@ -106,10 +106,10 @@ export default async function Page() {
           Cadastre-se agora e organize suas finanças em minutos.
         </p>
         <div className="mt-6 flex justify-center gap-4">
-          <Button size="lg">
+          <Button asChild size="lg">
             <Link href="/register">Criar conta</Link>
           </Button>
-          <Button variant="outline" size="lg">
+          <Button asChild variant="outline" size="lg">
             <Link href="/login">Entrar</Link>
           </Button>
         </div>
