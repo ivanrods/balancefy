@@ -1,6 +1,6 @@
 "use client";
 
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema, RegisterFormData } from "@/lib/schemas/auth-schema";
@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
+import { useEffect } from "react";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -52,6 +53,13 @@ export default function RegisterPage() {
       toast.error(responseData.error || "Erro ao criar usuário");
     }
   };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { data: session, status } = useSession();
+  useEffect(() => {
+    if (status === "authenticated") router.push("/app/dashboard");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status]);
 
   return (
     <div className="flex h-screen items-center justify-center">

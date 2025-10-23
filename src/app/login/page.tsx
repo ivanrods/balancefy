@@ -1,6 +1,6 @@
 "use client";
 
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,6 +19,7 @@ import {
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { toast } from "sonner";
+import { useEffect } from "react";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -44,6 +45,13 @@ export default function LoginPage() {
       toast.error(res.error || "Erro ao entrar");
     }
   };
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { data: session, status } = useSession();
+
+  useEffect(() => {
+    if (status === "authenticated") router.push("/app/dashboard");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status]);
 
   return (
     <div className="flex h-screen items-center justify-center">
