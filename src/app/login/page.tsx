@@ -1,12 +1,13 @@
 "use client";
 
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, LoginFormData } from "@/lib/schemas/auth-schema";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { redirect } from "next/navigation";
 import {
   Card,
   CardAction,
@@ -21,8 +22,6 @@ import Link from "next/link";
 import { toast } from "sonner";
 
 export default function LoginPage() {
-  const router = useRouter();
-
   const {
     register,
     handleSubmit,
@@ -37,9 +36,9 @@ export default function LoginPage() {
       password: data.senha,
       redirect: false,
     });
-    router.push("/app/dashboard");
+
     if (res?.ok && !res.error) {
-      router.push("/");
+      redirect("/app/dashboard");
     } else {
       toast.error(res?.error || "Erro ao entrar");
     }
