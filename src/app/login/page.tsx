@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, LoginFormData } from "@/lib/schemas/auth-schema";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import {
   Card,
   CardAction,
@@ -22,6 +22,7 @@ import Link from "next/link";
 import { toast } from "sonner";
 
 export default function LoginPage() {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -31,16 +32,22 @@ export default function LoginPage() {
   });
 
   const onSubmit = async (data: LoginFormData) => {
-    const res = await signIn("credentials", {
-      email: data.email,
-      password: data.senha,
-      redirect: false,
-    });
+    try {
+      const res = await signIn("credentials", {
+        email: data.email,
+        password: data.senha,
+        redirect: false,
+        callbackUrl: "/app/dashboard",
+      });
 
-    if (res?.ok && !res.error) {
-      redirect("/app/dashboard");
-    } else {
-      toast.error(res?.error || "Erro ao entrar");
+      if (res?.ok) {
+        router.replace(res.url ?? "/app/dashboard");
+      } else {
+        toast.error(res?.error || "Erro ao entrar");
+      }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (err) {
+      toast.error("Erro ao tentar fazer login");
     }
   };
 
