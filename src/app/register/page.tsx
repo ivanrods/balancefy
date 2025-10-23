@@ -1,6 +1,6 @@
 "use client";
 
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema, RegisterFormData } from "@/lib/schemas/auth-schema";
@@ -19,7 +19,6 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
-import { useEffect } from "react";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -54,13 +53,6 @@ export default function RegisterPage() {
     }
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { data: session, status } = useSession();
-  useEffect(() => {
-    if (status === "authenticated") router.push("/app/dashboard");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status]);
-
   return (
     <div className="flex h-screen items-center justify-center">
       <Card className="w-full max-w-sm">
@@ -75,8 +67,8 @@ export default function RegisterPage() {
             </Button>
           </CardAction>
         </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <CardContent>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
                 <Label htmlFor="nome">Nome</Label>
@@ -115,26 +107,23 @@ export default function RegisterPage() {
                 )}
               </div>
             </div>
-          </form>
-        </CardContent>
-        <CardFooter className="flex-col gap-2">
-          <Button
-            onClick={handleSubmit(onSubmit)}
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full"
-          >
-            Criar conta
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            className="w-full"
-            onClick={() => signIn("google", { callbackUrl: "/app/dashboard" })}
-          >
-            Entrar com Google
-          </Button>
-        </CardFooter>
+          </CardContent>
+          <CardFooter className="flex-col gap-2 pt-6">
+            <Button type="submit" disabled={isSubmitting} className="w-full">
+              Criar conta
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full"
+              onClick={() =>
+                signIn("google", { callbackUrl: "/app/dashboard" })
+              }
+            >
+              Entrar com Google
+            </Button>
+          </CardFooter>
+        </form>
       </Card>
     </div>
   );

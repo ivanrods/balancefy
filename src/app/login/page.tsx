@@ -1,6 +1,6 @@
 "use client";
 
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,7 +19,6 @@ import {
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { toast } from "sonner";
-import { useEffect } from "react";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -39,19 +38,12 @@ export default function LoginPage() {
       redirect: false,
     });
 
-    if (!res?.error) {
+    if (res?.ok && !res.error) {
       router.push("/app/dashboard");
     } else {
-      toast.error(res.error || "Erro ao entrar");
+      toast.error(res?.error || "Erro ao entrar");
     }
   };
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { data: session, status } = useSession();
-
-  useEffect(() => {
-    if (status === "authenticated") router.push("/app/dashboard");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status]);
 
   return (
     <div className="flex h-screen items-center justify-center">
@@ -69,8 +61,8 @@ export default function LoginPage() {
             </Button>
           </CardAction>
         </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <CardContent>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
@@ -107,27 +99,23 @@ export default function LoginPage() {
                 )}
               </div>
             </div>
-          </form>
-        </CardContent>
-
-        <CardFooter className="flex-col gap-2">
-          <Button
-            onClick={handleSubmit(onSubmit)}
-            type="submit"
-            className="w-full"
-            disabled={isSubmitting}
-          >
-            Entrar
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            className="w-full"
-            onClick={() => signIn("google", { callbackUrl: "/app/dashboard" })}
-          >
-            Entrar com Google
-          </Button>
-        </CardFooter>
+          </CardContent>
+          <CardFooter className="flex-col gap-2 pt-6">
+            <Button type="submit" className="w-full" disabled={isSubmitting}>
+              Entrar
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full"
+              onClick={() =>
+                signIn("google", { callbackUrl: "/app/dashboard" })
+              }
+            >
+              Entrar com Google
+            </Button>
+          </CardFooter>{" "}
+        </form>
       </Card>
     </div>
   );

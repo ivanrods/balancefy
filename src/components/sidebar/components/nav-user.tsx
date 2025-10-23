@@ -21,7 +21,7 @@ import {
 import { EditProfile } from "@/components/sidebar/components/edit-profile";
 import { DeleteAccountDialog } from "./delete-account-dialog";
 import { useEffect, useState } from "react";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { DrawerConfig } from "./drawer-config";
 
 type User = {
@@ -32,18 +32,20 @@ type User = {
 
 export function NavUser() {
   const { isMobile } = useSidebar();
+  const { data: session, status } = useSession();
 
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>();
+
   useEffect(() => {
-    async function fetchUser() {
-      const res = await fetch("/api/profile", { cache: "no-store" });
-      if (res.ok) {
-        const data = await res.json();
-        setUser(data);
-      }
+    if (status === "authenticated" && session?.user) {
+      // Passa o usuário da sessão para o estado local
+      setUser({
+        name: session.user.name || "",
+        email: session.user.email || "",
+        image: session.user.image || "",
+      });
     }
-    fetchUser();
-  }, []);
+  }, [status, session]);
 
   return (
     <SidebarMenu>

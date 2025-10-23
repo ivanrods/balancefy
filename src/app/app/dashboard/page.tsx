@@ -5,24 +5,8 @@ import { TransactionsTable } from "@/app/app/dashboard/components/transactions-t
 import Summary from "./components/summary";
 
 import { PeriodFilterHeader } from "@/components/period-filter-header";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 
 const Dashboard = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { data: session, status } = useSession();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/login");
-    }
-  }, [status, router]);
-
-  if (status === "loading") {
-    return <p>Carregando...</p>;
-  }
   return (
     <div className="w-full h-full flex flex-col gap-4">
       <PeriodFilterHeader title="Finance Dashboard" />
