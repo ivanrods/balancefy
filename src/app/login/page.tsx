@@ -37,10 +37,8 @@ export default function LoginPage() {
       password: data.senha,
       redirect: false,
     });
-
-    if (res?.ok && !res.error) {
-      router.push("/app/dashboard");
-    } else {
+    router.push("/app/dashboard");
+    if (res?.error) {
       toast.error(res?.error || "Erro ao entrar");
     }
   };
