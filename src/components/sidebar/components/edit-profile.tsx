@@ -21,13 +21,13 @@ import { AlertCircleIcon, UserPen } from "lucide-react";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { AvatarProfile } from "./avatar-profile";
 import { Alert, AlertTitle } from "@/components/ui/alert";
-import { useRouter } from "next/navigation";
+
 import { updateUserSchema } from "@/lib/schemas/update-user-schema";
+import { signOut } from "next-auth/react";
 
 type updateFormData = z.infer<typeof updateUserSchema>;
 
 export function EditProfile() {
-  const router = useRouter();
   const [avatar, setAvatar] = useState(String);
   const [isGoogleUser, setIsGoogleUser] = useState(false);
 
@@ -66,7 +66,7 @@ export function EditProfile() {
 
     if (res.ok) {
       toast.success("Perfil atualizado. Faça login novamente para continuar");
-      router.push("/login");
+      signOut({ callbackUrl: "/login" });
     } else {
       toast.error("Erro ao atualizar perfil.");
     }
