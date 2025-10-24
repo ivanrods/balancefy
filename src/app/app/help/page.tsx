@@ -22,7 +22,7 @@ export default function helpPage() {
             <AccordionContent className="flex flex-col gap-4 text-balance">
               <p>
                 Para registrar uma nova transação no sistema, siga os passos
-                abaixo: Clique no botão “Nova Transação” ou no ícone de ➕.
+                abaixo: Clique no botão “Nova Transação” ou no ícone de +.
               </p>
               <p>
                 Preencha as informações obrigatórias, como descrição da
@@ -58,13 +58,52 @@ export default function helpPage() {
               <p>As mudanças serão atualizadas imediatamente na lista.</p>
             </AccordionContent>
           </AccordionItem>
+
+          <AccordionItem value="item-4" className="border-b-1 pb-2 ">
+            <AccordionTrigger>Como adicionar uma carteira</AccordionTrigger>
+            <AccordionContent className="flex flex-col gap-4 text-balance">
+              <p>
+                Para registrar uma nova carteira no sistema, siga os passos
+                abaixo: Navegue para a pagina de carteiras e clique no botão
+                “Nova Carteira” ou no ícone de +.
+              </p>
+              <p>
+                Preencha a compo com o nome da carteira, depois clique em
+                “Adicionar” para confirmar.
+              </p>
+              <p>
+                A nova carteira aparecerá automaticamente na lista de carteiras,
+                e você podera vincular as transaçães.
+              </p>
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-5" className="border-b-1 pb-2 ">
+            <AccordionTrigger>Como adicionar uma categoria</AccordionTrigger>
+            <AccordionContent className="flex flex-col gap-4 text-balance">
+              <p>
+                Para registrar uma nova categoria no sistema, siga os passos
+                abaixo: Navegue para a pagina de categorias e clique no botão
+                “Nova Categoria” ou no ícone de +.
+              </p>
+              <p>
+                Preencha a compo com o nome da categoria e a cor, depois clique
+                em “Adicionar” para confirmar.
+              </p>
+              <p>
+                A nova categoria aparecerá automaticamente na lista de
+                categorias, e você podera vincular as transaçães.
+              </p>
+            </AccordionContent>
+          </AccordionItem>
         </Accordion>
       </section>
 
       <section className="w-full flex flex-col items-center gap-2">
         <h2 className="text-md font-semibold">Ainda precisa de ajuda?</h2>
         <p className="text-sm">Entre em contato com nosso suporte.</p>
-        <Button>Contatar suporte</Button>
+        <Button asChild>
+          <a href="mailto:contaivanrodrigues@gmail.com">Contatar suporte</a>
+        </Button>
       </section>
     </div>
   );
