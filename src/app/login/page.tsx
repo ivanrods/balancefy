@@ -22,7 +22,6 @@ import Link from "next/link";
 import { toast } from "sonner";
 
 export default function LoginPage() {
-  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -33,18 +32,11 @@ export default function LoginPage() {
 
   const onSubmit = async (data: LoginFormData) => {
     try {
-      const res = await signIn("credentials", {
+      await signIn("credentials", {
         email: data.email,
         password: data.senha,
-        redirect: false,
-        callbackUrl: "/app/dashboard",
+        callbackUrl: "/app/dashboard", // 🔹 o redirect acontece automaticamente
       });
-
-      if (res?.ok) {
-        router.replace(res.url ?? "/app/dashboard");
-      } else {
-        toast.error(res?.error || "Erro ao entrar");
-      }
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       toast.error("Erro ao tentar fazer login");
