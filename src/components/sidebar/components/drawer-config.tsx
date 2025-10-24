@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Settings } from "lucide-react";
+import { AlertCircleIcon, Settings } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -15,6 +15,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import { Alert, AlertTitle } from "@/components/ui/alert";
 
 export function DrawerConfig() {
   return (
@@ -31,7 +32,12 @@ export function DrawerConfig() {
             <DrawerTitle>Configuraçoes</DrawerTitle>
             <DrawerDescription>Ajuste suas configurações.</DrawerDescription>
           </DrawerHeader>
-          <div className="p-4 pb-0"></div>
+          <div className="p-4 pb-0">
+            <Alert variant="destructive">
+              <AlertCircleIcon />
+              <AlertTitle>Funcionalidade em desenvolvimento</AlertTitle>
+            </Alert>
+          </div>
           <DrawerFooter>
             <Button>Salvar</Button>
             <DrawerClose asChild>
