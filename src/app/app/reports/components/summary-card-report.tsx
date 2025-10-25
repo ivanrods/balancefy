@@ -1,3 +1,4 @@
+"use client";
 import {
   Card,
   CardContent,
@@ -8,36 +9,41 @@ import {
 import { formatCurrency } from "@/utils/format-currency";
 import { ArrowDown, ArrowUp } from "lucide-react";
 import { ChartLineReport } from "./chart-line-report";
+import { usePeriod } from "@/context/period-context";
+import { useSummaryReportAll } from "@/hooks/use-summary-report-all";
+import { useSummaryReportMonth } from "@/hooks/use-summary-report-all-month";
+import { Skeleton } from "@/components/ui/skeleton";
 
-type SummaryCardReportProps = {
-  title: string;
-  value: string;
-  income: number;
-  expense: number;
+export default function SummaryCardReport() {
+  const { mode } = usePeriod();
 
-  positive?: boolean;
-};
+  const { incomeAll, expenseAll, isLoading } = useSummaryReportAll();
 
-export default function SummaryCardReport({
-  title,
-  value,
-  income,
-  expense,
-}: SummaryCardReportProps) {
+  const { incomeMonth, expenseMonth, dateToday } = useSummaryReportMonth();
+
+  // Escolhe qual conjunto de dados exibir com base no modo
+  const income = mode === "month" ? incomeMonth : incomeAll;
+  const expense = mode === "month" ? expenseMonth : expenseAll;
+  const month = mode === "month" ? dateToday : "Todo o período";
+
+  if (isLoading) {
+    return <Skeleton className="h-64 w-full rounded-xl animate-pulse" />;
+  }
+
   return (
     <Card className="w-full h-full flex flex-row justify-between">
       <div className="flex flex-col lg:flex-row w-full justify-between gap-4">
         <div className="h-full flex flex-col flex-1 justify-between ">
           <CardHeader>
             <CardTitle className="text-sm text-muted-foreground">
-              {title}
+              Distribuição de Gastos
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2 text-sm ">
               <p>
                 Evolução do saldo ao longo de{" "}
-                <span className="font-semibold text-primary">{value}</span>,
+                <span className="font-semibold text-primary">{month}</span>,
                 destacando variações entre entradas e saídas.
               </p>
 
@@ -46,7 +52,7 @@ export default function SummaryCardReport({
                 <span className="font-semibold text-primary">
                   gastos por categoria
                 </span>{" "}
-                referente ao período de {value}, permitindo identificar onde
+                referente ao período de {month}, permitindo identificar onde
                 está concentrada a maior parte das despesas.
               </p>
 
@@ -55,7 +61,7 @@ export default function SummaryCardReport({
                 <span className="font-semibold text-primary">
                   valores de entradas e saídas
                 </span>{" "}
-                durante {value}, facilitando a visualização do saldo líquido no
+                durante {month}, facilitando a visualização do saldo líquido no
                 período.
               </p>
             </div>
