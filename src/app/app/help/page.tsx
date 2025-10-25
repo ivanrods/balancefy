@@ -7,6 +7,12 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
+export const metadata = {
+  title: "Ajuda | Balancefy",
+  description:
+    "Precisa de suporte? Encontre respostas para dúvidas sobre o uso do Balancefy e aprenda a aproveitar todas as funcionalidades do app.",
+};
+
 export default function helpPage() {
   return (
     <div className="h-full flex justify-center mx-auto flex-col gap-4 w-full md:w-md lg:w-lg xl:w-xl">

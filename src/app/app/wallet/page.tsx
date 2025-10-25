@@ -1,6 +1,11 @@
 import { PeriodFilterHeader } from "@/components/period-filter-header";
-
 import WalletGrid from "./components/wallet-grid";
+
+export const metadata = {
+  title: "Carteiras | Balancefy",
+  description:
+    "Crie e gerencie diferentes carteiras para organizar melhor suas finanças. Separe seus gastos pessoais, investimentos e reservas.",
+};
 
 export default function WalletPage() {
   return (
