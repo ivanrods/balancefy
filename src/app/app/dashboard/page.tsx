@@ -1,4 +1,3 @@
-"use client";
 import { ChartAreaFinance } from "./components/chart-area-interactive";
 import { ChartPieDonut } from "./components/chart-pie-donut";
 import { TransactionsTable } from "@/app/app/dashboard/components/transactions-table";

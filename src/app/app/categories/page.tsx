@@ -1,5 +1,3 @@
-"use client";
-
 import { PeriodFilterHeader } from "@/components/period-filter-header";
 import { CategoriesDataTable } from "./components/categories-table";
 
