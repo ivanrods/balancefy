@@ -44,6 +44,7 @@ export default function LoginPage() {
 
       if (res?.ok) {
         router.push("/app/dashboard");
+        window.location.reload();
       } else {
         toast.error(res?.error || "E-mail ou senha incorretos");
       }

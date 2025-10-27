@@ -22,3 +22,9 @@ export type Transaction = {
   walletId: string;
   wallet: Wallet;
 };
+
+export type TransactionType = {
+  month: string;
+  income: number;
+  expense: number;
+};

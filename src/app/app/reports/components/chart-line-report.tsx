@@ -9,7 +9,8 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { useEffect, useState } from "react";
+import { usePeriod } from "@/context/period-context";
+import { useTransactionsType } from "@/hooks/use-transactions-type";
 
 export const description = "A multiple line chart";
 
@@ -25,19 +26,20 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function ChartLineReport() {
-  const [data, setData] = useState([]);
+  const { mode } = usePeriod();
+  const now = new Date();
+  const month = now.getMonth() + 1;
+  const year = now.getFullYear();
 
-  useEffect(() => {
-    fetch("/api/transactions/transaction-type")
-      .then((res) => res.json())
-      .then((data) => setData(data));
-  }, []);
+  const { transactionsType } = useTransactionsType(
+    mode === "month" ? { month, year } : undefined
+  );
 
   return (
     <Card>
       <CardContent>
         <ChartContainer config={chartConfig}>
-          <LineChart accessibilityLayer data={data}>
+          <LineChart accessibilityLayer data={transactionsType}>
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
             <Line
               dataKey="income"
