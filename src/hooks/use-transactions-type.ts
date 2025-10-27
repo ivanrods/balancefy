@@ -11,7 +11,6 @@ export function useTransactionsType({
   year,
 }: UseTransactionsProps = {}) {
   // GET
-
   const queryKey = ["transactions-type", { month, year }];
 
   const { data, isLoading, error } = useQuery<TransactionType[]>({

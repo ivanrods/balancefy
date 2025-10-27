@@ -30,6 +30,21 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="pt-br">
+      <head>
+        {/* Script para aplicar o tema instantaneamente */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                const theme = localStorage.getItem('theme');
+                if (theme === 'dark') {
+                  document.documentElement.classList.add('dark');
+                }
+              })();
+            `,
+          }}
+        />
+      </head>
       <Providers>
         <ThemeProvider>
           <body

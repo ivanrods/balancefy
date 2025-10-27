@@ -11,7 +11,6 @@ export async function GET(req: Request) {
   }
 
   const { searchParams } = new URL(req.url);
-  const period = searchParams.get("period") || "month"; // 👈 padrão: mês
   const month = searchParams.get("month");
   const year = searchParams.get("year");
 
@@ -41,38 +40,6 @@ export async function GET(req: Request) {
     orderBy: { date: "asc" },
   });
 
-  // 🔹 Se o período for "week", agrupar por semana dentro do mês
-  if (period === "week") {
-    const weeklyData: Record<string, { income: number; expense: number }> = {};
-
-    for (const t of transactions) {
-      const date = new Date(t.date);
-
-      // Pega o número da semana do mês
-      const weekOfMonth = Math.ceil(date.getDate() / 7);
-      const weekKey = `Semana ${weekOfMonth}`;
-
-      if (!weeklyData[weekKey]) {
-        weeklyData[weekKey] = { income: 0, expense: 0 };
-      }
-
-      if (t.type === "income") {
-        weeklyData[weekKey].income += t.value;
-      } else {
-        weeklyData[weekKey].expense += t.value;
-      }
-    }
-
-    const chartData = Object.keys(weeklyData).map((week) => ({
-      week,
-      income: weeklyData[week].income,
-      expense: weeklyData[week].expense,
-    }));
-
-    return NextResponse.json(chartData);
-  }
-
-  // Caso contrário, agrupar por mês (padrão)
   const monthlyData: Record<string, { income: number; expense: number }> = {};
 
   for (const t of transactions) {
