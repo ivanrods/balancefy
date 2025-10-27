@@ -29,17 +29,19 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-br">
+    <html lang="pt-BR" suppressHydrationWarning>
       <head>
         {/* Script para aplicar o tema instantaneamente */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
-                const theme = localStorage.getItem('theme');
-                if (theme === 'dark') {
-                  document.documentElement.classList.add('dark');
-                }
+                try {
+                  const theme = localStorage.getItem('theme');
+                  if (theme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                  }
+                } catch (e) {}
               })();
             `,
           }}

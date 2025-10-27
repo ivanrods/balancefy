@@ -1,7 +1,6 @@
 "use client";
 
-import { Line, LineChart } from "recharts";
-
+import { Line, LineChart, XAxis, YAxis, CartesianGrid } from "recharts";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   ChartConfig,
@@ -12,17 +11,9 @@ import {
 import { usePeriod } from "@/context/period-context";
 import { useTransactionsType } from "@/hooks/use-transactions-type";
 
-export const description = "A multiple line chart";
-
 const chartConfig = {
-  income: {
-    label: "Entarada",
-    color: "var(--chart-2)",
-  },
-  expense: {
-    label: "Saída",
-    color: "var(--primary)",
-  },
+  income: { label: "Entrada", color: "var(--chart-2)" },
+  expense: { label: "Saída", color: "var(--primary)" },
 } satisfies ChartConfig;
 
 export function ChartLineReport() {
@@ -31,15 +22,25 @@ export function ChartLineReport() {
   const month = now.getMonth() + 1;
   const year = now.getFullYear();
 
-  const { transactionsType } = useTransactionsType(
-    mode === "month" ? { month, year } : undefined
-  );
+  const { transactionsType } = useTransactionsType({
+    month,
+    year,
+    period: mode === "month" ? "week" : "month",
+  });
 
   return (
     <Card>
       <CardContent>
         <ChartContainer config={chartConfig}>
-          <LineChart accessibilityLayer data={transactionsType}>
+          <LineChart data={transactionsType}>
+            <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
+            <XAxis
+              dataKey={mode === "month" ? "week" : "month"}
+              tickLine={false}
+              axisLine={false}
+              style={{ fontSize: "0.8rem" }}
+            />
+            <YAxis hide />
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
             <Line
               dataKey="income"
@@ -47,6 +48,8 @@ export function ChartLineReport() {
               stroke="var(--chart-2)"
               strokeWidth={2}
               dot={false}
+              isAnimationActive
+              animationDuration={600}
             />
             <Line
               dataKey="expense"
@@ -54,6 +57,8 @@ export function ChartLineReport() {
               stroke="var(--primary)"
               strokeWidth={2}
               dot={false}
+              isAnimationActive
+              animationDuration={600}
             />
           </LineChart>
         </ChartContainer>
