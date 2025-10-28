@@ -58,7 +58,7 @@ export function WalletDialog() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogTrigger asChild>
           <Button>
-            <Plus /> <p className="hidden md:block ">Nova Carteira</p>
+            <Plus /> Nova Carteira
           </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">

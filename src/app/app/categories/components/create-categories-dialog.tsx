@@ -68,7 +68,7 @@ export function CategoriesDialog() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogTrigger asChild>
           <Button>
-            <Plus /> <p className="hidden md:block ">Nova Categoria</p>
+            <Plus /> Nova Categoria
           </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
