@@ -10,6 +10,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "../../../../components/ui/label";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 type Category = {
   id: string;
@@ -43,6 +45,9 @@ export function SelectCategory({
               </SelectItem>
             ))}
           </SelectGroup>
+          <Button className="w-full text-sm" variant="link">
+            <Link href="/app/categories"> + Criar Categoria</Link>
+          </Button>
         </SelectContent>
       </Select>
     </div>
