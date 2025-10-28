@@ -10,6 +10,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "../../../../components/ui/label";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 type Wallet = {
   id: string;
@@ -32,7 +34,7 @@ export function SelectWallet({
       <Select value={value} onValueChange={onValueChange}>
         <Label className="px-1">Carteira</Label>
         <SelectTrigger className="w-full">
-          <SelectValue placeholder="Selecione a categoria" />
+          <SelectValue placeholder="Selecione a carteira" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
@@ -43,6 +45,9 @@ export function SelectWallet({
               </SelectItem>
             ))}
           </SelectGroup>
+          <Button className="w-full text-sm" variant="link">
+            <Link href="/app/wallet"> + Criar Carteira</Link>
+          </Button>
         </SelectContent>
       </Select>
     </div>
