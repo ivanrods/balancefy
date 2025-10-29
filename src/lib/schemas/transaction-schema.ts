@@ -8,7 +8,8 @@ export const transactionSchema = z.object({
 
   value: z
     .number("Informe um valor válido")
-    .positive("O valor deve ser maior que zero"),
+    .positive("O valor deve ser maior que zero")
+    .max(999999999, "O valor não pode ultrapassar 999.999.999,99"),
 
   categoryId: z.string().min(1, "Selecione uma categoria válida"),
   walletId: z.string().min(1, "Seleicione uma carteira válida"),
