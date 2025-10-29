@@ -52,7 +52,9 @@ const Summary = () => {
           </CardAction>
         </CardHeader>
         <CardContent>
-          <p className="text-4xl font-bold">{formatCurrency(balance)}</p>
+          <p className="text-4xl font-bold break-words">
+            {formatCurrency(balance)}
+          </p>
         </CardContent>
         <CardFooter>
           <p>Tendências em todo o período</p>
@@ -74,7 +76,9 @@ const Summary = () => {
           </CardAction>
         </CardHeader>
         <CardContent>
-          <p className="text-4xl font-bold">{formatCurrency(income)}</p>
+          <p className="text-4xl font-bold break-words">
+            {formatCurrency(income)}
+          </p>
         </CardContent>
         <CardFooter>
           {mode === "month" ? (
@@ -99,7 +103,9 @@ const Summary = () => {
           </CardAction>
         </CardHeader>
         <CardContent>
-          <p className="text-4xl font-bold">{formatCurrency(expense)}</p>
+          <p className="text-4xl font-bold break-words">
+            {formatCurrency(expense)}
+          </p>
         </CardContent>
         <CardFooter>
           {mode === "month" ? (
@@ -124,7 +130,9 @@ const Summary = () => {
           </CardAction>
         </CardHeader>
         <CardContent>
-          <p className="text-4xl font-bold">{formatCurrency(economy)}</p>
+          <p className="text-4xl font-bold break-words">
+            {formatCurrency(economy)}
+          </p>
         </CardContent>
         <CardFooter>
           {mode === "month" ? (

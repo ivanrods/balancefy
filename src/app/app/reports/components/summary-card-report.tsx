@@ -66,14 +66,16 @@ export default function SummaryCardReport() {
               </p>
             </div>
           </CardContent>
-          <CardFooter className="flex pt-4  text-sm gap-6">
+          <CardFooter className="flex flex-wrap pt-4  text-sm gap-6">
             <div className="flex items-center gap-2">
               <div className="p-1.5 bg-chart-2 rounded-lg">
                 <ArrowUp className="text-white" />
               </div>
 
               <div>
-                <p className="font-medium text-lg">{formatCurrency(income)} </p>
+                <p className="font-medium text-lg break-words">
+                  {formatCurrency(income)}{" "}
+                </p>
                 <span className="text-sm text-gray-400">Entradas</span>
               </div>
             </div>
@@ -84,7 +86,7 @@ export default function SummaryCardReport() {
               </div>
 
               <div>
-                <p className=" font-medium text-lg">
+                <p className=" font-medium text-lg break-words">
                   {formatCurrency(expense)}
                 </p>
                 <span className="text-sm text-gray-400">Saídas</span>

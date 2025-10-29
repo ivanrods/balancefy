@@ -50,7 +50,9 @@ export default function WalletCard({
       </CardHeader>
 
       <CardContent className="space-y-2 flex flex-col justify-between ">
-        <p className="text-3xl font-bold ">{formatCurrency(balance)}</p>
+        <p className="text-3xl font-bold break-words">
+          {formatCurrency(balance)}
+        </p>
         <p className="text-sm text-muted-foreground">
           Última movimentação:{" "}
           {lastTransaction ? (
@@ -71,15 +73,15 @@ export default function WalletCard({
         </p>
       </CardContent>
 
-      <CardFooter className="flex pt-4  text-sm gap-6">
+      <CardFooter className="flex flex-wrap pt-4  text-sm gap-6">
         <div className="flex items-center gap-2">
           <div className="p-1.5 bg-chart-2 rounded-lg">
             <ArrowUp className="text-white" />
           </div>
 
           <div>
-            <p className="font-medium text-lg">
-              {formatCurrency(totalIncome)}{" "}
+            <p className="font-medium text-lg break-words">
+              {formatCurrency(totalIncome)}
             </p>
             <span className="text-sm text-gray-400">Entradas</span>
           </div>
@@ -91,7 +93,7 @@ export default function WalletCard({
           </div>
 
           <div>
-            <p className=" font-medium text-lg">
+            <p className=" font-medium text-lg break-words">
               {formatCurrency(totalExpense)}
             </p>
             <span className="text-sm text-gray-400">Saídas</span>
