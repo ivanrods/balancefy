@@ -118,8 +118,11 @@ export const columns = (
   },
   {
     accessorKey: "value",
-    header: () => (
-      <Button variant="ghost">
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
         Valor
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>

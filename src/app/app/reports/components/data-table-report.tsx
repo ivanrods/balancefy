@@ -102,8 +102,11 @@ export const columns = (): ColumnDef<Transaction>[] => [
   },
   {
     accessorKey: "value",
-    header: () => (
-      <Button variant="ghost">
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
         Valor
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
@@ -179,7 +182,7 @@ export function DataTableReport() {
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
+      <div className="flex items-center py-4 gap-2">
         <Input
           placeholder="Filtrar descricão..."
           value={
