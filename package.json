@@ -7,8 +7,9 @@
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "jest",
-    "test:watch": "jest --watchAll"
+    "test": "cross-env NODE_ENV=test jest",
+    "test:watch": "cross-env NODE_ENV=test jest --watchAll",
+    "test:setup": "dotenv -e .env.test -- npx prisma migrate deploy"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",
@@ -64,6 +65,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "cross-env": "^10.1.0",
+    "dotenv-cli": "^11.0.0",
     "eslint": "^9",
     "eslint-config-next": "15.5.2",
     "jest": "^30.2.0",
