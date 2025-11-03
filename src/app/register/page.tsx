@@ -36,9 +36,9 @@ export default function RegisterPage() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        name: data.nome,
+        name: data.name,
         email: data.email,
-        password: data.senha,
+        password: data.password,
         redirect: false,
       }),
     });
@@ -71,11 +71,11 @@ export default function RegisterPage() {
           <CardContent>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
-                <Label htmlFor="nome">Nome</Label>
-                <Input type="text" placeholder="Nome" {...register("nome")} />
-                {errors.nome && (
+                <Label htmlFor="name">Nome</Label>
+                <Input type="text" placeholder="Nome" {...register("name")} />
+                {errors.name && (
                   <span className="text-red-500 text-sm">
-                    {errors.nome.message}
+                    {errors.name.message}
                   </span>
                 )}
               </div>
@@ -98,11 +98,11 @@ export default function RegisterPage() {
                 <Input
                   type="password"
                   placeholder="Senha"
-                  {...register("senha")}
+                  {...register("password")}
                 />
-                {errors.senha && (
+                {errors.password && (
                   <span className="text-red-500 text-sm">
-                    {errors.senha.message}
+                    {errors.password.message}
                   </span>
                 )}
               </div>
