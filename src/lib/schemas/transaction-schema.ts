@@ -16,7 +16,7 @@ export const transactionSchema = z.object({
 
   type: z.enum(["income", "expense"], { message: "Select a valid type" }),
 
-  date: z.date("Selecione uma data válida"),
+  date: z.coerce.date("Selecione uma data válida"),
 });
 
 export type TransactionFormData = z.infer<typeof transactionSchema>;

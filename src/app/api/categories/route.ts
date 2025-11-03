@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { authOptions } from "@/lib/auth-options";
 import { getServerSession } from "next-auth/next";
+import { categoriesSchema } from "@/lib/schemas/categories-schema";
 
 export async function GET(req: Request) {
   try {
@@ -87,14 +88,7 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
-    const { name, color } = body;
-
-    if (!name || name.trim() === "") {
-      return NextResponse.json(
-        { error: "O nome da categoria é obrigatório" },
-        { status: 400 }
-      );
-    }
+    const { name, color } = categoriesSchema.parse(body);
 
     // Verifica se o usuário já tem uma categoria com esse nome
     const existingCategory = await prisma.category.findFirst({

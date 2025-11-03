@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { authOptions } from "@/lib/auth-options";
 import { getServerSession } from "next-auth/next";
+import { walletSchema } from "@/lib/schemas/wallet-schema";
 
 // GET - detalhe de uma cartira
 export async function GET(
@@ -40,15 +41,7 @@ export async function PUT(
   }
 
   const body = await req.json();
-
-  const { name } = body;
-
-  if (!name) {
-    return NextResponse.json(
-      { error: "Todos os campos são obrigatórios" },
-      { status: 400 }
-    );
-  }
+  const { name } = walletSchema.parse(body);
 
   try {
     const wallets = await prisma.wallet.update({

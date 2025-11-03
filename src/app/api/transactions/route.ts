@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { authOptions } from "@/lib/auth-options";
 import { getServerSession } from "next-auth/next";
+import { transactionSchema } from "@/lib/schemas/transaction-schema";
 
 // GET - lista todas as transações do usuário logado
 export async function GET(req: Request) {
@@ -53,14 +54,9 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
-    const { description, categoryId, walletId, value, type, date } = body;
 
-    if (!description || !categoryId || !walletId || !value || !type || !date) {
-      return NextResponse.json(
-        { error: "Todos os campos são obrigatórios" },
-        { status: 400 }
-      );
-    }
+    const { description, value, categoryId, walletId, type, date } =
+      transactionSchema.parse(body);
 
     const user = await prisma.user.findUnique({
       where: { email: session.user.email },

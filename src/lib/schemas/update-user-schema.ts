@@ -8,5 +8,6 @@ export const updateUserSchema = z.object({
     .min(6, "A senha deve ter no mínimo 6 caracteres")
     .optional()
     .or(z.literal("")),
+  image: z.string().nullable().optional(),
 });
 export type UpdateFormData = z.infer<typeof updateUserSchema>;
