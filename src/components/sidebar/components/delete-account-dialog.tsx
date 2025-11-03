@@ -12,6 +12,7 @@ import {
 import { Trash } from "lucide-react";
 import { toast } from "sonner";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import { signOut } from "next-auth/react";
 export function DeleteAccountDialog() {
   async function handleDeleteAccount() {
     try {
@@ -24,7 +25,7 @@ export function DeleteAccountDialog() {
       }
       const data = await res.json();
       toast.success(data.message || "Conta excluída com sucesso!");
-      window.location.href = "/login";
+      signOut({ callbackUrl: "/login" });
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       toast.error("Erro ao excluir conta");
