@@ -11,7 +11,7 @@ export const loginSchema = z.object({
 export type LoginFormData = z.infer<typeof loginSchema>;
 
 export const registerSchema = z.object({
-  name: z.string().min(2, "O nome é obrigatório"),
+  name: z.string().trim().min(2, "O nome é obrigatório"),
   email: z
     .string()
     .min(1, "O e-mail é obrigatório")
