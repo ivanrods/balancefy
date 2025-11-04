@@ -52,7 +52,11 @@ const Summary = () => {
           </CardAction>
         </CardHeader>
         <CardContent>
-          <p className="text-4xl font-bold break-words">
+          <p
+            className={`text-4xl font-bold break-words ${
+              balance < 0 ? "text-primary" : "text-chart-2"
+            }`}
+          >
             {formatCurrency(balance)}
           </p>
         </CardContent>
