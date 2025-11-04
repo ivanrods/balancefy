@@ -41,6 +41,8 @@ export async function PUT(
   }
 
   const body = await req.json();
+  body.date = new Date(body.date);
+
   const { description, categoryId, walletId, value, type, date } =
     transactionSchema.parse(body);
 

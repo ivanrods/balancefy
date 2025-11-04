@@ -54,6 +54,7 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
+    body.date = new Date(body.date);
 
     const { description, value, categoryId, walletId, type, date } =
       transactionSchema.parse(body);
