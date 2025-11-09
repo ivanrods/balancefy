@@ -37,6 +37,11 @@ export default function WalletGrid() {
           totalIncome={wallet.totalIncome}
         />
       ))}
+      {(wallets ?? []).length === 0 && (
+        <p className="text-center col-span-full text-muted-foreground">
+          Nenhuma carteira encontrada.
+        </p>
+      )}
     </div>
   );
 }
