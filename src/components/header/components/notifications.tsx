@@ -7,7 +7,7 @@ import {
 import { Bell, Megaphone } from "lucide-react";
 
 export function Notifications() {
-  const notifications = [{ id: 1, message: "Bem vindo(a) o Balancefy" }];
+  const notifications = [{ id: 1, message: "Bem vindo(a) ao Balancefy" }];
   return (
     <Popover>
       <PopoverTrigger asChild>

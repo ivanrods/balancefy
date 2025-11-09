@@ -83,7 +83,7 @@ export function ChartAreaFinance() {
   }
 
   return (
-    <Card className="flex flex-col flex-1">
+    <Card className="h-full w-full">
       <CardHeader className="items-center pb-0">
         <CardTitle>Evolução do Saldo</CardTitle>
         <CardDescription>{new Date().getFullYear()}</CardDescription>
