@@ -78,20 +78,20 @@ export default async function Page() {
             Uma interface moderna e intuitiva feita para você ter controle total
             sem complicação.
           </p>
-          <div className="mt-10 hidden md:block">
+          <div className="mt-10 md:block">
             <div className="rounded-xl shadow-xl border bg-background p-4">
-              <div className="relative w-full h-[450px]">
+              <div className="relative w-full h-40 sm:h-72 md:h-80 lg:h-96">
                 <Image
                   src="https://i.ibb.co/GYrQstH/balancefy-dark.png"
                   alt="preview"
                   fill
-                  className="object-cover rounded-lg dark:block"
+                  className=" rounded-lg dark:block"
                 />
                 <Image
                   src="https://i.ibb.co/Kx5whCcn/balancefy.png"
                   alt="preview"
                   fill
-                  className="object-cover rounded-lg dark:hidden"
+                  className=" rounded-lg dark:hidden"
                 />
               </div>
             </div>
