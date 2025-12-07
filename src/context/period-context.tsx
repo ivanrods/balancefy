@@ -1,6 +1,12 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
 
 type PeriodMode = "month" | "total";
 
@@ -13,6 +19,17 @@ const PeriodContext = createContext<PeriodContextProps | undefined>(undefined);
 
 export function PeriodProvider({ children }: { children: ReactNode }) {
   const [mode, setMode] = useState<PeriodMode>("month");
+
+  useEffect(() => {
+    const saved = localStorage.getItem("period-mode");
+    if (saved === "month" || saved === "total") {
+      setMode(saved);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("period-mode", mode);
+  }, [mode]);
 
   return (
     <PeriodContext.Provider value={{ mode, setMode }}>
