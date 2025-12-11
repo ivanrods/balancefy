@@ -39,10 +39,10 @@ export async function AppSidebar() {
           <SidebarMenuItem>
             <SidebarMenuButton
               asChild
-              className="data-[slot=sidebar-menu-button]:!p-1.5"
+              className="data-[slot=sidebar-menu-button]:p-1.5!"
             >
               <a href="#">
-                <Wallet className="text-primary !size-5" />
+                <Wallet className="text-primary size-5!" />
 
                 <span className="text-base font-semibold">Balancefy</span>
               </a>

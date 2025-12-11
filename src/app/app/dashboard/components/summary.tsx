@@ -53,7 +53,7 @@ const Summary = () => {
         </CardHeader>
         <CardContent>
           <p
-            className={`text-4xl font-bold break-words ${
+            className={`text-4xl font-bold wrap-break-word ${
               balance < 0 ? "text-primary" : "text-chart-2"
             }`}
           >
@@ -80,7 +80,7 @@ const Summary = () => {
           </CardAction>
         </CardHeader>
         <CardContent>
-          <p className="text-4xl font-bold break-words">
+          <p className="text-4xl font-bold wrap-break-word">
             {formatCurrency(income)}
           </p>
         </CardContent>
@@ -107,7 +107,7 @@ const Summary = () => {
           </CardAction>
         </CardHeader>
         <CardContent>
-          <p className="text-4xl font-bold break-words">
+          <p className="text-4xl font-bold wrap-break-word">
             {formatCurrency(expense)}
           </p>
         </CardContent>
@@ -134,7 +134,7 @@ const Summary = () => {
           </CardAction>
         </CardHeader>
         <CardContent>
-          <p className="text-4xl font-bold break-words">
+          <p className="text-4xl font-bold wrap-break-word">
             {formatCurrency(economy)}
           </p>
         </CardContent>

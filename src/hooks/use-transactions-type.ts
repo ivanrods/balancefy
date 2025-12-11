@@ -1,4 +1,3 @@
-// src/hooks/use-transactions-type.ts
 import { useQuery } from "@tanstack/react-query";
 import { TransactionType } from "@/types/transaction";
 
