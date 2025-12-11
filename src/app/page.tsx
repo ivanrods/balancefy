@@ -16,7 +16,7 @@ export default async function Page() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Hero Section */}
-      <header className="flex flex-col items-center justify-center text-center py-20 px-6 bg-gradient-to-b from-primary/10 to-background">
+      <header className="flex flex-col items-center justify-center text-center py-20 px-6 bg-linear-to-b from-primary/10 to-background">
         <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-primary">
           Controle suas finanças com facilidade
         </h1>
