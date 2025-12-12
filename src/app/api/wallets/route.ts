@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { authOptions } from "@/lib/auth-options";
 import { getServerSession } from "next-auth/next";
+import { walletSchema } from "@/lib/schemas/wallet-schema";
 
 export async function GET(req: Request) {
   try {
@@ -120,14 +121,7 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
-    const { name } = body;
-
-    if (!name || name.trim() === "") {
-      return NextResponse.json(
-        { error: "O nome da cartetira é obrigatório" },
-        { status: 400 }
-      );
-    }
+    const { name } = walletSchema.parse(body);
 
     // Verifica se o usuário já tem uma carteira com esse nome
     const existingWallet = await prisma.wallet.findFirst({

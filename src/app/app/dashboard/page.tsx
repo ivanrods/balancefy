@@ -13,11 +13,15 @@ export const metadata = {
 const Dashboard = () => {
   return (
     <div className="w-full h-full flex flex-col gap-4">
-      <PeriodFilterHeader title="Finance Dashboard" />
+      <PeriodFilterHeader title="Dashboard financeiro" />
       <Summary />
-      <section className="flex flex-col lg:flex-row gap-4">
-        <ChartPieDonut />
-        <ChartAreaFinance />
+      <section className="w-full grid grid-cols-1 lg:grid-cols-4 gap-4">
+        <div className="lg:col-span-2 xl:col-span-1 ">
+          <ChartPieDonut />
+        </div>
+        <div className="lg:col-span-2 xl:col-span-3 ">
+          <ChartAreaFinance />
+        </div>
       </section>
       <section>
         <TransactionsTable />

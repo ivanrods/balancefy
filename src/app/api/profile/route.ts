@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import type { User } from "@prisma/client";
+import { updateUserSchema } from "@/lib/schemas/update-user-schema";
 
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -59,14 +60,7 @@ export async function PUT(req: Request) {
   }
 
   const body = await req.json();
-  const { name, email, image, password } = body;
-
-  if (!name || !email) {
-    return NextResponse.json(
-      { error: "Nome e email são obrigatórios" },
-      { status: 400 }
-    );
-  }
+  const { name, email, image, password } = updateUserSchema.parse(body);
 
   const dataToUpdate: Partial<User> = { name, email, image };
 

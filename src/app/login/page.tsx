@@ -38,7 +38,7 @@ export default function LoginPage() {
     try {
       const res = await signIn("credentials", {
         email: data.email,
-        password: data.senha,
+        password: data.password,
         redirect: false,
       });
 
@@ -65,7 +65,6 @@ export default function LoginPage() {
           </CardDescription>
           <CardAction>
             <Button variant="link">
-              {" "}
               <Link href="/register">Registrar</Link>
             </Button>
           </CardAction>
@@ -99,11 +98,11 @@ export default function LoginPage() {
                 <Input
                   type="password"
                   placeholder="Senha"
-                  {...register("senha")}
+                  {...register("password")}
                 />
-                {errors.senha && (
+                {errors.password && (
                   <span className="text-red-500 text-sm">
-                    {errors.senha.message}
+                    {errors.password.message}
                   </span>
                 )}
               </div>

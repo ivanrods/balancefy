@@ -1,18 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
+import { registerSchema } from "@/lib/schemas/auth-schema";
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { name, email, password } = body;
 
-    if (!name || !email || !password) {
-      return NextResponse.json(
-        { error: "Nome, e-mail e senha são obrigatórios." },
-        { status: 400 }
-      );
-    }
+    const { name, email, password } = registerSchema.parse(body);
 
     // Checa se usuário já existe
     const existingUser = await prisma.user.findUnique({ where: { email } });

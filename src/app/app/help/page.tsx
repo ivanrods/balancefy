@@ -23,7 +23,7 @@ export default function helpPage() {
           className="w-full"
           defaultValue="item-1"
         >
-          <AccordionItem value="item-1" className="border-b-1 pb-2 ">
+          <AccordionItem value="item-1" className="border-b pb-2 ">
             <AccordionTrigger>Como adicionar uma transação</AccordionTrigger>
             <AccordionContent className="flex flex-col gap-4 text-balance">
               <p>
@@ -65,7 +65,7 @@ export default function helpPage() {
             </AccordionContent>
           </AccordionItem>
 
-          <AccordionItem value="item-4" className="border-b-1 pb-2 ">
+          <AccordionItem value="item-4" className="border-b pb-2 ">
             <AccordionTrigger>Como adicionar uma carteira</AccordionTrigger>
             <AccordionContent className="flex flex-col gap-4 text-balance">
               <p>
@@ -83,7 +83,7 @@ export default function helpPage() {
               </p>
             </AccordionContent>
           </AccordionItem>
-          <AccordionItem value="item-5" className="border-b-1 pb-2 ">
+          <AccordionItem value="item-5" className="border-b pb-2 ">
             <AccordionTrigger>Como adicionar uma categoria</AccordionTrigger>
             <AccordionContent className="flex flex-col gap-4 text-balance">
               <p>

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { authOptions } from "@/lib/auth-options";
 import { getServerSession } from "next-auth/next";
+import { categoriesSchema } from "@/lib/schemas/categories-schema";
 
 // GET - detalhe de uma transação
 export async function GET(
@@ -40,8 +41,7 @@ export async function PUT(
   }
 
   const body = await req.json();
-
-  const { name, color } = body;
+  const { name, color } = categoriesSchema.parse(body);
 
   if (!name) {
     return NextResponse.json(

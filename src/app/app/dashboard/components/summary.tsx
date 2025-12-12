@@ -42,7 +42,7 @@ const Summary = () => {
   const dateToday = new Date().toLocaleString("pt-BR", { month: "long" });
 
   return (
-    <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+    <section className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4">
       <Card>
         <CardHeader>
           <CardTitle>Saldo Atual</CardTitle>
@@ -52,7 +52,11 @@ const Summary = () => {
           </CardAction>
         </CardHeader>
         <CardContent>
-          <p className="text-4xl font-bold break-words">
+          <p
+            className={`text-4xl font-bold wrap-break-word ${
+              balance < 0 ? "text-primary" : "text-chart-2"
+            }`}
+          >
             {formatCurrency(balance)}
           </p>
         </CardContent>
@@ -76,7 +80,7 @@ const Summary = () => {
           </CardAction>
         </CardHeader>
         <CardContent>
-          <p className="text-4xl font-bold break-words">
+          <p className="text-4xl font-bold wrap-break-word">
             {formatCurrency(income)}
           </p>
         </CardContent>
@@ -103,7 +107,7 @@ const Summary = () => {
           </CardAction>
         </CardHeader>
         <CardContent>
-          <p className="text-4xl font-bold break-words">
+          <p className="text-4xl font-bold wrap-break-word">
             {formatCurrency(expense)}
           </p>
         </CardContent>
@@ -130,7 +134,7 @@ const Summary = () => {
           </CardAction>
         </CardHeader>
         <CardContent>
-          <p className="text-4xl font-bold break-words">
+          <p className="text-4xl font-bold wrap-break-word">
             {formatCurrency(economy)}
           </p>
         </CardContent>

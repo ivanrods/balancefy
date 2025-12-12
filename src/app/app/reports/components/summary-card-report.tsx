@@ -73,7 +73,7 @@ export default function SummaryCardReport() {
               </div>
 
               <div>
-                <p className="font-medium text-lg break-words">
+                <p className="font-medium text-lg wrap-break-word">
                   {formatCurrency(income)}{" "}
                 </p>
                 <span className="text-sm text-gray-400">Entradas</span>
@@ -86,7 +86,7 @@ export default function SummaryCardReport() {
               </div>
 
               <div>
-                <p className=" font-medium text-lg break-words">
+                <p className=" font-medium text-lg wrap-break-word">
                   {formatCurrency(expense)}
                 </p>
                 <span className="text-sm text-gray-400">Saídas</span>
