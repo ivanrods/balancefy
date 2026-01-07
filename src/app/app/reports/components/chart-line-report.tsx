@@ -22,10 +22,12 @@ export function ChartLineReport() {
   const month = now.getMonth() + 1;
   const year = now.getFullYear();
 
+  const isMonthMode = mode === "month";
+
   const { transactionsType } = useTransactionsType({
-    month,
+    period: isMonthMode ? "week" : "month",
+    month: isMonthMode ? month : undefined,
     year,
-    period: mode === "month" ? "week" : "month",
   });
 
   return (

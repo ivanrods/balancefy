@@ -16,9 +16,18 @@ export async function GET(req: Request) {
   const year = searchParams.get("year");
 
   let dateFilter = {};
-  if (month && year) {
+
+  if (year && month) {
+    // mês específico do ano atual
     const startDate = new Date(Number(year), Number(month) - 1, 1);
     const endDate = new Date(Number(year), Number(month), 0, 23, 59, 59);
+
+    dateFilter = { date: { gte: startDate, lte: endDate } };
+  } else if (year) {
+    // ano inteiro
+    const startDate = new Date(Number(year), 0, 1);
+    const endDate = new Date(Number(year), 11, 31, 23, 59, 59);
+
     dateFilter = { date: { gte: startDate, lte: endDate } };
   }
 
