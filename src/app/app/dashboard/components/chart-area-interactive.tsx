@@ -40,8 +40,15 @@ const months = [
 
 // Agrupa transações por mês e calcula saldo
 function groupTransactionsByMonth(transactions: Transaction[]) {
+  const currentYear = new Date().getFullYear();
+
   const grouped = transactions.reduce((acc, curr) => {
     const date = new Date(curr.date);
+
+    if (date.getFullYear() !== currentYear) {
+      return acc;
+    }
+
     const monthIndex = date.getMonth();
     const month = months[monthIndex];
 
