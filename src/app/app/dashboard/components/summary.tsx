@@ -27,16 +27,17 @@ const Summary = () => {
   const year = now.getFullYear();
 
   const { incomeAll, expenseAll, balanceAll, economyAll } = useSummaryAll();
-  const { incomeMonth, expenseMonth, economyMonth } = useSummaryMonth();
+  const { incomeMonth, expenseMonth, balanceMonth, economyMonth } =
+    useSummaryMonth();
 
   // Escolhe qual conjunto de dados exibir com base no modo
   const income = mode === "month" ? incomeMonth : incomeAll;
   const expense = mode === "month" ? expenseMonth : expenseAll;
-  const balance = mode === "month" ? balanceAll : balanceAll;
+  const balance = mode === "month" ? balanceMonth : balanceAll;
   const economy = mode === "month" ? economyMonth : economyAll;
 
   const { isLoading } = useTransactions(
-    mode === "month" ? { month: selectedMonth, year } : undefined
+    mode === "month" ? { month: selectedMonth, year } : undefined,
   );
 
   if (isLoading) {

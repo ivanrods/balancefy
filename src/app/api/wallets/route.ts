@@ -69,12 +69,16 @@ export async function GET(req: Request) {
           ? wallet.transactions[wallet.transactions.length - 1]
           : null;
 
+        const balance = month && year
+          ? totalIncomePeriod - totalExpensePeriod
+          : totalIncomeAllTime - totalExpenseAllTime;
+
         return {
           id: wallet.id,
           name: wallet.name,
           totalIncome: totalIncomePeriod,
           totalExpense: totalExpensePeriod,
-          balance: totalIncomeAllTime - totalExpenseAllTime,
+          balance,
           lastTransaction: lastTransaction
             ? {
                 amount: lastTransaction.value,
