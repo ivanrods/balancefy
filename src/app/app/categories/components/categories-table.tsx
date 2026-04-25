@@ -152,13 +152,12 @@ export const columns: ColumnDef<Category>[] = [
 ];
 
 export function CategoriesDataTable() {
-  const { mode } = usePeriod();
+  const { mode, selectedMonth } = usePeriod();
   const now = new Date();
-  const month = now.getMonth() + 1;
   const year = now.getFullYear();
 
   const { categories, isLoading } = useCategories(
-    mode === "month" ? { month, year } : undefined
+    mode === "month" ? { month: selectedMonth, year } : undefined
   );
 
   const [sorting, setSorting] = React.useState<SortingState>([]);

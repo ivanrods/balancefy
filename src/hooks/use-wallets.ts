@@ -10,10 +10,20 @@ export function useWalllets({ month, year }: UseWalletsProps = {}) {
   const queryClient = useQueryClient();
 
   // GET
-  const queryString =
-    month && year
-      ? `?type=summary&month=${month}&year=${year}`
-      : `?type=summary`;
+  const params = new URLSearchParams({ type: "summary" });
+  const currentYear = new Date().getFullYear();
+  const hasMonth = typeof month === "number";
+  const hasYear = typeof year === "number";
+
+  if (hasMonth) {
+    params.set("month", String(month));
+  }
+
+  if (hasMonth || hasYear) {
+    params.set("year", String(year ?? currentYear));
+  }
+
+  const queryString = `?${params.toString()}`;
 
   const { data, isLoading, error } = useQuery<Wallets[]>({
     queryKey: ["wallets", month, year],

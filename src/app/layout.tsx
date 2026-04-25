@@ -52,7 +52,7 @@ export default async function RootLayout({
           <body
             className={`${geistSans.variable} ${geistMono.variable} antialiased w-full `}
           >
-            <main className="w-full">{children}</main>
+            <main className="w-full min-h-dvh">{children}</main>
             <Toaster />
           </body>
         </ThemeProvider>

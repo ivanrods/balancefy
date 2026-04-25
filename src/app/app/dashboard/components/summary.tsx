@@ -22,7 +22,9 @@ import { useSummaryMonth } from "@/hooks/use-summary-month";
 import { usePeriod } from "@/context/period-context";
 
 const Summary = () => {
-  const { mode } = usePeriod();
+  const { mode, selectedMonth } = usePeriod();
+  const now = new Date();
+  const year = now.getFullYear();
 
   const { incomeAll, expenseAll, balanceAll, economyAll } = useSummaryAll();
   const { incomeMonth, expenseMonth, economyMonth } = useSummaryMonth();
@@ -33,13 +35,30 @@ const Summary = () => {
   const balance = mode === "month" ? balanceAll : balanceAll;
   const economy = mode === "month" ? economyMonth : economyAll;
 
-  const { isLoading } = useTransactions();
+  const { isLoading } = useTransactions(
+    mode === "month" ? { month: selectedMonth, year } : undefined
+  );
 
   if (isLoading) {
     return <Skeleton className="w-full h-52 rounded-xl animate-pulse" />;
   }
 
-  const dateToday = new Date().toLocaleString("pt-BR", { month: "long" });
+  const monthNames = [
+    "janeiro",
+    "fevereiro",
+    "março",
+    "abril",
+    "maio",
+    "junho",
+    "julho",
+    "agosto",
+    "setembro",
+    "outubro",
+    "novembro",
+    "dezembro",
+  ];
+  const dateToday =
+    monthNames[selectedMonth - 1] ?? monthNames[new Date().getMonth()];
 
   return (
     <section className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4">

@@ -16,11 +16,23 @@ export function useTransactions({ month, year }: UseTransactionsProps = {}) {
   const { data, isLoading, error } = useQuery<Transaction[]>({
     queryKey,
     queryFn: async () => {
-      let url = "/api/transactions";
+      const params = new URLSearchParams();
+      const currentYear = new Date().getFullYear();
+      const hasMonth = typeof month === "number";
+      const hasYear = typeof year === "number";
 
-      if (month && year) {
-        url += `?month=${month}&year=${year}`;
+      if (hasMonth) {
+        params.set("month", String(month));
       }
+
+      if (hasMonth || hasYear) {
+        params.set("year", String(year ?? currentYear));
+      }
+
+      const queryString = params.toString();
+      const url = queryString
+        ? `/api/transactions?${queryString}`
+        : "/api/transactions";
 
       const res = await fetch(url);
       if (!res.ok) throw new Error("Erro ao buscar transações");

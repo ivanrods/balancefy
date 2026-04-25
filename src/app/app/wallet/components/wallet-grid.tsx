@@ -6,13 +6,12 @@ import { useWalllets } from "@/hooks/use-wallets";
 
 import { usePeriod } from "@/context/period-context";
 export default function WalletGrid() {
-  const { mode } = usePeriod();
+  const { mode, selectedMonth } = usePeriod();
   const now = new Date();
-  const month = now.getMonth() + 1;
   const year = now.getFullYear();
 
   const { wallets, isLoading } = useWalllets(
-    mode === "month" ? { month, year } : undefined
+    mode === "month" ? { month: selectedMonth, year } : undefined
   );
 
   if (isLoading) {

@@ -140,13 +140,12 @@ export const columns = (): ColumnDef<Transaction>[] => [
 ];
 
 export function DataTableReport() {
-  const { mode } = usePeriod();
+  const { mode, selectedMonth } = usePeriod();
   const now = new Date();
-  const month = now.getMonth() + 1;
   const year = now.getFullYear();
 
   const { transactions, isLoading } = useTransactions(
-    mode === "month" ? { month, year } : undefined
+    mode === "month" ? { month: selectedMonth, year } : undefined
   );
 
   const [sorting, setSorting] = React.useState<SortingState>([]);

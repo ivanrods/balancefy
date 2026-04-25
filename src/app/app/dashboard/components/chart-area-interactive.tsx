@@ -72,18 +72,31 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function ChartAreaFinance() {
-  const { mode } = usePeriod();
+  const { mode, selectedMonth } = usePeriod();
+  const monthsLong = [
+    "janeiro",
+    "fevereiro",
+    "março",
+    "abril",
+    "maio",
+    "junho",
+    "julho",
+    "agosto",
+    "setembro",
+    "outubro",
+    "novembro",
+    "dezembro",
+  ];
+  const monthLabel =
+    monthsLong[selectedMonth - 1] ?? monthsLong[new Date().getMonth()];
   const now = new Date();
-  const month = now.getMonth() + 1;
   const year = now.getFullYear();
 
   const { transactions, isLoading } = useTransactions(
-    mode === "month" ? { month, year } : undefined
+    mode === "month" ? { month: selectedMonth, year } : undefined
   );
 
   const chartData = groupTransactionsByMonth(transactions || []);
-
-  const dateToday = new Date().toLocaleString("pt-BR", { month: "long" });
 
   if (isLoading) {
     return <Skeleton className="h-96 w-full rounded-xl animate-pulse" />;
@@ -131,7 +144,7 @@ export function ChartAreaFinance() {
       <CardFooter className="flex-col gap-2 text-sm">
         <div className="flex items-center gap-2 leading-none font-medium">
           {mode === "month" ? (
-            <p>Baseado nas transações do mês de {dateToday} </p>
+            <p>Baseado nas transações do mês de {monthLabel} </p>
           ) : (
             <p>Baseado nas transações de todo o período </p>
           )}

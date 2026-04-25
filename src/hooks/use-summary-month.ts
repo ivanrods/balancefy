@@ -1,11 +1,12 @@
 import { useTransactions } from "@/hooks/use-transactions";
+import { usePeriod } from "@/context/period-context";
 
 export function useSummaryMonth() {
+  const { selectedMonth } = usePeriod();
   const now = new Date();
-  const month = now.getMonth() + 1;
   const year = now.getFullYear();
 
-  const { transactions } = useTransactions({ month, year });
+  const { transactions } = useTransactions({ month: selectedMonth, year });
   const incomeMonth =
     transactions
       ?.filter((t) => t.type === "income")

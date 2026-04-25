@@ -46,13 +46,27 @@ function groupTransactions(transactions: Transaction[]) {
 }
 
 export function ChartPieDonut() {
-  const { mode } = usePeriod();
+  const { mode, selectedMonth } = usePeriod();
+  const months = [
+    "janeiro",
+    "fevereiro",
+    "março",
+    "abril",
+    "maio",
+    "junho",
+    "julho",
+    "agosto",
+    "setembro",
+    "outubro",
+    "novembro",
+    "dezembro",
+  ];
+  const monthLabel = months[selectedMonth - 1] ?? months[new Date().getMonth()];
   const now = new Date();
-  const month = now.getMonth() + 1;
   const year = now.getFullYear();
 
   const { transactions, isLoading } = useTransactions(
-    mode === "month" ? { month, year } : undefined
+    mode === "month" ? { month: selectedMonth, year } : undefined
   );
 
   const chartData = groupTransactions(transactions ?? []);
@@ -61,14 +75,12 @@ export function ChartPieDonut() {
     return <Skeleton className="h-96 w-full  rounded-xl animate-pulse" />;
   }
 
-  const dateToday = new Date().toLocaleString("pt-BR", { month: "long" });
-
   return (
     <Card className="h-full w-full ">
       <CardHeader className="items-center pb-0">
         <CardTitle>Distribuição de Gastos</CardTitle>
         <CardDescription>
-          {mode === "month" ? <p>{dateToday}</p> : <p>Total</p>}
+          {mode === "month" ? <p>{monthLabel}</p> : <p>Total</p>}
         </CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
@@ -94,7 +106,7 @@ export function ChartPieDonut() {
       <CardFooter className="flex-col gap-2 text-sm">
         <div className="flex items-center gap-2 leading-none font-medium">
           {mode === "month" ? (
-            <p>Baseado nas transações do mês de {dateToday} </p>
+            <p>Baseado nas transações do mês de {monthLabel} </p>
           ) : (
             <p>Baseado nas transações de todo o período </p>
           )}

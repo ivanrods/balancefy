@@ -1,13 +1,29 @@
 import { useTransactions } from "@/hooks/use-transactions";
+import { usePeriod } from "@/context/period-context";
 
 export function useSummaryReportMonth() {
+  const { selectedMonth } = usePeriod();
   const now = new Date();
-  const month = now.getMonth() + 1;
   const year = now.getFullYear();
 
-  const { transactions } = useTransactions({ month, year });
+  const { transactions } = useTransactions({ month: selectedMonth, year });
 
-  const dateToday = new Date().toLocaleString("pt-BR", { month: "long" });
+  const monthNames = [
+    "janeiro",
+    "fevereiro",
+    "março",
+    "abril",
+    "maio",
+    "junho",
+    "julho",
+    "agosto",
+    "setembro",
+    "outubro",
+    "novembro",
+    "dezembro",
+  ];
+  const dateToday =
+    monthNames[selectedMonth - 1] ?? monthNames[new Date().getMonth()];
 
   const incomeMonth =
     transactions

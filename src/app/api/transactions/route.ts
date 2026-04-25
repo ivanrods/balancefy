@@ -13,14 +13,30 @@ export async function GET(req: Request) {
   }
 
   const { searchParams } = new URL(req.url);
-  const month = searchParams.get("month");
-  const year = searchParams.get("year");
+  const monthParam = searchParams.get("month");
+  const yearParam = searchParams.get("year");
 
-  // Se tiver month e year -> aplica filtro por data
+  // Se tiver month -> aplica filtro por data no ano informado
+  // Se o ano não vier, usa o ano atual
   let dateFilter = {};
-  if (month && year) {
-    const startDate = new Date(Number(year), Number(month) - 1, 1);
-    const endDate = new Date(Number(year), Number(month), 0, 23, 59, 59);
+  if (monthParam) {
+    const month = Number(monthParam);
+    const year = yearParam ? Number(yearParam) : new Date().getFullYear();
+
+    if (
+      !Number.isInteger(month) ||
+      month < 1 ||
+      month > 12 ||
+      !Number.isInteger(year)
+    ) {
+      return NextResponse.json(
+        { error: "Parâmetros month/year inválidos" },
+        { status: 400 }
+      );
+    }
+
+    const startDate = new Date(year, month - 1, 1);
+    const endDate = new Date(year, month, 0, 23, 59, 59, 999);
 
     dateFilter = {
       date: {

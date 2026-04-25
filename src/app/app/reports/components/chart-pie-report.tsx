@@ -38,13 +38,27 @@ function groupTransactions(transactions: Transaction[]) {
 }
 
 export function ChartPieReport() {
-  const { mode } = usePeriod();
+  const { mode, selectedMonth } = usePeriod();
+  const months = [
+    "janeiro",
+    "fevereiro",
+    "março",
+    "abril",
+    "maio",
+    "junho",
+    "julho",
+    "agosto",
+    "setembro",
+    "outubro",
+    "novembro",
+    "dezembro",
+  ];
+  const monthLabel = months[selectedMonth - 1] ?? months[new Date().getMonth()];
   const now = new Date();
-  const month = now.getMonth() + 1;
   const year = now.getFullYear();
 
   const { transactions, isLoading } = useTransactions(
-    mode === "month" ? { month, year } : undefined
+    mode === "month" ? { month: selectedMonth, year } : undefined
   );
 
   const chartData = groupTransactions(transactions ?? []);
@@ -53,15 +67,14 @@ export function ChartPieReport() {
     return <Skeleton className="h-96 w-full rounded-xl animate-pulse" />;
   }
 
-  const dateToday = new Date().toLocaleString("pt-BR", { month: "long" });
-
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
         <CardTitle>Distribuição de Gastos</CardTitle>
         <CardDescription>
-          {" "}
-          Baseado nas transações de {dateToday}
+          {mode === "month"
+            ? `Baseado nas transações de ${monthLabel}`
+            : "Baseado nas transações de todo o período"}
         </CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">

@@ -17,16 +17,15 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function ChartLineReport() {
-  const { mode } = usePeriod();
+  const { mode, selectedMonth } = usePeriod();
   const now = new Date();
-  const month = now.getMonth() + 1;
   const year = now.getFullYear();
 
   const isMonthMode = mode === "month";
 
   const { transactionsType } = useTransactionsType({
     period: isMonthMode ? "week" : "month",
-    month: isMonthMode ? month : undefined,
+    month: isMonthMode ? selectedMonth : undefined,
     year,
   });
 

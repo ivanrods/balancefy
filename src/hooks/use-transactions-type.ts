@@ -18,9 +18,19 @@ export function useTransactionsType({
     queryKey,
     queryFn: async () => {
       const params = new URLSearchParams();
+      const currentYear = new Date().getFullYear();
+      const hasMonth = typeof month === "number";
+      const hasYear = typeof year === "number";
+
       params.append("period", period);
-      if (month) params.append("month", month.toString());
-      if (year) params.append("year", year.toString());
+
+      if (hasMonth) {
+        params.append("month", month.toString());
+      }
+
+      if (hasMonth || hasYear) {
+        params.append("year", String(year ?? currentYear));
+      }
 
       const res = await fetch(`/api/transactions/transaction-type?${params}`);
       if (!res.ok) throw new Error("Erro ao buscar transações");
