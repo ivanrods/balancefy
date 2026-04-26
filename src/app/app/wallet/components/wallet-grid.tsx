@@ -11,7 +11,7 @@ export default function WalletGrid() {
   const year = now.getFullYear();
 
   const { wallets, isLoading } = useWalllets(
-    mode === "month" ? { month: selectedMonth, year } : undefined
+    mode === "month" ? { month: selectedMonth, year } : undefined,
   );
 
   if (isLoading) {

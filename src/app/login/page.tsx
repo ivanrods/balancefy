@@ -1,6 +1,6 @@
 "use client";
 
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -25,6 +25,7 @@ import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const router = useRouter();
+  const { update } = useSession();
 
   const {
     register,
@@ -43,8 +44,9 @@ export default function LoginPage() {
       });
 
       if (res?.ok) {
+        // Refresh session before navigating
+        await update();
         router.push("/app/dashboard");
-        window.location.reload();
       } else {
         toast.error(res?.error || "E-mail ou senha incorretos");
       }
