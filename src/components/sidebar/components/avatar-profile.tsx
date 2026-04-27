@@ -5,50 +5,37 @@ import { useEffect, useState } from "react";
 
 type AvatarProfileProps = {
   imageUrl?: string | null;
-  onUpload?: (base64: string) => void;
+  onSelectFile?: (file: File | null, previewUrl: string | null) => void;
   disabled?: boolean;
 };
 
 export function AvatarProfile({
   imageUrl,
-  onUpload,
+  onSelectFile,
   disabled,
 }: AvatarProfileProps) {
   const [preview, setPreview] = useState(imageUrl || null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setPreview(imageUrl || null);
   }, [imageUrl]);
 
-  const handleImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file) return;
-
-    setLoading(true);
-
-    const formData = new FormData();
-    formData.append("file", file);
-
-    try {
-      const res = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      });
-
-      const data = await res.json();
-      if (res.ok) {
-        const imageUrl = data.url;
-        setPreview(imageUrl);
-        onUpload?.(imageUrl);
-      } else {
-        console.error("Erro no upload", data.error);
-      }
-    } catch (error) {
-      console.error("Erro ao enviar imagem:", error);
-    } finally {
-      setLoading(false);
+    if (!file) {
+      setPreview(imageUrl || null);
+      onSelectFile?.(null, imageUrl || null);
+      return;
     }
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPreview(reader.result as string);
+      onSelectFile?.(file, reader.result as string);
+    };
+    reader.readAsDataURL(file);
   };
 
   return (

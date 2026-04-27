@@ -28,7 +28,8 @@ import { signOut } from "next-auth/react";
 type updateFormData = z.infer<typeof updateUserSchema>;
 
 export function EditProfile() {
-  const [avatar, setAvatar] = useState(String);
+  const [avatar, setAvatar] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isGoogleUser, setIsGoogleUser] = useState(false);
 
   const {
@@ -48,6 +49,7 @@ export function EditProfile() {
           email: data.email,
         });
         setAvatar(data.image || null);
+        setSelectedFile(null);
         setIsGoogleUser(data.provider === "google");
       }
     }
@@ -55,12 +57,36 @@ export function EditProfile() {
   }, [reset]);
 
   async function onSubmit(data: updateFormData) {
+    let imageUrl = avatar;
+    // Se um novo arquivo foi selecionado, faz upload agora
+    if (selectedFile) {
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+      try {
+        const resUpload = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
+        const uploadData = await resUpload.json();
+        if (resUpload.ok) {
+          imageUrl = uploadData.url;
+        } else {
+          toast.error("Erro ao enviar imagem: " + (uploadData.error || ""));
+          return;
+        }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (err) {
+        toast.error("Erro ao enviar imagem.");
+        return;
+      }
+    }
+
     const res = await fetch("/api/profile", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         ...data,
-        image: avatar,
+        image: imageUrl,
       }),
     });
 
@@ -94,7 +120,11 @@ export function EditProfile() {
           <div className="flex justify-center ">
             <AvatarProfile
               imageUrl={avatar}
-              onUpload={(url) => setAvatar(url)}
+              onSelectFile={(file, previewUrl) => {
+                setSelectedFile(file);
+                if (previewUrl) setAvatar(previewUrl);
+                // Se file for null, previewUrl será a imagem original
+              }}
               disabled={isGoogleUser}
             />
           </div>
