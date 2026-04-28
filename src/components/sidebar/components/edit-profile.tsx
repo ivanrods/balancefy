@@ -23,11 +23,12 @@ import { AvatarProfile } from "./avatar-profile";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 
 import { updateUserSchema } from "@/lib/schemas/update-user-schema";
-import { signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 type updateFormData = z.infer<typeof updateUserSchema>;
 
 export function EditProfile() {
+  const { data: session, update } = useSession();
   const [avatar, setAvatar] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isGoogleUser, setIsGoogleUser] = useState(false);
@@ -91,8 +92,19 @@ export function EditProfile() {
     });
 
     if (res.ok) {
-      toast.success("Perfil atualizado. Faça login novamente para continuar");
-      signOut({ callbackUrl: "/login" });
+      const updatedUser = await res.json();
+      // Atualiza a sessão do NextAuth no navegador
+      if (update) {
+        await update({
+        user: {
+          ...session?.user,
+          name: updatedUser.name,
+          email: updatedUser.email,
+          image: updatedUser.image,
+        },
+      });
+      }
+      toast.success("Perfil atualizado com sucesso!");
     } else {
       toast.error("Erro ao atualizar perfil.");
     }

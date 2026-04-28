@@ -40,7 +40,7 @@ export const authOptions: AuthOptions = {
 
         const isValid = await bcrypt.compare(
           credentials.password,
-          user.password
+          user.password,
         );
         if (!isValid) {
           throw new Error("E-mail ou Senha incorreta");
@@ -59,9 +59,32 @@ export const authOptions: AuthOptions = {
   session: { strategy: "jwt" },
 
   callbacks: {
+    async jwt({ token, user, trigger }) {
+      // Atualiza dados do usuário no token ao logar ou ao chamar update()
+      let email = token.email;
+      if (!email && user) email = user.email;
+      if (user || trigger === "update") {
+        if (email) {
+          const dbUser = await prisma.user.findUnique({
+            where: { email },
+            select: { id: true, name: true, email: true, image: true },
+          });
+          if (dbUser) {
+            token.name = dbUser.name;
+            token.email = dbUser.email;
+            token.picture = dbUser.image;
+            token.id = dbUser.id;
+          }
+        }
+      }
+      return token;
+    },
     async session({ session, token }) {
       if (session.user) {
-        (session.user as { id?: string }).id = token.sub;
+        session.user.id = token.id as string;
+        session.user.name = token.name;
+        session.user.email = token.email;
+        session.user.image = token.picture as string;
       }
       return session;
     },
@@ -72,7 +95,7 @@ export const authOptions: AuthOptions = {
     async createUser({ user }) {
       if (!user.id) {
         console.error(
-          "Usuário sem ID, não é possível criar categorias e carteira"
+          "Usuário sem ID, não é possível criar categorias e carteira",
         );
         return;
       }

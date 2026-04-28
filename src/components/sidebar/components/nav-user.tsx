@@ -20,32 +20,14 @@ import {
 } from "@/components/ui/sidebar";
 import { EditProfile } from "@/components/sidebar/components/edit-profile";
 import { DeleteAccountDialog } from "./delete-account-dialog";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import { signOut, useSession } from "next-auth/react";
 import { DrawerConfig } from "./drawer-config";
 
-type User = {
-  name: string;
-  email: string;
-  image?: string;
-};
-
 export function NavUser() {
   const { isMobile } = useSidebar();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data: session, status } = useSession();
-
-  const [user, setUser] = useState<User | null>();
-
-  useEffect(() => {
-    if (status === "authenticated" && session?.user) {
-      // Passa o usuário da sessão para o estado local
-      setUser({
-        name: session.user.name || "",
-        email: session.user.email || "",
-        image: session.user.image || "",
-      });
-    }
-  }, [status, session]);
 
   return (
     <SidebarMenu>
@@ -58,17 +40,17 @@ export function NavUser() {
             >
               <Avatar className="h-8 w-8 rounded-lg grayscale">
                 <AvatarImage
-                  src={user?.image || "/avatar.png"}
-                  alt={user?.name ?? "User"}
+                  src={session?.user?.image || "/avatar.png"}
+                  alt={session?.user?.name ?? "User"}
                 />
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">
-                  {user?.name ?? "User"}
+                  {session?.user?.name ?? "User"}
                 </span>
                 <span className="text-muted-foreground truncate text-xs">
-                  {user?.email}
+                  {session?.user?.email}
                 </span>
               </div>
 
@@ -85,17 +67,17 @@ export function NavUser() {
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage
-                    src={user?.image || "/avatar.png"}
-                    alt={user?.name ?? "User"}
+                    src={session?.user?.image || "/avatar.png"}
+                    alt={session?.user?.name ?? "User"}
                   />
                   <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">
-                    {user?.name ?? "User"}
+                    {session?.user?.name ?? "User"}
                   </span>
                   <span className="text-muted-foreground truncate text-xs">
-                    {user?.email}
+                    {session?.user?.email}
                   </span>
                 </div>
               </div>
