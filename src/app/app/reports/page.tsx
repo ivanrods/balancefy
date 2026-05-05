@@ -3,6 +3,7 @@ import SummaryCardReport from "./components/summary-card-report";
 import { ChartAreaReport } from "./components/chart-area-report";
 import { ChartPieReport } from "./components/chart-pie-report";
 import { DataTableReport } from "./components/data-table-report";
+import { TransactionsExport } from "./components/transactions-export";
 
 export const metadata = {
   title: "Relatórios | Balancefy",
@@ -19,8 +20,11 @@ export default function ReportsPage() {
         <ChartAreaReport />
         <ChartPieReport />
       </section>
+      <section className="flex items-center justify-between">
+        <h2 className="text-xl font-semibold">Histórico de Transações</h2>
+        <TransactionsExport />
+      </section>
       <section>
-        <h2 className="text-xl font-semibold mb-4">Histórico de Transações</h2>
         <DataTableReport />
       </section>
     </div>
