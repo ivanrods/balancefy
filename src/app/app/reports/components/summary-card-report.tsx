@@ -8,11 +8,11 @@ import {
 } from "@/components/ui/card";
 import { formatCurrency } from "@/utils/format-currency";
 import { ArrowDown, ArrowUp } from "lucide-react";
-import { ChartLineReport } from "./chart-line-report";
 import { usePeriod } from "@/context/period-context";
 import { useSummaryReportAll } from "@/hooks/use-summary-report-all";
 import { useSummaryReportMonth } from "@/hooks/use-summary-report-all-month";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ChartPieReport } from "./chart-pie-report";
 
 export default function SummaryCardReport() {
   const { mode } = usePeriod();
@@ -95,7 +95,7 @@ export default function SummaryCardReport() {
           </CardFooter>
         </div>
         <div className="w-full h-full px-4 lg:max-w-md">
-          <ChartLineReport />
+          <ChartPieReport />
         </div>
       </div>
     </Card>

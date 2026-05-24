@@ -42,21 +42,24 @@ const months = [
 function groupTransactionsByMonth(transactions: Transaction[]) {
   const currentYear = new Date().getFullYear();
 
-  const grouped = transactions.reduce((acc, curr) => {
-    const date = new Date(curr.date);
+  const grouped = transactions.reduce(
+    (acc, curr) => {
+      const date = new Date(curr.date);
 
-    if (date.getFullYear() !== currentYear) {
+      if (date.getFullYear() !== currentYear) {
+        return acc;
+      }
+
+      const monthIndex = date.getMonth();
+      const month = months[monthIndex];
+
+      const valor = curr.type === "income" ? curr.value : -curr.value;
+
+      acc[month] = (acc[month] || 0) + valor;
       return acc;
-    }
-
-    const monthIndex = date.getMonth();
-    const month = months[monthIndex];
-
-    const valor = curr.type === "income" ? curr.value : -curr.value;
-
-    acc[month] = (acc[month] || 0) + valor;
-    return acc;
-  }, {} as Record<string, number>);
+    },
+    {} as Record<string, number>,
+  );
 
   return months.map((m) => ({
     month: m,
@@ -71,7 +74,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function ChartAreaReport() {
+export function ChartArea() {
   const { mode, selectedMonth } = usePeriod();
   const monthsLong = [
     "janeiro",
@@ -93,7 +96,7 @@ export function ChartAreaReport() {
   const year = now.getFullYear();
 
   const { transactions, isLoading } = useTransactions(
-    mode === "month" ? { month: selectedMonth, year } : undefined
+    mode === "month" ? { month: selectedMonth, year } : undefined,
   );
 
   const chartData = groupTransactionsByMonth(transactions || []);
@@ -103,7 +106,7 @@ export function ChartAreaReport() {
   }
 
   return (
-    <Card className="flex flex-col flex-1">
+    <Card className="h-full w-full">
       <CardHeader className="items-center pb-0">
         <CardTitle>Evolução do Saldo</CardTitle>
         <CardDescription>{new Date().getFullYear()}</CardDescription>

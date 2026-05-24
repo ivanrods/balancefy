@@ -1,6 +1,6 @@
-import { ChartAreaFinance } from "./components/chart-area-interactive";
+import { ChartArea } from "../../../components/chart-area";
 import { ChartPieDonut } from "./components/chart-pie-donut";
-import { TransactionsTable } from "@/app/app/dashboard/components/transactions-table";
+import { TransactionsTable } from "@/components/transactions-table";
 import Summary from "./components/summary";
 import { PeriodFilterHeader } from "@/components/period-filter-header";
 
@@ -20,7 +20,7 @@ const Dashboard = () => {
           <ChartPieDonut />
         </div>
         <div className="lg:col-span-2 xl:col-span-3 ">
-          <ChartAreaFinance />
+          <ChartArea />
         </div>
       </section>
       <section>

@@ -1,9 +1,9 @@
 import { PeriodFilterHeader } from "@/components/period-filter-header";
 import SummaryCardReport from "./components/summary-card-report";
-import { ChartAreaReport } from "./components/chart-area-report";
-import { ChartPieReport } from "./components/chart-pie-report";
-import { DataTableReport } from "./components/data-table-report";
 import { TransactionsExport } from "./components/transactions-export";
+import { TransactionsTable } from "@/components/transactions-table";
+import { ChartArea } from "@/components/chart-area";
+import { ChartLine } from "./components/chart-line";
 
 export const metadata = {
   title: "Relatórios | Balancefy",
@@ -17,15 +17,15 @@ export default function ReportsPage() {
       <PeriodFilterHeader title=" Relatórios Financeiros" />
       <SummaryCardReport />
       <section className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <ChartAreaReport />
-        <ChartPieReport />
+        <ChartArea />
+        <ChartLine />
       </section>
       <section className="flex items-center justify-between">
         <h2 className="text-xl font-semibold">Histórico de Transações</h2>
         <TransactionsExport />
       </section>
       <section>
-        <DataTableReport />
+        <TransactionsTable />
       </section>
     </div>
   );

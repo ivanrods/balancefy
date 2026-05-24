@@ -1,5 +1,5 @@
 import { PeriodFilterHeader } from "@/components/period-filter-header";
-import { TransactionsTable } from "./components/transactions-table";
+import { TransactionsTable } from "@/components/transactions-table";
 
 export const metadata = {
   title: "Transações | Balancefy",
