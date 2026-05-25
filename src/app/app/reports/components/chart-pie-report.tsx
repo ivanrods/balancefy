@@ -3,48 +3,39 @@
 import { Pie, PieChart } from "recharts";
 
 import { Card, CardContent } from "@/components/ui/card";
-import { ChartContainer } from "@/components/ui/chart";
-import { Transaction } from "@/types/transaction";
-import { usePeriod } from "@/context/period-context";
-import { useTransactions } from "@/hooks/use-transactions";
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
+import { useSummaryReportAll } from "@/hooks/use-summary-report-all";
 import { Skeleton } from "@/components/ui/skeleton";
+import { usePeriod } from "@/context/period-context";
+import { useSummaryReportMonth } from "@/hooks/use-summary-report-all-month";
 
-export const description = "A pie chart with a legend";
-
-function groupTransactions(transactions: Transaction[]) {
-  const grouped = transactions.reduce(
-    (acc, curr) => {
-      const categoria = curr.category?.name || "Outros";
-      const cor = curr.category?.color || "#cccccc"; // fallback cinza
-
-      if (!acc[categoria]) {
-        acc[categoria] = { valor: 0, cor };
-      }
-
-      acc[categoria].valor += curr.value;
-      return acc;
-    },
-    {} as Record<string, { valor: number; cor: string }>,
-  );
-
-  return Object.entries(grouped).map(([categoria, { valor, cor }]) => ({
-    categoria,
-    valor,
-    fill: cor, // passa direto para o gráfico
-  }));
-}
+const chartConfig = {
+  income: { label: "Entradas", color: "var(--chart-2)" },
+  expense: { label: "Saídas", color: "var(--primary)" },
+} satisfies ChartConfig;
 
 export function ChartPieReport() {
-  const { mode, selectedMonth } = usePeriod();
+  const { mode } = usePeriod();
 
-  const now = new Date();
-  const year = now.getFullYear();
+  const { incomeAll, expenseAll, isLoading } = useSummaryReportAll();
+  const { incomeMonth, expenseMonth } = useSummaryReportMonth();
 
-  const { transactions, isLoading } = useTransactions(
-    mode === "month" ? { month: selectedMonth, year } : undefined,
-  );
+  const income = mode === "month" ? incomeMonth : incomeAll;
+  const expense = mode === "month" ? expenseMonth : expenseAll;
 
-  const chartData = groupTransactions(transactions ?? []);
+  const chartData = [
+    mode === "month"
+      ? { tipo: "Entradas", valor: income, fill: "var(--color-income)" }
+      : { tipo: "Entradas", valor: incomeAll, fill: "var(--color-income)" },
+    mode === "month"
+      ? { tipo: "Saídas", valor: expense, fill: "var(--color-expense)" }
+      : { tipo: "Saídas", valor: expenseAll, fill: "var(--color-expense)" },
+  ];
 
   if (isLoading) {
     return <Skeleton className="h-96 w-full rounded-xl animate-pulse" />;
@@ -54,11 +45,15 @@ export function ChartPieReport() {
     <Card className="flex flex-col">
       <CardContent className="flex-1 pb-0">
         <ChartContainer
-          config={{}}
+          config={chartConfig}
           className="mx-auto aspect-square max-h-[200px]"
         >
           <PieChart>
-            <Pie data={chartData} dataKey="valor" nameKey="categoria" />
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent hideLabel />}
+            />
+            <Pie data={chartData} dataKey="valor" nameKey="tipo" />
           </PieChart>
         </ChartContainer>
       </CardContent>
