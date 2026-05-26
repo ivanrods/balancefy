@@ -3,9 +3,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 import WalletCard from "../components/wallet-card";
 import { useWalllets } from "@/hooks/use-wallets";
+import { useTranslation } from "@/hooks/use-translation";
 
 import { usePeriod } from "@/context/period-context";
 export default function WalletGrid() {
+  const { t } = useTranslation();
   const { mode, selectedMonth } = usePeriod();
   const now = new Date();
   const year = now.getFullYear();
@@ -38,7 +40,7 @@ export default function WalletGrid() {
       ))}
       {(wallets ?? []).length === 0 && (
         <p className="text-center col-span-full text-muted-foreground">
-          Nenhuma carteira encontrada.
+          {t("wallet.noWallet")}
         </p>
       )}
     </div>

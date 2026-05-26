@@ -8,28 +8,31 @@ import { useCurrency } from "@/context/currency-context";
 export function useExportPDF() {
   const { currency } = useCurrency();
   const generateTransactionsPDF = useCallback(
-    async (transactions: Transaction[], periodLabel: string) => {
+    async (
+      transactions: Transaction[],
+      periodLabel: string,
+      locale: string = "pt-BR",
+      t?: (key: string) => string,
+    ) => {
+      const _t = t || ((key: string) => key);
       try {
         const doc = new jsPDF();
         const margin = 15;
         let yPosition = margin;
 
-        // Título
         doc.setFontSize(16);
-        doc.text("Relatório de Transações", margin, yPosition);
+        doc.text(_t("exportPdf.title"), margin, yPosition);
         yPosition += 10;
 
-        // Período
         doc.setFontSize(11);
         doc.setTextColor(100);
-        doc.text(`Período: ${periodLabel}`, margin, yPosition);
+        doc.text(`${_t("exportPdf.period")}: ${periodLabel}`, margin, yPosition);
         yPosition += 8;
         doc.setTextColor(0);
 
-        // Data de geração
         doc.setFontSize(9);
         doc.text(
-          `Gerado em: ${new Date().toLocaleDateString("pt-BR", {
+          `${_t("exportPdf.generatedOn")}: ${new Date().toLocaleDateString(locale, {
             day: "2-digit",
             month: "2-digit",
             year: "numeric",
@@ -41,7 +44,6 @@ export function useExportPDF() {
         );
         yPosition += 8;
 
-        // Resumo
         const totalIncome = transactions
           .filter((t) => t.type === "income")
           .reduce((sum, t) => sum + t.value, 0);
@@ -52,36 +54,41 @@ export function useExportPDF() {
 
         doc.setFontSize(11);
         doc.setFont("", "bold");
-        doc.text("Resumo Financeiro", margin, yPosition);
+        doc.text(_t("exportPdf.financialSummary"), margin, yPosition);
         yPosition += 6;
 
         doc.setFontSize(10);
         doc.setFont("", "normal");
         doc.text(
-          `Total de Entradas: ${formatCurrency(totalIncome, currency)}`,
+          `${_t("exportPdf.totalIncome")}: ${formatCurrency(totalIncome, currency, locale)}`,
           margin,
           yPosition,
         );
         yPosition += 5;
         doc.text(
-          `Total de Saídas: ${formatCurrency(totalExpense, currency)}`,
+          `${_t("exportPdf.totalExpenses")}: ${formatCurrency(totalExpense, currency, locale)}`,
           margin,
           yPosition,
         );
         yPosition += 5;
-        doc.text(`Saldo: ${formatCurrency(balance, currency)}`, margin, yPosition);
+        doc.text(`${_t("exportPdf.balance")}: ${formatCurrency(balance, currency, locale)}`, margin, yPosition);
         yPosition += 10;
 
-        // Tabela de transações
-        const columns = ["Data", "Descrição", "Categoria", "Tipo", "Valor"];
+        const columns = [
+          _t("table.date"),
+          _t("table.description"),
+          _t("table.category"),
+          _t("table.type"),
+          _t("table.value"),
+        ];
         const tableData = transactions.map((t) => [
-          new Date(t.date).toLocaleDateString("pt-BR"),
+          new Date(t.date).toLocaleDateString(locale),
           t.description.length > 20
             ? t.description.substring(0, 20) + "..."
             : t.description,
           t.category.name,
-          t.type === "income" ? "Entrada" : "Saída",
-          formatCurrency(t.value, currency),
+          t.type === "income" ? _t("table.typeIncome") : _t("table.typeExpense"),
+          formatCurrency(t.value, currency, locale),
         ]);
 
         autoTable(doc, {
@@ -106,14 +113,13 @@ export function useExportPDF() {
           },
         });
 
-        // Salvar PDF
-        const fileName = `transacoes_${new Date().getTime()}.pdf`;
+        const fileName = `transactions_${new Date().getTime()}.pdf`;
         doc.save(fileName);
 
-        return { success: true, message: "PDF gerado com sucesso!" };
+        return { success: true, message: _t("exportPdf.pdfGeneratedSuccess") };
       } catch (error) {
         console.error("Erro ao gerar PDF:", error);
-        return { success: false, message: "Erro ao gerar PDF" };
+        return { success: false, message: _t("exportPdf.pdfGeneratedError") };
       }
     },
     [currency],

@@ -21,9 +21,11 @@ import { useTransactions } from "@/hooks/use-transactions";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useSummaryMonth } from "@/hooks/use-summary-month";
 import { usePeriod } from "@/context/period-context";
+import { useTranslation } from "@/hooks/use-translation";
 
 const Summary = () => {
   const { mode, selectedMonth } = usePeriod();
+  const { t, locale } = useTranslation();
   const { currency } = useCurrency();
   const now = new Date();
   const year = now.getFullYear();
@@ -46,20 +48,10 @@ const Summary = () => {
     return <Skeleton className="w-full h-52 rounded-xl animate-pulse" />;
   }
 
-  const monthNames = [
-    "janeiro",
-    "fevereiro",
-    "março",
-    "abril",
-    "maio",
-    "junho",
-    "julho",
-    "agosto",
-    "setembro",
-    "outubro",
-    "novembro",
-    "dezembro",
-  ];
+  const monthNames = Array.from({ length: 12 }, (_, i) => {
+    const date = new Date(2024, i, 1);
+    return date.toLocaleDateString(locale, { month: "long" });
+  });
   const dateToday =
     monthNames[selectedMonth - 1] ?? monthNames[new Date().getMonth()];
 
@@ -67,8 +59,8 @@ const Summary = () => {
     <section className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4">
       <Card>
         <CardHeader>
-          <CardTitle>Saldo Atual</CardTitle>
-          <CardDescription>Receita total</CardDescription>
+          <CardTitle>{t("summary.currentBalance")}</CardTitle>
+          <CardDescription>{t("summary.totalRevenue")}</CardDescription>
           <CardAction>
             <CircleDollarSign />
           </CardAction>
@@ -83,18 +75,18 @@ const Summary = () => {
           </p>
         </CardContent>
         <CardFooter>
-          <p>Tendências em todo o período</p>
+          <p>{t("summary.trendsPeriod")}</p>
         </CardFooter>
       </Card>
 
       <Card>
         <CardHeader>
-          <CardTitle>Entradas</CardTitle>
+          <CardTitle>{t("summary.income")}</CardTitle>
           <CardDescription>
             {mode === "month" ? (
-              <p>Total recebido no mês atual</p>
+              <p>{t("summary.totalReceivedMonth")}</p>
             ) : (
-              <p>Total recebido em todo o período</p>
+              <p>{t("summary.totalReceivedPeriod")}</p>
             )}
           </CardDescription>
           <CardAction>
@@ -108,20 +100,20 @@ const Summary = () => {
         </CardContent>
         <CardFooter>
           {mode === "month" ? (
-            <p>Tendências no mês de {dateToday}</p>
+            <p>{t("summary.trendsMonth", { month: dateToday })}</p>
           ) : (
-            <p>Tendências em todo o período</p>
+            <p>{t("summary.trendsPeriod")}</p>
           )}
         </CardFooter>
       </Card>
       <Card>
         <CardHeader>
-          <CardTitle>Saídas</CardTitle>
+          <CardTitle>{t("summary.expenses")}</CardTitle>
           <CardDescription>
             {mode === "month" ? (
-              <p>Total gastos no mês atual</p>
+              <p>{t("summary.totalSpentMonth")}</p>
             ) : (
-              <p>Total gastos em todo o período</p>
+              <p>{t("summary.totalSpentPeriod")}</p>
             )}
           </CardDescription>
           <CardAction>
@@ -135,20 +127,20 @@ const Summary = () => {
         </CardContent>
         <CardFooter>
           {mode === "month" ? (
-            <p> Tendências no mês de {dateToday}</p>
+            <p>{t("summary.trendsMonth", { month: dateToday })}</p>
           ) : (
-            <p>Tendências em todo o período</p>
+            <p>{t("summary.trendsPeriod")}</p>
           )}
         </CardFooter>
       </Card>
       <Card>
         <CardHeader>
-          <CardTitle>Economia</CardTitle>
+          <CardTitle>{t("summary.savings")}</CardTitle>
           <CardDescription>
             {mode === "month" ? (
-              <p>Total economizado no mês atual</p>
+              <p>{t("summary.totalSavedMonth")}</p>
             ) : (
-              <p>Total economizado em todo o período</p>
+              <p>{t("summary.totalSavedPeriod")}</p>
             )}
           </CardDescription>
           <CardAction>
@@ -162,9 +154,9 @@ const Summary = () => {
         </CardContent>
         <CardFooter>
           {mode === "month" ? (
-            <p>Tendências no mês de {dateToday}</p>
+            <p>{t("summary.trendsMonth", { month: dateToday })}</p>
           ) : (
-            <p>Tendências em todo o período</p>
+            <p>{t("summary.trendsPeriod")}</p>
           )}
         </CardFooter>
       </Card>

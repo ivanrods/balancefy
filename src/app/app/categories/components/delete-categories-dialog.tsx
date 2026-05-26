@@ -14,20 +14,22 @@ import { toast } from "sonner";
 
 import { useCategories } from "@/hooks/use-categories";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import { useTranslation } from "@/hooks/use-translation";
 
 type DeleteCategoriesDialogProps = {
   id: string;
 };
 export function DeleteCategoriesDialog({ id }: DeleteCategoriesDialogProps) {
   const { deleteCategories } = useCategories();
+  const { t } = useTranslation();
 
   function handleDeleteCategories(id: string) {
     deleteCategories.mutate(id, {
       onSuccess: () => {
-        toast.success("Categoria apagada com sucesso!");
+        toast.success(t("category.deleted"));
       },
       onError: () => {
-        toast.error("Erro ao apagar categoria!");
+        toast.error(t("category.deleteError"));
       },
     });
   }
@@ -42,25 +44,24 @@ export function DeleteCategoriesDialog({ id }: DeleteCategoriesDialogProps) {
           }}
           className="text-primary"
         >
-          Excluir Transação
+          {t("category.deleteTitle")}
         </DropdownMenuItem>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Você tem certeza absoluta?</AlertDialogTitle>
+          <AlertDialogTitle>{t("category.deleteTitle")}</AlertDialogTitle>
           <AlertDialogDescription>
-            Esta ação não pode ser desfeita. Isso excluirá permanentemente sua
-            carteira e as transações relacionadas a ela.
+            {t("category.deleteDescription")}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancelar</AlertDialogCancel>
+          <AlertDialogCancel>{t("category.cancel")}</AlertDialogCancel>
           <AlertDialogAction asChild>
             <button
               onClick={() => handleDeleteCategories(id)}
               className="bg-destructive text-white px-4 py-2 rounded-md"
             >
-              Continue
+              {t("category.deleteConfirm")}
             </button>
           </AlertDialogAction>
         </AlertDialogFooter>

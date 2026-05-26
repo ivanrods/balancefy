@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "@/hooks/use-translation";
 import {
   Dialog,
   DialogClose,
@@ -25,6 +26,7 @@ type EditWalletsDialog = {
 
 export function EditWalletDialog({ wallets }: EditWalletsDialog) {
   const { updateWallets } = useWalllets();
+  const { t } = useTranslation();
 
   const {
     register,
@@ -45,10 +47,10 @@ export function EditWalletDialog({ wallets }: EditWalletsDialog) {
       },
       {
         onSuccess: () => {
-          toast.success("Carteira atualizada");
+          toast.success(t("wallet.editSuccess"));
         },
         onError: () => {
-          toast.error("Erro ao atualizar carteira");
+          toast.error(t("wallet.editError"));
         },
       }
     );
@@ -58,17 +60,17 @@ export function EditWalletDialog({ wallets }: EditWalletsDialog) {
     <Dialog>
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogTrigger asChild>
-          <Button variant="outline">Editar</Button>
+          <Button variant="outline">{t("wallet.editTitle")}</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Editar Carteira</DialogTitle>
+            <DialogTitle>{t("wallet.editTitle")}</DialogTitle>
             <DialogDescription>
-              Preencha todo o formulário com novas informações da carteira.
+              {t("wallet.editDescription")}
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-3">
-            <Label htmlFor="description">Nome da carteira</Label>
+            <Label htmlFor="description">{t("wallet.name")}</Label>
             <Input id="name" {...register("name")} disabled={isSubmitting} />
             {errors.name && (
               <span className="text-destructive text-sm">
@@ -79,10 +81,10 @@ export function EditWalletDialog({ wallets }: EditWalletsDialog) {
 
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="outline">Cancelar</Button>
+              <Button variant="outline">{t("wallet.cancel")}</Button>
             </DialogClose>
             <Button onClick={handleSubmit(onSubmit)} type="submit">
-              Salvar
+              {t("wallet.save")}
             </Button>
           </DialogFooter>
         </DialogContent>

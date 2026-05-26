@@ -46,11 +46,15 @@ import { usePeriod } from "@/context/period-context";
 import { useCurrency } from "@/context/currency-context";
 import { formatCurrency } from "@/utils/format-currency";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useTranslation } from "@/hooks/use-translation";
 
 export const columns = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   deleteTransaction: UseMutationResult<any, Error, string, unknown>,
-  currency: string
+  currency: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  t: (key: string, params?: any) => string,
+  locale: string = "pt-BR"
 ): ColumnDef<Transaction>[] => [
   {
     id: "select",
@@ -61,14 +65,14 @@ export const columns = (
           (table.getIsSomePageRowsSelected() && "indeterminate")
         }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Selecionar tudo"
+        aria-label={t("table.selectAll")}
       />
     ),
     cell: ({ row }) => (
       <Checkbox
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Selecionar linha"
+        aria-label={t("table.selectRow")}
       />
     ),
     enableSorting: false,
@@ -76,35 +80,35 @@ export const columns = (
   },
   {
     accessorKey: "description",
-    header: "Descrição",
+    header: t("table.description"),
     cell: ({ row }) => <div>{row.getValue("description")}</div>,
   },
   {
     accessorKey: "wallet.name",
-    header: "Carteira",
+    header: t("table.wallet"),
     cell: ({ row }) => (
       <div className="capitalize">{row.original.wallet?.name ?? "—"}</div>
     ),
   },
   {
     accessorKey: "category.name",
-    header: "Categoria",
+    header: t("table.category"),
     cell: ({ row }) => (
       <div className="capitalize">{row.original.category?.name ?? "—"}</div>
     ),
   },
   {
     accessorKey: "type",
-    header: "Tipo",
+    header: t("table.type"),
     cell: ({ row }) => {
       const type = row.getValue("type") as string;
 
       const label =
         type === "income"
-          ? "Entrada"
+          ? t("table.typeIncome")
           : type === "expense"
-          ? "Saída"
-          : "Desconhecido";
+          ? t("table.typeExpense")
+          : t("table.typeUnknown");
 
       return (
         <span
@@ -126,7 +130,7 @@ export const columns = (
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Valor
+        {t("table.value")}
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
@@ -139,12 +143,12 @@ export const columns = (
   },
   {
     accessorKey: "date",
-    header: "Data",
+    header: t("table.date"),
     cell: ({ row }) => {
       const date = new Date(row.getValue("date"));
       return (
         <div>
-          {date.toLocaleDateString("pt-BR", {
+          {date.toLocaleDateString(locale, {
             day: "2-digit",
             month: "2-digit",
             year: "numeric",
@@ -162,10 +166,10 @@ export const columns = (
       function handleDeleteTransaction() {
         deleteTransaction.mutate(transaction.id, {
           onSuccess: () => {
-            toast.success("Transação apagada com sucesso!");
+            toast.success(t("table.deleteSuccess"));
           },
           onError: () => {
-            toast.error("Erro ao apagar transação!");
+            toast.error(t("table.deleteError"));
           },
         });
       }
@@ -174,19 +178,19 @@ export const columns = (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Abrir menu</span>
+              <span className="sr-only">{t("table.openMenu")}</span>
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Ações</DropdownMenuLabel>
+            <DropdownMenuLabel>{t("table.actions")}</DropdownMenuLabel>
 
             <DropdownMenuItem
               onClick={() =>
                 navigator.clipboard.writeText(transaction.id.toString())
               }
             >
-              Copiar ID
+              {t("table.copyId")}
             </DropdownMenuItem>
 
             <DropdownMenuItem
@@ -194,7 +198,7 @@ export const columns = (
                 navigator.clipboard.writeText(transaction.description)
               }
             >
-              Copiar descrição
+              {t("table.copyDescription")}
             </DropdownMenuItem>
 
             <DropdownMenuSeparator />
@@ -205,7 +209,7 @@ export const columns = (
               className="text-red-600"
               onClick={handleDeleteTransaction}
             >
-              Excluir transação
+              {t("table.deleteTransaction")}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -215,6 +219,7 @@ export const columns = (
 ];
 
 export function TransactionsTable() {
+  const { t, locale } = useTranslation();
   const { mode, selectedMonth } = usePeriod();
   const { currency } = useCurrency();
   const now = new Date();
@@ -234,7 +239,7 @@ export function TransactionsTable() {
 
   const table = useReactTable<Transaction>({
     data: transactions ?? [],
-    columns: columns(deleteTransaction, currency),
+    columns: columns(deleteTransaction, currency, t, locale),
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -259,7 +264,7 @@ export function TransactionsTable() {
     <div className="w-full">
       <div className="flex items-center py-4 gap-2">
         <Input
-          placeholder="Filtrar descricão..."
+          placeholder={t("table.filterDescription")}
           value={
             (table.getColumn("description")?.getFilterValue() as string) ?? ""
           }
@@ -271,7 +276,7 @@ export function TransactionsTable() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
-              Colunas <ChevronDown />
+              {t("table.columns")} <ChevronDown />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
@@ -338,7 +343,7 @@ export function TransactionsTable() {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  Nenhum resultado.
+                  {t("table.noTransactions")}
                 </TableCell>
               </TableRow>
             )}
@@ -347,8 +352,10 @@ export function TransactionsTable() {
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="text-muted-foreground flex-1 text-sm">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} linha(s) selecionada(s)
+          {t("table.rowsSelected", {
+            count: table.getFilteredSelectedRowModel().rows.length,
+            total: table.getFilteredRowModel().rows.length,
+          })}
         </div>
         <div className="space-x-2">
           <Button
@@ -357,7 +364,7 @@ export function TransactionsTable() {
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            Anterior
+            {t("table.previous")}
           </Button>
           <Button
             variant="outline"
@@ -365,7 +372,7 @@ export function TransactionsTable() {
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-            Próxima
+            {t("table.next")}
           </Button>
         </div>
       </div>

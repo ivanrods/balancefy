@@ -31,7 +31,7 @@ export default async function RootLayout({
   return (
     <html lang="pt-BR" suppressHydrationWarning>
       <head>
-        {/* Script para aplicar o tema instantaneamente */}
+        {/* Script para aplicar o tema e idioma instantaneamente */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -40,6 +40,12 @@ export default async function RootLayout({
                   const theme = localStorage.getItem('theme');
                   if (theme === 'dark') {
                     document.documentElement.classList.add('dark');
+                  }
+                  const locale = localStorage.getItem('locale');
+                  if (locale === 'en') {
+                    document.documentElement.setAttribute('lang', 'en');
+                  } else {
+                    document.documentElement.setAttribute('lang', 'pt-BR');
                   }
                 } catch (e) {}
               })();

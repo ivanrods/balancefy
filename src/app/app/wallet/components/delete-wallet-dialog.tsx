@@ -14,20 +14,22 @@ import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { useWalllets } from "@/hooks/use-wallets";
+import { useTranslation } from "@/hooks/use-translation";
 
 type DeleteWalletDialogProps = {
   id: string;
 };
 export function DeleteWalletDialog({ id }: DeleteWalletDialogProps) {
   const { deleteWallets } = useWalllets();
+  const { t } = useTranslation();
 
   function handleDeleteWallet(id: string) {
     deleteWallets.mutate(id, {
       onSuccess: () => {
-        toast.success("Carteira apagada com sucesso!");
+        toast.success(t("wallet.deleted"));
       },
       onError: () => {
-        toast.error("Erro ao apagar carteira!");
+        toast.error(t("wallet.deleteError"));
       },
     });
   }
@@ -35,24 +37,23 @@ export function DeleteWalletDialog({ id }: DeleteWalletDialogProps) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="link">Excluir</Button>
+        <Button variant="link">{t("wallet.deleteTitle")}</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Você tem certeza absoluta?</AlertDialogTitle>
+          <AlertDialogTitle>{t("wallet.deleteTitle")}</AlertDialogTitle>
           <AlertDialogDescription>
-            Esta ação não pode ser desfeita. Isso excluirá permanentemente sua
-            carteira e as transações relacionadas a ela.
+            {t("wallet.deleteDescription")}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancelar</AlertDialogCancel>
+          <AlertDialogCancel>{t("wallet.cancel")}</AlertDialogCancel>
           <AlertDialogAction asChild>
             <button
               onClick={() => handleDeleteWallet(id)}
               className="bg-destructive text-white px-4 py-2 rounded-md"
             >
-              Continue
+              {t("wallet.deleteConfirm")}
             </button>
           </AlertDialogAction>
         </AlertDialogFooter>

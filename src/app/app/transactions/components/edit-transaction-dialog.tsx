@@ -30,6 +30,7 @@ import { SelectWallet } from "./select-wallet";
 import { SelectCategory } from "./select-category";
 import { DateDialog } from "./date-dialog";
 import { RadioGroupSelect } from "./radio-group-select";
+import { useTranslation } from "@/hooks/use-translation";
 
 type EditTransactionDialogProps = {
   transaction: Transaction;
@@ -38,6 +39,7 @@ type EditTransactionDialogProps = {
 export function EditTransactionDialog({
   transaction,
 }: EditTransactionDialogProps) {
+  const { t } = useTranslation();
   const { updateTransaction } = useTransactions();
   const [categories, setCategories] = React.useState<
     { id: string; name: string }[]
@@ -89,10 +91,10 @@ export function EditTransactionDialog({
       },
       {
         onSuccess: () => {
-          toast.success("Transação editada com sucesso!");
+          toast.success(t("transaction.editSuccess"));
         },
         onError: () => {
-          toast.error("Erro ao editar transação");
+          toast.error(t("transaction.editError"));
         },
       }
     );
@@ -107,21 +109,21 @@ export function EditTransactionDialog({
             e.preventDefault();
           }}
         >
-          Editar Transação
+          {t("transaction.editTitle")}
         </DropdownMenuItem>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Editar Transação</DialogTitle>
+          <DialogTitle>{t("transaction.editTitle")}</DialogTitle>
           <DialogDescription>
-            Preencha todo o formulário com as novas informações da transação.
+            {t("transaction.editDescription")}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid gap-4 pb-4">
             <div className="grid gap-3">
-              <Label htmlFor="descricao">Descrição</Label>
+              <Label htmlFor="descricao">{t("transaction.description")}</Label>
               <Input id="descricao" {...register("description")} />
               {errors.description && (
                 <span className="text-destructive text-sm">
@@ -130,7 +132,7 @@ export function EditTransactionDialog({
               )}
             </div>
             <div className="grid gap-3">
-              <Label htmlFor="valor">Valor</Label>
+              <Label htmlFor="valor">{t("transaction.value")}</Label>
               <Input
                 id="valor"
                 type="number"
@@ -207,14 +209,14 @@ export function EditTransactionDialog({
           </div>
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="outline">Cancelar</Button>
+              <Button variant="outline">{t("transaction.cancel")}</Button>
             </DialogClose>
             <Button
               onClick={handleSubmit(onSubmit)}
               type="submit"
               disabled={isSubmitting}
             >
-              Salvar
+              {t("transaction.saveChanges")}
             </Button>
           </DialogFooter>
         </form>

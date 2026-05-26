@@ -28,8 +28,10 @@ import { SelectCategory } from "./select-category";
 import { SelectWallet } from "./select-wallet";
 import { DateDialog } from "./date-dialog";
 import { RadioGroupSelect } from "./radio-group-select";
+import { useTranslation } from "@/hooks/use-translation";
 
 export function TransactionDialog() {
+  const { t } = useTranslation();
   const { createTransaction } = useTransactions();
   const [categories, setCategories] = React.useState<
     { id: string; name: string }[]
@@ -81,10 +83,10 @@ export function TransactionDialog() {
       },
       {
         onSuccess: () => {
-          toast.success("Transação criada");
+          toast.success(t("transaction.success"));
         },
         onError: () => {
-          toast.error("Erro ao criar transação");
+          toast.error(t("transaction.error"));
         },
       }
     );
@@ -97,19 +99,19 @@ export function TransactionDialog() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogTrigger asChild>
           <Button>
-            <Plus /> <p className="hidden md:block ">Nova Transação</p>
+            <Plus /> <p className="hidden md:block ">{t("transaction.newTransaction")}</p>
           </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Adicionar Transação</DialogTitle>
+            <DialogTitle>{t("transaction.addTitle")}</DialogTitle>
             <DialogDescription>
-              Preencha todo o formulário com informações da transação.
+              {t("transaction.addDescription")}
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4">
             <div className="grid gap-3">
-              <Label htmlFor="description">Descrição</Label>
+              <Label htmlFor="description">{t("transaction.description")}</Label>
               <Input id="description" {...register("description")} />
               {errors.description && (
                 <span className="text-destructive text-sm">
@@ -118,7 +120,7 @@ export function TransactionDialog() {
               )}
             </div>
             <div className="grid gap-3">
-              <Label htmlFor="valor">Valor</Label>
+              <Label htmlFor="valor">{t("transaction.value")}</Label>
               <Input
                 id="valor"
                 type="number"
@@ -201,14 +203,14 @@ export function TransactionDialog() {
           </div>
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="outline">Cancelar</Button>
+              <Button variant="outline">{t("transaction.cancel")}</Button>
             </DialogClose>
             <Button
               onClick={handleSubmit(onSubmit)}
               type="submit"
               disabled={isSubmitting}
             >
-              Salvar
+              {t("transaction.save")}
             </Button>
           </DialogFooter>
         </DialogContent>

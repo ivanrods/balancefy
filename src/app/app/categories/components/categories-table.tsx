@@ -50,6 +50,7 @@ import { usePeriod } from "@/context/period-context";
 import { useCurrency } from "@/context/currency-context";
 import { formatCurrency } from "@/utils/format-currency";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useTranslation } from "@/hooks/use-translation";
 
 // Tipagem da categoria
 export type Category = {
@@ -62,7 +63,11 @@ export type Category = {
 };
 
 // Definição das colunas
-export const columns = (currency: string): ColumnDef<Category>[] => [
+export const columns = (
+  currency: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  t: (key: string, params?: any) => string
+): ColumnDef<Category>[] => [
   {
     accessorKey: "name",
     header: ({ column }) => (
@@ -70,7 +75,7 @@ export const columns = (currency: string): ColumnDef<Category>[] => [
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Nome
+        {t("categories.name")}
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
@@ -78,7 +83,7 @@ export const columns = (currency: string): ColumnDef<Category>[] => [
   },
   {
     id: "transactions",
-    header: "Transações",
+    header: t("categories.transactions"),
     cell: ({ row }) => (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -87,13 +92,13 @@ export const columns = (currency: string): ColumnDef<Category>[] => [
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56" align="start">
-          <DropdownMenuLabel>Transações relacionadas</DropdownMenuLabel>
+          <DropdownMenuLabel>{t("categories.relatedTransactions")}</DropdownMenuLabel>
           {row.original.relationship.length ? (
-            row.original.relationship.map((t, i) => (
-              <DropdownMenuItem key={i}>{t}</DropdownMenuItem>
+            row.original.relationship.map((tr, i) => (
+              <DropdownMenuItem key={i}>{tr}</DropdownMenuItem>
             ))
           ) : (
-            <DropdownMenuItem disabled>Nenhuma</DropdownMenuItem>
+            <DropdownMenuItem disabled>{t("categories.none")}</DropdownMenuItem>
           )}
         </DropdownMenuContent>
       </DropdownMenu>
@@ -101,7 +106,7 @@ export const columns = (currency: string): ColumnDef<Category>[] => [
   },
   {
     accessorKey: "color",
-    header: "Cor",
+    header: t("categories.color"),
     cell: ({ row }) => (
       <Circle color={row.original.color} fill={row.original.color} />
     ),
@@ -114,7 +119,7 @@ export const columns = (currency: string): ColumnDef<Category>[] => [
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Valor
+        {t("categories.value")}
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
@@ -124,25 +129,25 @@ export const columns = (currency: string): ColumnDef<Category>[] => [
   },
   {
     accessorKey: "number",
-    header: "Quantidade",
+    header: t("categories.quantity"),
     cell: ({ row }) => <span>{row.original.number}</span>,
   },
   {
     id: "actions",
     enableHiding: false,
-    header: "Ações",
+    header: t("categories.actions"),
     cell: ({ row }) => {
       const cat = row.original;
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Abrir menu</span>
+              <span className="sr-only">{t("categories.actions")}</span>
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Ações</DropdownMenuLabel>
+            <DropdownMenuLabel>{t("categories.actions")}</DropdownMenuLabel>
             <EditCategoriesDialog categories={cat} />
             <DeleteCategoriesDialog id={cat.id} />
           </DropdownMenuContent>
@@ -153,6 +158,7 @@ export const columns = (currency: string): ColumnDef<Category>[] => [
 ];
 
 export function CategoriesDataTable() {
+  const { t } = useTranslation();
   const { mode, selectedMonth } = usePeriod();
   const { currency } = useCurrency();
   const now = new Date();
@@ -172,7 +178,7 @@ export function CategoriesDataTable() {
 
   const table = useReactTable({
     data: categories,
-    columns: columns(currency),
+    columns: columns(currency, t),
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -198,7 +204,7 @@ export function CategoriesDataTable() {
       {/* Barra de filtro e controle de colunas */}
       <div className="flex items-center py-4 gap-2">
         <Input
-          placeholder="Filtrar por nome..."
+          placeholder={t("categories.filterName")}
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("name")?.setFilterValue(event.target.value)
@@ -208,7 +214,7 @@ export function CategoriesDataTable() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
-              Colunas <ChevronDown className="ml-2 h-4 w-4" />
+              {t("categories.columns")} <ChevronDown className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
@@ -268,7 +274,7 @@ export function CategoriesDataTable() {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  Nenhum resultado.
+                  {t("categories.noResults")}
                 </TableCell>
               </TableRow>
             )}
@@ -279,7 +285,7 @@ export function CategoriesDataTable() {
       {/* Paginação */}
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="text-muted-foreground flex-1 text-sm">
-          {table.getFilteredRowModel().rows.length} categoria(s)
+          {t("categories.count", { count: table.getFilteredRowModel().rows.length })}
         </div>
         <div className="space-x-2">
           <Button
@@ -288,7 +294,7 @@ export function CategoriesDataTable() {
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            Anterior
+            {t("categories.previous")}
           </Button>
           <Button
             variant="outline"
@@ -296,7 +302,7 @@ export function CategoriesDataTable() {
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-            Próxima
+            {t("categories.next")}
           </Button>
         </div>
       </div>

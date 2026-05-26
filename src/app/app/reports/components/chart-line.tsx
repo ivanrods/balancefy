@@ -19,13 +19,16 @@ import { usePeriod } from "@/context/period-context";
 import { useTransactionsType } from "@/hooks/use-transactions-type";
 import { TrendingUp } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-
-const chartConfig = {
-  income: { label: "Entrada", color: "var(--chart-2)" },
-  expense: { label: "Saída", color: "var(--primary)" },
-} satisfies ChartConfig;
+import { useTranslation } from "@/hooks/use-translation";
 
 export function ChartLine() {
+  const { t, locale } = useTranslation();
+
+  const chartConfig = {
+    income: { label: t("reports.summaryIncome"), color: "var(--chart-2)" },
+    expense: { label: t("reports.summaryExpenses"), color: "var(--primary)" },
+  } satisfies ChartConfig;
+
   const { mode, selectedMonth } = usePeriod();
   const now = new Date();
   const year = now.getFullYear();
@@ -38,7 +41,7 @@ export function ChartLine() {
     year,
   });
 
-  const mothLabel = new Date(year, selectedMonth - 1).toLocaleString("pt-BR", {
+  const mothLabel = new Date(year, selectedMonth - 1).toLocaleString(locale, {
     month: "long",
     year: "numeric",
   });
@@ -50,16 +53,16 @@ export function ChartLine() {
   return (
     <Card>
       <CardHeader className="items-center pb-0">
-        <CardTitle>Distribuição de Gastos</CardTitle>
+        <CardTitle>{t("reports.charts.spendingDistribution")}</CardTitle>
         <CardDescription>
-          Evolução do saldo ao longo de{" "}
+          {t("reports.charts.balanceEvolution")}{" "}
           <span className="font-semibold text-primary">
             {isMonthMode
-              ? new Date(year, selectedMonth - 1).toLocaleString("pt-BR", {
+              ? new Date(year, selectedMonth - 1).toLocaleString(locale, {
                   month: "long",
                   year: "numeric",
                 })
-              : "todo o período"}
+              : t("reports.charts.wholePeriod")}
           </span>
         </CardDescription>
       </CardHeader>

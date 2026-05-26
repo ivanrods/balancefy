@@ -5,9 +5,11 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Bell, Megaphone } from "lucide-react";
+import { useTranslation } from "@/hooks/use-translation";
 
 export function Notifications() {
-  const notifications = [{ id: 1, message: "Bem vindo(a) ao Balancefy" }];
+  const { t } = useTranslation();
+  const notifications = [{ id: 1, message: t("notifications.welcome") }];
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -16,9 +18,9 @@ export function Notifications() {
       <PopoverContent className="w-80 mx-4 my-2">
         <div className="grid gap-2">
           <div className="space-y-2">
-            <h4 className="leading-none font-medium">Notificações</h4>
+            <h4 className="leading-none font-medium">{t("notifications.title")}</h4>
             <p className="text-muted-foreground text-sm ">
-              Suas notificações recentes
+              {t("notifications.recentDescription")}
             </p>
           </div>
           {notifications.map((notification) => (

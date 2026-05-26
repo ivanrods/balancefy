@@ -14,8 +14,10 @@ import { useSummaryReportAll } from "@/hooks/use-summary-report-all";
 import { useSummaryReportMonth } from "@/hooks/use-summary-report-all-month";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ChartPieReport } from "./chart-pie-report";
+import { useTranslation } from "@/hooks/use-translation";
 
 export default function SummaryCardReport() {
+  const { t, locale } = useTranslation();
   const { mode } = usePeriod();
   const { currency } = useCurrency();
 
@@ -23,10 +25,9 @@ export default function SummaryCardReport() {
 
   const { incomeMonth, expenseMonth, dateToday } = useSummaryReportMonth();
 
-  // Escolhe qual conjunto de dados exibir com base no modo
   const income = mode === "month" ? incomeMonth : incomeAll;
   const expense = mode === "month" ? expenseMonth : expenseAll;
-  const month = mode === "month" ? dateToday : "Todo o período";
+  const month = mode === "month" ? dateToday : t("reports.summaryCard.wholePeriod");
 
   if (isLoading) {
     return <Skeleton className="h-64 w-full rounded-xl animate-pulse" />;
@@ -38,33 +39,33 @@ export default function SummaryCardReport() {
         <div className="h-full flex flex-col flex-1 justify-between ">
           <CardHeader>
             <CardTitle className="text-sm text-muted-foreground">
-              Distribuição de Gastos
+              {t("reports.summaryCard.spendingDistribution")}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2 text-sm ">
               <p>
-                Evolução do saldo ao longo de{" "}
-                <span className="font-semibold text-primary">{month}</span>,
-                destacando variações entre entradas e saídas.
+                {t("reports.summaryCard.balanceEvolutionBefore")}{" "}
+                <span className="font-semibold text-primary">{month}</span>
+                {t("reports.summaryCard.balanceEvolutionAfter")}
               </p>
 
               <p>
-                Distribuição dos{" "}
+                {t("reports.summaryCard.categoryDistributionBefore")}{" "}
                 <span className="font-semibold text-primary">
-                  gastos por categoria
+                  {t("reports.summaryCard.categoryDistributionHighlight")}
                 </span>{" "}
-                referente ao período de {month}, permitindo identificar onde
-                está concentrada a maior parte das despesas.
+                {t("reports.summaryCard.categoryDistributionMiddle")} {month}
+                {t("reports.summaryCard.categoryDistributionAfter")}
               </p>
 
               <p>
-                Comparativo dos{" "}
+                {t("reports.summaryCard.comparisonBefore")}{" "}
                 <span className="font-semibold text-primary">
-                  valores de entradas e saídas
+                  {t("reports.summaryCard.comparisonHighlight")}
                 </span>{" "}
-                durante {month}, facilitando a visualização do saldo líquido no
-                período.
+                {t("reports.summaryCard.comparisonMiddle")} {month}
+                {t("reports.summaryCard.comparisonAfter")}
               </p>
             </div>
           </CardContent>
@@ -76,9 +77,9 @@ export default function SummaryCardReport() {
 
               <div>
                 <p className="font-medium text-lg wrap-break-word">
-                  {formatCurrency(income, currency)}{" "}
+                  {formatCurrency(income, currency, locale)}{" "}
                 </p>
-                <span className="text-sm text-gray-400">Entradas</span>
+                <span className="text-sm text-gray-400">{t("reports.summaryIncome")}</span>
               </div>
             </div>
 
@@ -89,9 +90,9 @@ export default function SummaryCardReport() {
 
               <div>
                 <p className=" font-medium text-lg wrap-break-word">
-                  {formatCurrency(expense, currency)}
+                  {formatCurrency(expense, currency, locale)}
                 </p>
-                <span className="text-sm text-gray-400">Saídas</span>
+                <span className="text-sm text-gray-400">{t("reports.summaryExpenses")}</span>
               </div>
             </div>
           </CardFooter>

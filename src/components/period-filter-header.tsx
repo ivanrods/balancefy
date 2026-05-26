@@ -8,27 +8,19 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { usePeriod } from "@/context/period-context";
+import { useTranslation } from "@/hooks/use-translation";
 
 interface PeriodFilterHeaderProps {
   title: string;
 }
 
 export function PeriodFilterHeader({ title }: PeriodFilterHeaderProps) {
+  const { t, locale } = useTranslation();
   const { mode, setMode, selectedMonth, setSelectedMonth } = usePeriod();
-  const months = [
-    "Janeiro",
-    "Fevereiro",
-    "Março",
-    "Abril",
-    "Maio",
-    "Junho",
-    "Julho",
-    "Agosto",
-    "Setembro",
-    "Outubro",
-    "Novembro",
-    "Dezembro",
-  ];
+  const months = Array.from({ length: 12 }, (_, i) => {
+    const date = new Date(2024, i, 1);
+    return date.toLocaleDateString(locale, { month: "long" });
+  });
 
   return (
     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -39,11 +31,11 @@ export function PeriodFilterHeader({ title }: PeriodFilterHeaderProps) {
           onValueChange={(val) => setMode(val as "month" | "total")}
         >
           <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Selecionar período" />
+            <SelectValue placeholder={t("period.selectPeriod")} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="month">Por mês</SelectItem>
-            <SelectItem value="total">Período total</SelectItem>
+            <SelectItem value="month">{t("period.byMonth")}</SelectItem>
+            <SelectItem value="total">{t("period.totalPeriod")}</SelectItem>
           </SelectContent>
         </Select>
 
@@ -53,7 +45,7 @@ export function PeriodFilterHeader({ title }: PeriodFilterHeaderProps) {
             onValueChange={(value) => setSelectedMonth(Number(value))}
           >
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Selecionar mês" />
+              <SelectValue placeholder={t("period.selectMonth")} />
             </SelectTrigger>
             <SelectContent>
               {months.map((monthName, index) => (

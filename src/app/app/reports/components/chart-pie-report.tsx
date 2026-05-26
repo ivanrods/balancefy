@@ -13,13 +13,10 @@ import { useSummaryReportAll } from "@/hooks/use-summary-report-all";
 import { Skeleton } from "@/components/ui/skeleton";
 import { usePeriod } from "@/context/period-context";
 import { useSummaryReportMonth } from "@/hooks/use-summary-report-all-month";
-
-const chartConfig = {
-  income: { label: "Entradas", color: "var(--chart-2)" },
-  expense: { label: "Saídas", color: "var(--primary)" },
-} satisfies ChartConfig;
+import { useTranslation } from "@/hooks/use-translation";
 
 export function ChartPieReport() {
+  const { t } = useTranslation();
   const { mode } = usePeriod();
 
   const { incomeAll, expenseAll, isLoading } = useSummaryReportAll();
@@ -28,13 +25,21 @@ export function ChartPieReport() {
   const income = mode === "month" ? incomeMonth : incomeAll;
   const expense = mode === "month" ? expenseMonth : expenseAll;
 
+  const chartConfig = {
+    income: { label: t("reports.summaryIncome"), color: "var(--chart-2)" },
+    expense: { label: t("reports.summaryExpenses"), color: "var(--primary)" },
+  } satisfies ChartConfig;
+
+  const incomeLabel = t("reports.summaryIncome");
+  const expenseLabel = t("reports.summaryExpenses");
+
   const chartData = [
     mode === "month"
-      ? { tipo: "Entradas", valor: income, fill: "var(--color-income)" }
-      : { tipo: "Entradas", valor: incomeAll, fill: "var(--color-income)" },
+      ? { tipo: incomeLabel, valor: income, fill: "var(--color-income)" }
+      : { tipo: incomeLabel, valor: incomeAll, fill: "var(--color-income)" },
     mode === "month"
-      ? { tipo: "Saídas", valor: expense, fill: "var(--color-expense)" }
-      : { tipo: "Saídas", valor: expenseAll, fill: "var(--color-expense)" },
+      ? { tipo: expenseLabel, valor: expense, fill: "var(--color-expense)" }
+      : { tipo: expenseLabel, valor: expenseAll, fill: "var(--color-expense)" },
   ];
 
   if (isLoading) {

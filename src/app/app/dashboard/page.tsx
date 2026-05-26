@@ -3,17 +3,21 @@ import { ChartPieDonut } from "./components/chart-pie-donut";
 import { TransactionsTable } from "@/components/transactions-table";
 import Summary from "./components/summary";
 import { PeriodFilterHeader } from "@/components/period-filter-header";
+import { getServerTranslations } from "@/lib/locale";
 
-export const metadata = {
-  title: "Dashboard | Balancefy",
-  description:
-    "Acompanhe seu resumo financeiro com gráficos e estatísticas em tempo real. Veja suas entradas, saídas e saldo atual em um só lugar.",
-};
+export async function generateMetadata() {
+  const t = await getServerTranslations();
+  return {
+    title: t("meta.dashboard.title"),
+    description: t("meta.dashboard.description"),
+  };
+}
 
-const Dashboard = () => {
+const Dashboard = async () => {
+  const t = await getServerTranslations();
   return (
     <div className="w-full h-full flex flex-col gap-4">
-      <PeriodFilterHeader title="Dashboard financeiro" />
+      <PeriodFilterHeader title={t("sidebar.dashboard")} />
       <Summary />
       <section className="w-full grid grid-cols-1 lg:grid-cols-4 gap-4">
         <div className="lg:col-span-2 xl:col-span-1 ">

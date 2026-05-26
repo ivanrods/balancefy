@@ -7,8 +7,10 @@ import { useTransactions } from "@/hooks/use-transactions";
 import { useExportPDF } from "@/hooks/use-export-pdf";
 import { usePeriod } from "@/context/period-context";
 import { toast } from "sonner";
+import { useTranslation } from "@/hooks/use-translation";
 
 export function TransactionsExport() {
+  const { t, locale } = useTranslation();
   const { mode, selectedMonth } = usePeriod();
   const currentYear = new Date().getFullYear();
   const month = mode === "month" ? selectedMonth : undefined;
@@ -21,7 +23,7 @@ export function TransactionsExport() {
 
   const handleExportPDF = async () => {
     if (!transactions || transactions.length === 0) {
-      toast.warning("Nenhuma transação para exportar");
+      toast.warning(t("exportPdf.noTransactions"));
       return;
     }
 
@@ -32,15 +34,15 @@ export function TransactionsExport() {
         periodLabel = new Date(
           currentYear,
           selectedMonth - 1,
-        ).toLocaleDateString("pt-BR", { month: "long", year: "numeric" });
+        ).toLocaleDateString(locale, { month: "long", year: "numeric" });
       } else {
         periodLabel = `${currentYear}`;
       }
 
-      await generateTransactionsPDF(transactions, periodLabel);
-      toast.success("PDF baixado com sucesso!");
+      await generateTransactionsPDF(transactions, periodLabel, locale, t);
+      toast.success(t("exportPdf.pdfDownloaded"));
     } catch (error) {
-      toast.error("Erro ao gerar PDF");
+      toast.error(t("exportPdf.pdfGeneratedError"));
       console.error(error);
     } finally {
       setIsLoading(false);
@@ -56,10 +58,10 @@ export function TransactionsExport() {
         className="gap-2"
       >
         <Download className="w-4 h-4" />
-        {isLoading ? "Gerando PDF..." : "Baixar PDF"}
+        {isLoading ? t("exportPdf.generating") : t("reports.exportPDF")}
       </Button>
       <span className="text-sm text-muted-foreground">
-        {transactions.length} transações
+        {transactions.length} {t("reports.transactionHistory")?.toLowerCase() || ""}
       </span>
     </div>
   );

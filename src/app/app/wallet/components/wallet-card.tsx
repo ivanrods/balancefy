@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { ArrowDown, ArrowUp, Wallet } from "lucide-react";
+import { useTranslation } from "@/hooks/use-translation";
 import { EditWalletDialog } from "@/app/app/wallet/components/edit-wallet-dialog";
 import { formatCurrency } from "@/utils/format-currency";
 import { useCurrency } from "@/context/currency-context";
@@ -36,6 +37,7 @@ export default function WalletCard({
   totalIncome,
 }: WalletCardProps) {
   const { currency } = useCurrency();
+  const { t } = useTranslation();
   return (
     <Card className="w-full rounded-2xl shadow-md border">
       <CardHeader className="flex flex-row  justify-between ">
@@ -44,7 +46,7 @@ export default function WalletCard({
 
           <div>
             <CardTitle className="text-lg font-semibold">{name}</CardTitle>
-            <CardDescription className="text-sm">Saldo atual</CardDescription>
+            <CardDescription className="text-sm">{t("wallet.currentBalance")}</CardDescription>
           </div>
         </div>
         <div>
@@ -58,7 +60,7 @@ export default function WalletCard({
           {formatCurrency(balance, currency)}
         </p>
         <p className="text-sm text-muted-foreground">
-          Última movimentação:{" "}
+          {t("wallet.lastMovement")}{" "}
           {lastTransaction ? (
             <span
               className={`font-semibold ${
@@ -71,7 +73,7 @@ export default function WalletCard({
             </span>
           ) : (
             <span className="text-muted-foreground italic">
-              Nenhuma movimentação
+              {t("wallet.noMovement")}
             </span>
           )}
         </p>
@@ -87,7 +89,7 @@ export default function WalletCard({
             <p className="font-medium text-lg wrap-break-word">
               {formatCurrency(totalIncome, currency)}
             </p>
-            <span className="text-sm text-gray-400">Entradas</span>
+            <span className="text-sm text-gray-400">{t("wallet.income")}</span>
           </div>
         </div>
 
@@ -100,7 +102,7 @@ export default function WalletCard({
             <p className=" font-medium text-lg wrap-break-word">
               {formatCurrency(totalExpense, currency)}
             </p>
-            <span className="text-sm text-gray-400">Saídas</span>
+            <span className="text-sm text-gray-400">{t("wallet.expenses")}</span>
           </div>
         </div>
       </CardFooter>

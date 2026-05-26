@@ -23,8 +23,10 @@ import { DeleteAccountDialog } from "./delete-account-dialog";
 // import { useEffect, useState } from "react";
 import { signOut, useSession } from "next-auth/react";
 import { DrawerConfig } from "./drawer-config";
+import { useTranslation } from "@/hooks/use-translation";
 
 export function NavUser() {
+  const { t } = useTranslation();
   const { isMobile } = useSidebar();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data: session, status } = useSession();
@@ -93,7 +95,7 @@ export function NavUser() {
               onClick={() => signOut({ callbackUrl: "/login" })}
             >
               <LogOut />
-              Sair
+              {t("nav.signOut")}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

@@ -19,9 +19,11 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
+import { useTranslation } from "@/hooks/use-translation";
 
 export default function RegisterPage() {
   const router = useRouter();
+  const { t } = useTranslation();
 
   const {
     register,
@@ -49,7 +51,7 @@ export default function RegisterPage() {
       toast.success("usuário criado com sucesso");
       router.push("/login");
     } else {
-      toast.error(responseData.error || "Erro ao criar usuário");
+      toast.error(responseData.error || t("auth.registerError"));
     }
   };
 
@@ -57,13 +59,13 @@ export default function RegisterPage() {
     <div className="flex h-screen items-center justify-center">
       <Card className="w-full max-w-sm">
         <CardHeader>
-          <CardTitle>Crie sua conta</CardTitle>
+          <CardTitle>{t("auth.registerTitle")}</CardTitle>
           <CardDescription>
-            Preencha seus dados para criar sua conta
+            {t("auth.registerDescription")}
           </CardDescription>
           <CardAction>
             <Button variant="link">
-              <Link href="/login">Fazer login</Link>{" "}
+              <Link href="/login">{t("auth.signIn")}</Link>{" "}
             </Button>
           </CardAction>
         </CardHeader>
@@ -71,8 +73,8 @@ export default function RegisterPage() {
           <CardContent>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
-                <Label htmlFor="name">Nome</Label>
-                <Input type="text" placeholder="Nome" {...register("name")} />
+                <Label htmlFor="name">{t("auth.name")}</Label>
+                <Input type="text" placeholder={t("auth.name")} {...register("name")} />
                 {errors.name && (
                   <span className="text-red-500 text-sm">
                     {errors.name.message}
@@ -80,10 +82,10 @@ export default function RegisterPage() {
                 )}
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">{t("auth.email")}</Label>
                 <Input
                   type="email"
-                  placeholder="E-mail"
+                  placeholder={t("auth.email")}
                   {...register("email")}
                 />
                 {errors.email && (
@@ -93,11 +95,11 @@ export default function RegisterPage() {
                 )}
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="password">Senha</Label>
+                <Label htmlFor="password">{t("auth.password")}</Label>
 
                 <Input
                   type="password"
-                  placeholder="Senha"
+                  placeholder={t("auth.password")}
                   {...register("password")}
                 />
                 {errors.password && (
@@ -110,7 +112,7 @@ export default function RegisterPage() {
           </CardContent>
           <CardFooter className="flex-col gap-2 pt-6">
             <Button type="submit" disabled={isSubmitting} className="w-full">
-              Criar conta
+              {t("auth.registerSubmit")}
             </Button>
             <Button
               type="button"
@@ -120,7 +122,7 @@ export default function RegisterPage() {
                 signIn("google", { callbackUrl: "/app/dashboard" })
               }
             >
-              Entrar com Google
+              {t("auth.registerGoogle")}
             </Button>
           </CardFooter>
         </form>

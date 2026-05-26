@@ -1,6 +1,7 @@
 "use client";
 import * as React from "react";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "@/hooks/use-translation";
 import {
   Dialog,
   DialogClose,
@@ -26,6 +27,7 @@ import { SliderColor } from "./slider-color";
 
 export function CategoriesDialog() {
   const { createCategories } = useCategories();
+  const { t } = useTranslation();
 
   const {
     register,
@@ -52,10 +54,10 @@ export function CategoriesDialog() {
       },
       {
         onSuccess: () => {
-          toast.success("Categoria criada");
+          toast.success(t("category.success"));
         },
         onError: () => {
-          toast.error("Erro ao criar categoria");
+          toast.error(t("category.error"));
         },
       }
     );
@@ -68,18 +70,18 @@ export function CategoriesDialog() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogTrigger asChild>
           <Button>
-            <Plus /> Nova Categoria
+            <Plus /> {t("category.newCategory")}
           </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Adicionar Categoria</DialogTitle>
+            <DialogTitle>{t("category.addTitle")}</DialogTitle>
             <DialogDescription>
-              Preencha todo o formulário com informações da categoria.
+              {t("category.addDescription")}
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-3">
-            <Label htmlFor="description">Nome da categoria</Label>
+            <Label htmlFor="description">{t("category.name")}</Label>
             <Input id="name" {...register("name")} disabled={isSubmitting} />
             {errors.name && (
               <span className="text-destructive text-sm">
@@ -87,7 +89,7 @@ export function CategoriesDialog() {
               </span>
             )}
             <div className="grid gap-3">
-              <Label htmlFor="color">Selecione a cor</Label>
+              <Label htmlFor="color">{t("category.color")}</Label>
               <Controller
                 name="color"
                 control={control}
@@ -109,10 +111,10 @@ export function CategoriesDialog() {
 
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="outline">Cancelar</Button>
+              <Button variant="outline">{t("category.cancel")}</Button>
             </DialogClose>
             <Button onClick={handleSubmit(onSubmit)} type="submit">
-              Salvar
+              {t("category.save")}
             </Button>
           </DialogFooter>
         </DialogContent>

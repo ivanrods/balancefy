@@ -1,12 +1,15 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth-options";
 import { redirect } from "next/navigation";
+import { getServerTranslations } from "@/lib/locale";
 
-export const metadata = {
-  title: "Entrar | Balancefy",
-  description:
-    "Acesse sua conta Balancefy e retome o controle das suas finanças pessoais com segurança e praticidade.",
-};
+export async function generateMetadata() {
+  const t = await getServerTranslations();
+  return {
+    title: t("meta.login.title"),
+    description: t("meta.login.description"),
+  };
+}
 
 export default async function LoginLayout({
   children,

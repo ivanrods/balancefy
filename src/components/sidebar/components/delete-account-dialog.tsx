@@ -13,7 +13,11 @@ import { Trash } from "lucide-react";
 import { toast } from "sonner";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { signOut } from "next-auth/react";
+import { useTranslation } from "@/hooks/use-translation";
+
 export function DeleteAccountDialog() {
+  const { t } = useTranslation();
+
   async function handleDeleteAccount() {
     try {
       const res = await fetch("/api/profile", {
@@ -21,14 +25,13 @@ export function DeleteAccountDialog() {
       });
       if (!res.ok) {
         const error = await res.json();
-        throw new Error(error.error || "Erro ao excluir conta");
+        throw new Error(error.error || t("deleteAccount.error"));
       }
       const data = await res.json();
-      toast.success(data.message || "Conta excluída com sucesso!");
+      toast.success(data.message || t("deleteAccount.success"));
       signOut({ callbackUrl: "/login" });
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
-      toast.error("Erro ao excluir conta");
+      toast.error(t("deleteAccount.error"));
     }
   }
 
@@ -37,25 +40,24 @@ export function DeleteAccountDialog() {
       <AlertDialogTrigger className="w-full">
         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
           <Trash className="w-4 h-4 mr-2 text-destructive" />
-          Deletar conta
+          {t("nav.deleteAccount")}
         </DropdownMenuItem>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Você tem certeza absoluta?</AlertDialogTitle>
+          <AlertDialogTitle>{t("deleteAccount.title")}</AlertDialogTitle>
           <AlertDialogDescription>
-            Esta ação não pode ser desfeita. Isso excluirá permanentemente sua
-            conta e removerá seus dados de nossos servidores.
+            {t("deleteAccount.description")}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancelar</AlertDialogCancel>
+          <AlertDialogCancel>{t("deleteAccount.cancel")}</AlertDialogCancel>
           <AlertDialogAction asChild>
             <button
               onClick={handleDeleteAccount}
               className="bg-destructive text-white px-4 py-2 rounded-md"
             >
-              Continue
+              {t("deleteAccount.confirm")}
             </button>
           </AlertDialogAction>
         </AlertDialogFooter>

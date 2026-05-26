@@ -4,6 +4,7 @@ import { Wallet, PieChart, BarChart3 } from "lucide-react";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth-options";
 import { getServerSession } from "next-auth/next";
+import { getServerTranslations } from "@/lib/locale";
 
 import Link from "next/link";
 import Image from "next/image";
@@ -13,23 +14,23 @@ export default async function Page() {
   if (session) {
     redirect("/app/dashboard");
   }
+  const t = await getServerTranslations();
   return (
     <div className="min-h-screen flex flex-col">
       {/* Hero Section */}
       <header className="flex flex-col items-center justify-center text-center py-20 px-6 bg-linear-to-b from-primary/10 to-background">
         <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-primary">
-          Controle suas finanças com facilidade
+          {t("landing.heroTitle")}
         </h1>
         <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-2xl">
-          Balancefy ajuda você a gerenciar categorias, relatórios e sua carteira
-          em um só lugar. Organize, acompanhe e alcance suas metas financeiras.
+          {t("landing.heroDescription")}
         </p>
         <div className="mt-8 flex gap-4">
           <Button asChild size="lg">
-            <Link href="/app/dashboard">Começar agora</Link>
+            <Link href="/app/dashboard">{t("landing.ctaStart")}</Link>
           </Button>
           <Button asChild variant="outline" size="lg">
-            <Link href="/app/dashboard"> Ver demonstração</Link>
+            <Link href="/app/dashboard">{t("landing.ctaDemo")}</Link>
           </Button>
         </div>
       </header>
@@ -39,30 +40,27 @@ export default async function Page() {
         <Card className="shadow-lg">
           <CardContent className="flex flex-col items-center text-center p-6">
             <Wallet className="h-12 w-12 text-primary mb-4" />
-            <h3 className="font-semibold text-lg">Carteira unificada</h3>
+            <h3 className="font-semibold text-lg">{t("landing.benefit1Title")}</h3>
             <p className="text-muted-foreground mt-2">
-              Veja todos os seus saldos e contas em um só painel simples e
-              organizado.
+              {t("landing.benefit1Desc")}
             </p>
           </CardContent>
         </Card>
         <Card className="shadow-lg">
           <CardContent className="flex flex-col items-center text-center p-6">
             <PieChart className="h-12 w-12 text-primary mb-4" />
-            <h3 className="font-semibold text-lg">Relatórios inteligentes</h3>
+            <h3 className="font-semibold text-lg">{t("landing.benefit2Title")}</h3>
             <p className="text-muted-foreground mt-2">
-              Descubra para onde vai seu dinheiro com relatórios claros e
-              gráficos intuitivos.
+              {t("landing.benefit2Desc")}
             </p>
           </CardContent>
         </Card>
         <Card className="shadow-lg">
           <CardContent className="flex flex-col items-center text-center p-6">
             <BarChart3 className="h-12 w-12 text-primary mb-4" />
-            <h3 className="font-semibold text-lg">Metas financeiras</h3>
+            <h3 className="font-semibold text-lg">{t("landing.benefit3Title")}</h3>
             <p className="text-muted-foreground mt-2">
-              Defina objetivos e acompanhe seu progresso rumo à liberdade
-              financeira.
+              {t("landing.benefit3Desc")}
             </p>
           </CardContent>
         </Card>
@@ -72,11 +70,10 @@ export default async function Page() {
       <section className="py-20 px-6 bg-muted/30">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold">
-            Simples, rápido e eficiente
+            {t("landing.sectionTitle")}
           </h2>
           <p className="mt-4 text-muted-foreground">
-            Uma interface moderna e intuitiva feita para você ter controle total
-            sem complicação.
+            {t("landing.sectionDesc")}
           </p>
           <div className="mt-10 md:block">
             <div className="rounded-xl shadow-xl border bg-background p-4">
@@ -101,16 +98,16 @@ export default async function Page() {
 
       {/* Call To Action */}
       <section className="py-16 px-6 text-center">
-        <h2 className="text-3xl font-bold">Pronto para começar?</h2>
+        <h2 className="text-3xl font-bold">{t("landing.ctaTitle")}</h2>
         <p className="mt-2 text-muted-foreground">
-          Cadastre-se agora e organize suas finanças em minutos.
+          {t("landing.ctaDesc")}
         </p>
         <div className="mt-6 flex justify-center gap-4">
           <Button asChild size="lg">
-            <Link href="/register">Criar conta</Link>
+            <Link href="/register">{t("landing.signUp")}</Link>
           </Button>
           <Button asChild variant="outline" size="lg">
-            <Link href="/login">Entrar</Link>
+            <Link href="/login">{t("landing.signIn")}</Link>
           </Button>
         </div>
       </section>
@@ -118,7 +115,7 @@ export default async function Page() {
       {/* Footer */}
       <footer className="py-6 border-t text-center text-sm text-muted-foreground">
         <p>
-          © {new Date().getFullYear()} Balancefy. Todos os direitos reservados.
+          {t("landing.footer", { year: new Date().getFullYear() })}
         </p>
       </footer>
     </div>

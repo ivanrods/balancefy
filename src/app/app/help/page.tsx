@@ -6,14 +6,19 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { getServerTranslations } from "@/lib/locale";
 
-export const metadata = {
-  title: "Ajuda | Balancefy",
-  description:
-    "Precisa de suporte? Encontre respostas para dúvidas sobre o uso do Balancefy e aprenda a aproveitar todas as funcionalidades do app.",
-};
+export async function generateMetadata() {
+  const t = await getServerTranslations();
+  return {
+    title: t("meta.help.title"),
+    description: t("meta.help.description"),
+  };
+}
 
-export default function helpPage() {
+export default async function helpPage() {
+  const t = await getServerTranslations();
+
   return (
     <div className="h-full flex justify-center mx-auto flex-col gap-4 w-full md:w-md lg:w-lg xl:w-xl">
       <section className="space-y-4 mt-6 w-full">
@@ -24,91 +29,54 @@ export default function helpPage() {
           defaultValue="item-1"
         >
           <AccordionItem value="item-1" className="border-b pb-2 ">
-            <AccordionTrigger>Como adicionar uma transação</AccordionTrigger>
+            <AccordionTrigger>{t("help.howToAddTransaction")}</AccordionTrigger>
             <AccordionContent className="flex flex-col gap-4 text-balance">
-              <p>
-                Para registrar uma nova transação no sistema, siga os passos
-                abaixo: Clique no botão “Nova Transação” ou no ícone de +.
-              </p>
-              <p>
-                Preencha as informações obrigatórias, como descrição da
-                transação, valor, categoria da transação, data em que ocorreu,
-                depois clique em “Adicionar” para confirmar.
-              </p>
-              <p>
-                A nova transação aparecerá automaticamente na lista de
-                transações.
-              </p>
+              <p>{t("help.howToAddTransactionP1")}</p>
+              <p>{t("help.howToAddTransactionP2")}</p>
+              <p>{t("help.howToAddTransactionP3")}</p>
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-2">
-            <AccordionTrigger>Como apagar uma transação</AccordionTrigger>
+            <AccordionTrigger>{t("help.howToDeleteTransaction")}</AccordionTrigger>
             <AccordionContent className="flex flex-col gap-4 text-balance">
-              <p>Se você precisar remover uma transação existente:</p>
-              <p>
-                Localize a transação desejada na lista. Clique no ícone de três
-                pontos ao lado da transação. Clique em excluir.
-              </p>
-              <p>Atenção: essa ação é permanente e não poderá ser desfeita.</p>
+              <p>{t("help.howToDeleteTransactionP1")}</p>
+              <p>{t("help.howToDeleteTransactionP2")}</p>
+              <p>{t("help.howToDeleteTransactionP3")}</p>
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-3">
-            <AccordionTrigger>Como editar uma transação</AccordionTrigger>
+            <AccordionTrigger>{t("help.howToEditTransaction")}</AccordionTrigger>
             <AccordionContent className="flex flex-col gap-4 text-balance">
-              <p>Caso precise corrigir alguma informação:</p>
-              <p>
-                Localize a transação desejada na lista. Clique nos três pontos e
-                editar. Altere os campos necessários (título, valor, categoria
-                ou data) Clique em “Salvar alterações”.
-              </p>
-              <p>As mudanças serão atualizadas imediatamente na lista.</p>
+              <p>{t("help.howToEditTransactionP1")}</p>
+              <p>{t("help.howToEditTransactionP2")}</p>
+              <p>{t("help.howToEditTransactionP3")}</p>
             </AccordionContent>
           </AccordionItem>
 
           <AccordionItem value="item-4" className="border-b pb-2 ">
-            <AccordionTrigger>Como adicionar uma carteira</AccordionTrigger>
+            <AccordionTrigger>{t("help.howToAddWallet")}</AccordionTrigger>
             <AccordionContent className="flex flex-col gap-4 text-balance">
-              <p>
-                Para registrar uma nova carteira no sistema, siga os passos
-                abaixo: Navegue para a pagina de carteiras e clique no botão
-                “Nova Carteira” ou no ícone de +.
-              </p>
-              <p>
-                Preencha a compo com o nome da carteira, depois clique em
-                “Adicionar” para confirmar.
-              </p>
-              <p>
-                A nova carteira aparecerá automaticamente na lista de carteiras,
-                e você podera vincular as transaçães.
-              </p>
+              <p>{t("help.howToAddWalletP1")}</p>
+              <p>{t("help.howToAddWalletP2")}</p>
+              <p>{t("help.howToAddWalletP3")}</p>
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-5" className="border-b pb-2 ">
-            <AccordionTrigger>Como adicionar uma categoria</AccordionTrigger>
+            <AccordionTrigger>{t("help.howToAddCategory")}</AccordionTrigger>
             <AccordionContent className="flex flex-col gap-4 text-balance">
-              <p>
-                Para registrar uma nova categoria no sistema, siga os passos
-                abaixo: Navegue para a pagina de categorias e clique no botão
-                “Nova Categoria” ou no ícone de +.
-              </p>
-              <p>
-                Preencha a compo com o nome da categoria e a cor, depois clique
-                em “Adicionar” para confirmar.
-              </p>
-              <p>
-                A nova categoria aparecerá automaticamente na lista de
-                categorias, e você podera vincular as transaçães.
-              </p>
+              <p>{t("help.howToAddCategoryP1")}</p>
+              <p>{t("help.howToAddCategoryP2")}</p>
+              <p>{t("help.howToAddCategoryP3")}</p>
             </AccordionContent>
           </AccordionItem>
         </Accordion>
       </section>
 
       <section className="w-full flex flex-col items-center gap-2">
-        <h2 className="text-md font-semibold">Ainda precisa de ajuda?</h2>
-        <p className="text-sm">Entre em contato com nosso suporte.</p>
+        <h2 className="text-md font-semibold">{t("help.stillNeedHelp")}</h2>
+        <p className="text-sm">{t("help.contactSupport")}</p>
         <Button asChild>
-          <a href="mailto:contaivanrodrigues@gmail.com">Contatar suporte</a>
+          <a href="mailto:contaivanrodrigues@gmail.com">{t("help.supportButton")}</a>
         </Button>
       </section>
     </div>

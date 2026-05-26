@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 
 import {
@@ -12,6 +13,7 @@ import {
 import { Label } from "../../../../components/ui/label";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useTranslation } from "@/hooks/use-translation";
 
 type Category = {
   id: string;
@@ -29,12 +31,13 @@ export function SelectCategory({
   onValueChange,
   categories,
 }: SelectCategoryProps) {
+  const { t } = useTranslation();
   return (
     <div className="flex flex-col gap-3">
       <Select value={value} onValueChange={onValueChange}>
         <Label className="px-1">Categoria</Label>
         <SelectTrigger className="w-full">
-          <SelectValue placeholder="Selecione a categoria" />
+          <SelectValue placeholder={t("transaction.selectCategory")} />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>

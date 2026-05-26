@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 
 import {
@@ -12,6 +13,7 @@ import {
 import { Label } from "../../../../components/ui/label";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useTranslation } from "@/hooks/use-translation";
 
 type Wallet = {
   id: string;
@@ -29,12 +31,13 @@ export function SelectWallet({
   onValueChange,
   wallets,
 }: SelectDialogProps) {
+  const { t } = useTranslation();
   return (
     <div className="flex flex-col gap-3">
       <Select value={value} onValueChange={onValueChange}>
         <Label className="px-1">Carteira</Label>
         <SelectTrigger className="w-full">
-          <SelectValue placeholder="Selecione a carteira" />
+          <SelectValue placeholder={t("transaction.selectWallet")} />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
