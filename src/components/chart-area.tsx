@@ -21,6 +21,8 @@ import {
 import { useTransactions } from "@/hooks/use-transactions";
 
 import { usePeriod } from "@/context/period-context";
+import { useCurrency } from "@/context/currency-context";
+import { formatCurrency } from "@/utils/format-currency";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const months = [
@@ -76,6 +78,7 @@ const chartConfig = {
 
 export function ChartArea() {
   const { mode, selectedMonth } = usePeriod();
+  const { currency } = useCurrency();
   const monthsLong = [
     "janeiro",
     "fevereiro",
@@ -126,10 +129,7 @@ export function ChartArea() {
               content={
                 <ChartTooltipContent
                   formatter={(value) =>
-                    new Intl.NumberFormat("pt-BR", {
-                      style: "currency",
-                      currency: "BRL",
-                    }).format(value as number)
+                    formatCurrency(value as number, currency)
                   }
                 />
               }

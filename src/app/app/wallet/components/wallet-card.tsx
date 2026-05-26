@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Card,
   CardContent,
@@ -9,6 +11,7 @@ import {
 import { ArrowDown, ArrowUp, Wallet } from "lucide-react";
 import { EditWalletDialog } from "@/app/app/wallet/components/edit-wallet-dialog";
 import { formatCurrency } from "@/utils/format-currency";
+import { useCurrency } from "@/context/currency-context";
 import { DeleteWalletDialog } from "./delete-wallet-dialog";
 
 type WalletCardProps = {
@@ -32,6 +35,7 @@ export default function WalletCard({
   totalExpense,
   totalIncome,
 }: WalletCardProps) {
+  const { currency } = useCurrency();
   return (
     <Card className="w-full rounded-2xl shadow-md border">
       <CardHeader className="flex flex-row  justify-between ">
@@ -51,7 +55,7 @@ export default function WalletCard({
 
       <CardContent className="space-y-2 flex flex-col justify-between ">
         <p className="text-3xl font-bold wrap-break-word">
-          {formatCurrency(balance)}
+          {formatCurrency(balance, currency)}
         </p>
         <p className="text-sm text-muted-foreground">
           Última movimentação:{" "}
@@ -63,7 +67,7 @@ export default function WalletCard({
                   : "text-red-500"
               }`}
             >
-              {formatCurrency(lastTransaction.amount)}
+              {formatCurrency(lastTransaction.amount, currency)}
             </span>
           ) : (
             <span className="text-muted-foreground italic">
@@ -81,7 +85,7 @@ export default function WalletCard({
 
           <div>
             <p className="font-medium text-lg wrap-break-word">
-              {formatCurrency(totalIncome)}
+              {formatCurrency(totalIncome, currency)}
             </p>
             <span className="text-sm text-gray-400">Entradas</span>
           </div>
@@ -94,7 +98,7 @@ export default function WalletCard({
 
           <div>
             <p className=" font-medium text-lg wrap-break-word">
-              {formatCurrency(totalExpense)}
+              {formatCurrency(totalExpense, currency)}
             </p>
             <span className="text-sm text-gray-400">Saídas</span>
           </div>

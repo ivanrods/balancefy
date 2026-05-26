@@ -3,8 +3,10 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { Transaction } from "@/types/transaction";
 import { formatCurrency } from "@/utils/format-currency";
+import { useCurrency } from "@/context/currency-context";
 
 export function useExportPDF() {
+  const { currency } = useCurrency();
   const generateTransactionsPDF = useCallback(
     async (transactions: Transaction[], periodLabel: string) => {
       try {
@@ -56,18 +58,18 @@ export function useExportPDF() {
         doc.setFontSize(10);
         doc.setFont("", "normal");
         doc.text(
-          `Total de Entradas: ${formatCurrency(totalIncome)}`,
+          `Total de Entradas: ${formatCurrency(totalIncome, currency)}`,
           margin,
           yPosition,
         );
         yPosition += 5;
         doc.text(
-          `Total de Saídas: ${formatCurrency(totalExpense)}`,
+          `Total de Saídas: ${formatCurrency(totalExpense, currency)}`,
           margin,
           yPosition,
         );
         yPosition += 5;
-        doc.text(`Saldo: ${formatCurrency(balance)}`, margin, yPosition);
+        doc.text(`Saldo: ${formatCurrency(balance, currency)}`, margin, yPosition);
         yPosition += 10;
 
         // Tabela de transações
@@ -79,7 +81,7 @@ export function useExportPDF() {
             : t.description,
           t.category.name,
           t.type === "income" ? "Entrada" : "Saída",
-          formatCurrency(t.value),
+          formatCurrency(t.value, currency),
         ]);
 
         autoTable(doc, {
@@ -114,7 +116,7 @@ export function useExportPDF() {
         return { success: false, message: "Erro ao gerar PDF" };
       }
     },
-    [],
+    [currency],
   );
 
   return { generateTransactionsPDF };

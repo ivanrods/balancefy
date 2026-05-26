@@ -7,6 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { formatCurrency } from "@/utils/format-currency";
+import { useCurrency } from "@/context/currency-context";
 import { ArrowDown, ArrowUp } from "lucide-react";
 import { usePeriod } from "@/context/period-context";
 import { useSummaryReportAll } from "@/hooks/use-summary-report-all";
@@ -16,6 +17,7 @@ import { ChartPieReport } from "./chart-pie-report";
 
 export default function SummaryCardReport() {
   const { mode } = usePeriod();
+  const { currency } = useCurrency();
 
   const { incomeAll, expenseAll, isLoading } = useSummaryReportAll();
 
@@ -74,7 +76,7 @@ export default function SummaryCardReport() {
 
               <div>
                 <p className="font-medium text-lg wrap-break-word">
-                  {formatCurrency(income)}{" "}
+                  {formatCurrency(income, currency)}{" "}
                 </p>
                 <span className="text-sm text-gray-400">Entradas</span>
               </div>
@@ -87,7 +89,7 @@ export default function SummaryCardReport() {
 
               <div>
                 <p className=" font-medium text-lg wrap-break-word">
-                  {formatCurrency(expense)}
+                  {formatCurrency(expense, currency)}
                 </p>
                 <span className="text-sm text-gray-400">Saídas</span>
               </div>

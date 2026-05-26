@@ -47,6 +47,7 @@ import { DeleteCategoriesDialog } from "./delete-categories-dialog";
 import { EditCategoriesDialog } from "./edit-categories-dialog";
 import { useCategories } from "@/hooks/use-categories";
 import { usePeriod } from "@/context/period-context";
+import { useCurrency } from "@/context/currency-context";
 import { formatCurrency } from "@/utils/format-currency";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -61,7 +62,7 @@ export type Category = {
 };
 
 // Definição das colunas
-export const columns: ColumnDef<Category>[] = [
+export const columns = (currency: string): ColumnDef<Category>[] => [
   {
     accessorKey: "name",
     header: ({ column }) => (
@@ -118,7 +119,7 @@ export const columns: ColumnDef<Category>[] = [
       </Button>
     ),
     cell: ({ row }) => (
-      <span className="px-4">{formatCurrency(row.original.value)}</span>
+      <span className="px-4">{formatCurrency(row.original.value, currency)}</span>
     ),
   },
   {
@@ -153,6 +154,7 @@ export const columns: ColumnDef<Category>[] = [
 
 export function CategoriesDataTable() {
   const { mode, selectedMonth } = usePeriod();
+  const { currency } = useCurrency();
   const now = new Date();
   const year = now.getFullYear();
 
@@ -170,7 +172,7 @@ export function CategoriesDataTable() {
 
   const table = useReactTable({
     data: categories,
-    columns,
+    columns: columns(currency),
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),

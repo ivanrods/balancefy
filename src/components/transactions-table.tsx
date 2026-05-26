@@ -43,11 +43,14 @@ import { EditTransactionDialog } from "@/app/app/transactions/components/edit-tr
 import { toast } from "sonner";
 
 import { usePeriod } from "@/context/period-context";
+import { useCurrency } from "@/context/currency-context";
+import { formatCurrency } from "@/utils/format-currency";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export const columns = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  deleteTransaction: UseMutationResult<any, Error, string, unknown>
+  deleteTransaction: UseMutationResult<any, Error, string, unknown>,
+  currency: string
 ): ColumnDef<Transaction>[] => [
   {
     id: "select",
@@ -129,10 +132,7 @@ export const columns = (
     ),
     cell: ({ row }) => {
       const valor = parseFloat(row.getValue("value"));
-      const formatted = new Intl.NumberFormat("pt-BR", {
-        style: "currency",
-        currency: "BRL",
-      }).format(valor);
+      const formatted = formatCurrency(valor, currency);
 
       return <div className="font-medium px-4">{formatted}</div>;
     },
@@ -216,6 +216,7 @@ export const columns = (
 
 export function TransactionsTable() {
   const { mode, selectedMonth } = usePeriod();
+  const { currency } = useCurrency();
   const now = new Date();
   const year = now.getFullYear();
 
@@ -233,7 +234,7 @@ export function TransactionsTable() {
 
   const table = useReactTable<Transaction>({
     data: transactions ?? [],
-    columns: columns(deleteTransaction),
+    columns: columns(deleteTransaction, currency),
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),

@@ -1,6 +1,7 @@
 "use client";
 import { useSummaryAll } from "@/hooks/use-summary-all";
 import { formatCurrency } from "@/utils/format-currency";
+import { useCurrency } from "@/context/currency-context";
 import {
   Card,
   CardAction,
@@ -23,6 +24,7 @@ import { usePeriod } from "@/context/period-context";
 
 const Summary = () => {
   const { mode, selectedMonth } = usePeriod();
+  const { currency } = useCurrency();
   const now = new Date();
   const year = now.getFullYear();
 
@@ -77,7 +79,7 @@ const Summary = () => {
               balance < 0 ? "text-primary" : "text-chart-2"
             }`}
           >
-            {formatCurrency(balance)}
+            {formatCurrency(balance, currency)}
           </p>
         </CardContent>
         <CardFooter>
@@ -101,7 +103,7 @@ const Summary = () => {
         </CardHeader>
         <CardContent>
           <p className="text-4xl font-bold wrap-break-word">
-            {formatCurrency(income)}
+            {formatCurrency(income, currency)}
           </p>
         </CardContent>
         <CardFooter>
@@ -128,7 +130,7 @@ const Summary = () => {
         </CardHeader>
         <CardContent>
           <p className="text-4xl font-bold wrap-break-word">
-            {formatCurrency(expense)}
+            {formatCurrency(expense, currency)}
           </p>
         </CardContent>
         <CardFooter>
@@ -155,7 +157,7 @@ const Summary = () => {
         </CardHeader>
         <CardContent>
           <p className="text-4xl font-bold wrap-break-word">
-            {formatCurrency(economy)}
+            {formatCurrency(economy, currency)}
           </p>
         </CardContent>
         <CardFooter>
