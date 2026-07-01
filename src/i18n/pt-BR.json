@@ -337,7 +337,10 @@
   "notifications": {
     "title": "Notificações",
     "recentDescription": "Suas notificações recentes",
-    "welcome": "Bem vindo(a) ao Balancefy"
+    "welcome": "Bem vindo(a) ao Balancefy",
+    "markAsRead": "Marcar como lida",
+    "markAllAsRead": "Marcar todas como lidas",
+    "noNotifications": "Nenhuma notificação"
   },
   "exportPdf": {
     "title": "Relatório de Transações",
