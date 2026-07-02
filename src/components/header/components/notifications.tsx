@@ -1,4 +1,4 @@
-import { Alert, AlertTitle } from "@/components/ui/alert";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
@@ -10,8 +10,24 @@ import { useTranslation } from "@/hooks/use-translation";
 import { useNotifications } from "@/hooks/use-notifications";
 import { Skeleton } from "@/components/ui/skeleton";
 
+function formatCurrency(value: number, locale: string) {
+  const currency = locale === "en" ? "USD" : "BRL";
+  return new Intl.NumberFormat(locale, {
+    style: "currency",
+    currency,
+  }).format(value);
+}
+
+function formatDate(dateStr: string, locale: string) {
+  return new Intl.DateTimeFormat(locale, {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  }).format(new Date(dateStr));
+}
+
 export function Notifications() {
-  const { t } = useTranslation();
+  const { t, locale } = useTranslation();
   const { notifications, unreadCount, isLoading, markAsRead, markAllAsRead } =
     useNotifications();
 
@@ -68,16 +84,39 @@ export function Notifications() {
               </p>
             ) : (
               notifications.map((notification) => (
-                <Alert variant="default" key={notification.id} className="pr-2">
-                  <Megaphone className="mt-0.5 size-4 shrink-0" />
+                <Alert variant="default" key={notification.id}>
+                  <Megaphone className="mt-1 size-4 shrink-0" />
                   <div className="col-start-2 flex items-start gap-2 min-w-0">
-                    <AlertTitle className="text-sm font-normal leading-snug line-clamp-none! col-start-auto! m-0 flex-1">
-                      {notification.message}
-                    </AlertTitle>
+                    <div className="flex-1 space-y-1">
+                      <AlertDescription className="text-sm text-foreground m-0">
+                        {notification.transaction ? (
+                          <>
+                            <AlertTitle className="col-start-1 text-sm font-semibold m-0">
+                              {notification.transaction.description}
+                            </AlertTitle>
+
+                            <span className="text-muted-foreground">
+                              {" "}
+                              {formatCurrency(
+                                notification.transaction.value,
+                                locale,
+                              )}
+                            </span>
+                          </>
+                        ) : (
+                          notification.message
+                        )}
+                      </AlertDescription>
+                      {notification.transaction && (
+                        <p className="text-xs text-muted-foreground m-0">
+                          {formatDate(notification.transaction.date, locale)}
+                        </p>
+                      )}
+                    </div>
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="size-6 shrink-0 mt-0.5"
+                      className="size-6 shrink-0 mt-1"
                       onClick={() => markAsRead.mutate(notification.id)}
                       disabled={markAsRead.isPending}
                       aria-label={t("notifications.markAsRead")}

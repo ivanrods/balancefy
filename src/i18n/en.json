@@ -338,6 +338,7 @@
     "title": "Notifications",
     "recentDescription": "Your recent notifications",
     "welcome": "Welcome to Balancefy",
+    "reminder": "Reminder",
     "markAsRead": "Mark as read",
     "markAllAsRead": "Mark all as read",
     "noNotifications": "No notifications"

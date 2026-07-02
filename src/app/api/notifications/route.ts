@@ -29,6 +29,7 @@ export async function GET() {
   const dueTransactions = await prisma.transaction.findMany({
     where: {
       userId: user.id,
+      type: "expense",
       date: { lte: now },
       notifications: { none: {} },
     },
