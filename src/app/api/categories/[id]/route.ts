@@ -7,7 +7,7 @@ import { categoriesSchema } from "@/lib/schemas/categories-schema";
 // GET - detalhe de uma transação
 export async function GET(
   req: Request,
-  context: { params: Promise<{ id: string }> }
+  context: { params: Promise<{ id: string }> },
 ) {
   const { id } = await context.params;
   const session = await getServerSession(authOptions);
@@ -22,7 +22,7 @@ export async function GET(
   if (!categories) {
     return NextResponse.json(
       { error: "Categoria não encontrada" },
-      { status: 404 }
+      { status: 404 },
     );
   }
 
@@ -32,7 +32,7 @@ export async function GET(
 // PUT - atualizar transação
 export async function PUT(
   req: Request,
-  context: { params: Promise<{ id: string }> }
+  context: { params: Promise<{ id: string }> },
 ) {
   const { id } = await context.params;
   const session = await getServerSession(authOptions);
@@ -46,7 +46,7 @@ export async function PUT(
   if (!name) {
     return NextResponse.json(
       { error: "Todos os campos são obrigatórios" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -64,7 +64,7 @@ export async function PUT(
   } catch (error) {
     return NextResponse.json(
       { error: "Erro ao atualizar categoria" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -72,7 +72,7 @@ export async function PUT(
 // DELETE - remover transação
 export async function DELETE(
   req: Request,
-  context: { params: Promise<{ id: string }> }
+  context: { params: Promise<{ id: string }> },
 ) {
   const { id } = await context.params;
   const session = await getServerSession(authOptions);
@@ -85,11 +85,11 @@ export async function DELETE(
       where: { id },
     });
 
-    return NextResponse.json({ message: "Transação removida com sucesso" });
+    return NextResponse.json({ message: "Categoria removida com sucesso" });
   } catch {
     return NextResponse.json(
-      { error: "Transação não encontrada" },
-      { status: 404 }
+      { error: "Categoria não encontrada" },
+      { status: 404 },
     );
   }
 }

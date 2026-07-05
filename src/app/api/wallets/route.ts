@@ -69,9 +69,10 @@ export async function GET(req: Request) {
           ? wallet.transactions[wallet.transactions.length - 1]
           : null;
 
-        const balance = month && year
-          ? totalIncomePeriod - totalExpensePeriod
-          : totalIncomeAllTime - totalExpenseAllTime;
+        const balance =
+          month && year
+            ? totalIncomePeriod - totalExpensePeriod
+            : totalIncomeAllTime - totalExpenseAllTime;
 
         return {
           id: wallet.id,
@@ -103,7 +104,7 @@ export async function GET(req: Request) {
     console.error("Erro ao buscar carteiras:", err);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -137,8 +138,8 @@ export async function POST(req: Request) {
 
     if (existingWallet) {
       return NextResponse.json(
-        { error: "Você já tem uma categoria com esse nome" },
-        { status: 400 }
+        { error: "Você já tem uma carteira com esse nome" },
+        { status: 400 },
       );
     }
 
@@ -154,7 +155,7 @@ export async function POST(req: Request) {
     console.error("Erro ao criar carteira:", err);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

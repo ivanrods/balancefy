@@ -13,7 +13,7 @@ export const transactionSchema = z.object({
     .max(999999999, "O valor não pode ultrapassar 999.999.999,99"),
 
   categoryId: z.string().min(1, "Selecione uma categoria válida"),
-  walletId: z.string().min(1, "Seleicione uma carteira válida"),
+  walletId: z.string().min(1, "Selecione uma carteira válida"),
 
   type: z.enum(["income", "expense"], { message: "Select a valid type" }),
 
