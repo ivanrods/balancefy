@@ -119,7 +119,7 @@ export default function RegisterPage() {
               variant="outline"
               className="w-full"
               onClick={() =>
-                signIn("google", { callbackUrl: "/app/dashboard" })
+                signIn("google", { callbackUrl: "/dashboard" })
               }
             >
               {t("auth.registerGoogle")}

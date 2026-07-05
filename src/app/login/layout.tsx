@@ -19,7 +19,7 @@ export default async function LoginLayout({
   const session = await getServerSession(authOptions);
 
   if (session) {
-    redirect("/app/dashboard");
+    redirect("/dashboard");
   }
 
   return <>{children}</>;

@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { ArrowDown, ArrowUp, Wallet } from "lucide-react";
 import { useTranslation } from "@/hooks/use-translation";
-import { EditWalletDialog } from "@/app/app/wallet/components/edit-wallet-dialog";
+import { EditWalletDialog } from "@/app/(app)/wallet/components/edit-wallet-dialog";
 import { formatCurrency } from "@/utils/format-currency";
 import { useCurrency } from "@/context/currency-context";
 import { DeleteWalletDialog } from "./delete-wallet-dialog";

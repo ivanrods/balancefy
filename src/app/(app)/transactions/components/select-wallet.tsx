@@ -15,41 +15,41 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useTranslation } from "@/hooks/use-translation";
 
-type Category = {
+type Wallet = {
   id: string;
   name: string;
 };
 
-type SelectCategoryProps = {
+type SelectDialogProps = {
   value: string;
   onValueChange: (val: string) => void;
-  categories: Category[];
+  wallets: Wallet[];
 };
 
-export function SelectCategory({
+export function SelectWallet({
   value,
   onValueChange,
-  categories,
-}: SelectCategoryProps) {
+  wallets,
+}: SelectDialogProps) {
   const { t } = useTranslation();
   return (
     <div className="flex flex-col gap-3">
       <Select value={value} onValueChange={onValueChange}>
-        <Label className="px-1">Categoria</Label>
+        <Label className="px-1">Carteira</Label>
         <SelectTrigger className="w-full">
-          <SelectValue placeholder={t("transaction.selectCategory")} />
+          <SelectValue placeholder={t("transaction.selectWallet")} />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectLabel>Categories</SelectLabel>
-            {categories.map((cat) => (
-              <SelectItem key={cat.id} value={cat.id}>
-                {cat.name}
+            <SelectLabel>Carteiras</SelectLabel>
+            {wallets.map((wallet) => (
+              <SelectItem key={wallet.id} value={wallet.id}>
+                {wallet.name}
               </SelectItem>
             ))}
           </SelectGroup>
           <Button className="w-full text-sm" variant="link">
-            <Link href="/app/categories"> + Criar Categoria</Link>
+            <Link href="/wallet"> + Criar Carteira</Link>
           </Button>
         </SelectContent>
       </Select>

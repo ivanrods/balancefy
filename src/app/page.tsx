@@ -1,19 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Wallet, PieChart, BarChart3 } from "lucide-react";
-import { redirect } from "next/navigation";
-import { authOptions } from "@/lib/auth-options";
-import { getServerSession } from "next-auth/next";
 import { getServerTranslations } from "@/lib/locale";
 
 import Link from "next/link";
 import Image from "next/image";
 
 export default async function Page() {
-  const session = await getServerSession(authOptions);
-  if (session) {
-    redirect("/app/dashboard");
-  }
   const t = await getServerTranslations();
   return (
     <div className="min-h-screen flex flex-col">
@@ -27,10 +20,10 @@ export default async function Page() {
         </p>
         <div className="mt-8 flex gap-4">
           <Button asChild size="lg">
-            <Link href="/app/dashboard">{t("landing.ctaStart")}</Link>
+            <Link href="/dashboard">{t("landing.ctaStart")}</Link>
           </Button>
           <Button asChild variant="outline" size="lg">
-            <Link href="/app/dashboard">{t("landing.ctaDemo")}</Link>
+            <Link href="/dashboard">{t("landing.ctaDemo")}</Link>
           </Button>
         </div>
       </header>

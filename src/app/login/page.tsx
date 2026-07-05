@@ -48,7 +48,7 @@ export default function LoginPage() {
       if (res?.ok) {
         // Refresh session before navigating
         await update();
-        router.push("/app/dashboard");
+        router.push("/dashboard");
       } else {
         toast.error(res?.error || t("auth.loginError"));
       }
@@ -121,7 +121,7 @@ export default function LoginPage() {
               variant="outline"
               className="w-full"
               onClick={() =>
-                signIn("google", { callbackUrl: "/app/dashboard" })
+                signIn("google", { callbackUrl: "/dashboard" })
               }
             >
               {t("auth.loginGoogle")}
