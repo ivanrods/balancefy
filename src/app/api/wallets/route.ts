@@ -1,139 +1,45 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { authOptions } from "@/lib/auth-options";
-import { getServerSession } from "next-auth/next";
 import { walletSchema } from "@/lib/schemas/wallet-schema";
+import { withAuth, apiError } from "@/lib/api-handler";
+import { getWalletsSummary } from "@/lib/services/wallet-service";
 
 export async function GET(req: Request) {
   try {
+    const user = await withAuth();
     const { searchParams } = new URL(req.url);
     const type = searchParams.get("type") || "select";
     const month = searchParams.get("month");
     const year = searchParams.get("year");
 
-    const session = await getServerSession(authOptions);
-    if (!session?.user?.email) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const user = await prisma.user.findUnique({
-      where: { email: session.user.email },
-    });
-    if (!user) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
-    }
-
     if (type === "summary") {
-      const wallets = await prisma.wallet.findMany({
-        where: { userId: user.id },
-        include: {
-          transactions: {
-            select: { value: true, description: true, date: true, type: true },
-            orderBy: { date: "asc" },
-          },
-        },
+      const result = await getWalletsSummary({
+        userId: user.id,
+        month: month ? Number(month) : null,
+        year: year ? Number(year) : null,
       });
-
-      const result = wallets.map((wallet) => {
-        //  Transações filtradas por mês/ano (para totalIncome/totalExpense do período)
-        const filteredTransactions =
-          month && year
-            ? wallet.transactions.filter((t) => {
-                const d = new Date(t.date);
-                return (
-                  d.getMonth() + 1 === Number(month) &&
-                  d.getFullYear() === Number(year)
-                );
-              })
-            : wallet.transactions;
-
-        //  Totais do período filtrado
-        const totalIncomePeriod = filteredTransactions
-          .filter((t) => t.type === "income")
-          .reduce((acc, t) => acc + t.value, 0);
-
-        const totalExpensePeriod = filteredTransactions
-          .filter((t) => t.type === "expense")
-          .reduce((acc, t) => acc + t.value, 0);
-
-        //  Totais gerais (para o saldo completo)
-        const totalIncomeAllTime = wallet.transactions
-          .filter((t) => t.type === "income")
-          .reduce((acc, t) => acc + t.value, 0);
-
-        const totalExpenseAllTime = wallet.transactions
-          .filter((t) => t.type === "expense")
-          .reduce((acc, t) => acc + t.value, 0);
-
-        const lastTransaction = wallet.transactions.length
-          ? wallet.transactions[wallet.transactions.length - 1]
-          : null;
-
-        const balance =
-          month && year
-            ? totalIncomePeriod - totalExpensePeriod
-            : totalIncomeAllTime - totalExpenseAllTime;
-
-        return {
-          id: wallet.id,
-          name: wallet.name,
-          totalIncome: totalIncomePeriod,
-          totalExpense: totalExpensePeriod,
-          balance,
-          lastTransaction: lastTransaction
-            ? {
-                amount: lastTransaction.value,
-                date: lastTransaction.date.toISOString(),
-                type: lastTransaction.type,
-              }
-            : null,
-        };
-      });
-
       return NextResponse.json(result);
     }
 
-    // Default: select mode
     const wallets = await prisma.wallet.findMany({
       where: { userId: user.id },
       select: { id: true, name: true },
     });
 
     return NextResponse.json(wallets);
-  } catch (err) {
-    console.error("Erro ao buscar carteiras:", err);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 },
-    );
+  } catch (error) {
+    return apiError(error);
   }
 }
 
 export async function POST(req: Request) {
   try {
-    const session = await getServerSession(authOptions);
-
-    if (!session?.user?.email) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const user = await prisma.user.findUnique({
-      where: { email: session.user.email },
-    });
-
-    if (!user) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
-    }
-
+    const user = await withAuth();
     const body = await req.json();
     const { name } = walletSchema.parse(body);
 
-    // Verifica se o usuário já tem uma carteira com esse nome
     const existingWallet = await prisma.wallet.findFirst({
-      where: {
-        name,
-        userId: user.id,
-      },
+      where: { name, userId: user.id },
     });
 
     if (existingWallet) {
@@ -144,18 +50,11 @@ export async function POST(req: Request) {
     }
 
     const wallet = await prisma.wallet.create({
-      data: {
-        name,
-        userId: user.id,
-      },
+      data: { name, userId: user.id },
     });
 
     return NextResponse.json(wallet, { status: 201 });
-  } catch (err) {
-    console.error("Erro ao criar carteira:", err);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 },
-    );
+  } catch (error) {
+    return apiError(error);
   }
 }

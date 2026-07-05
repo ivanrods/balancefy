@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useWalllets } from "@/hooks/use-wallets";
+import { useWalletsMutations } from "@/hooks/use-wallets";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -25,7 +25,7 @@ type EditWalletsDialog = {
 };
 
 export function EditWalletDialog({ wallets }: EditWalletsDialog) {
-  const { updateWallets } = useWalllets();
+  const { updateWallet } = useWalletsMutations();
   const { t } = useTranslation();
 
   const {
@@ -40,7 +40,7 @@ export function EditWalletDialog({ wallets }: EditWalletsDialog) {
   });
 
   function onSubmit(formData: WalletsFormData) {
-    updateWallets.mutate(
+    updateWallet.mutate(
       {
         id: wallets.id,
         name: formData.name,

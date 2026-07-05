@@ -23,7 +23,7 @@ type WalletCardProps = {
     amount: number;
     date: string;
     type: "income" | "expense";
-  };
+  } | null;
   totalIncome: number;
   totalExpense: number;
 };

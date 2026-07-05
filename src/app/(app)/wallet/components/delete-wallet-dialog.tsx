@@ -13,18 +13,18 @@ import {
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
-import { useWalllets } from "@/hooks/use-wallets";
+import { useWalletsMutations } from "@/hooks/use-wallets";
 import { useTranslation } from "@/hooks/use-translation";
 
 type DeleteWalletDialogProps = {
   id: string;
 };
 export function DeleteWalletDialog({ id }: DeleteWalletDialogProps) {
-  const { deleteWallets } = useWalllets();
+  const { deleteWallet } = useWalletsMutations();
   const { t } = useTranslation();
 
   function handleDeleteWallet(id: string) {
-    deleteWallets.mutate(id, {
+    deleteWallet.mutate(id, {
       onSuccess: () => {
         toast.success(t("wallet.deleted"));
       },

@@ -55,6 +55,7 @@ export function useTransactions({ month, year }: UseTransactionsProps = {}) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
+      queryClient.invalidateQueries({ queryKey: ["wallets"] });
     },
   });
 
@@ -73,6 +74,7 @@ export function useTransactions({ month, year }: UseTransactionsProps = {}) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
+      queryClient.invalidateQueries({ queryKey: ["wallets"] });
     },
   });
 
@@ -85,6 +87,7 @@ export function useTransactions({ month, year }: UseTransactionsProps = {}) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
+      queryClient.invalidateQueries({ queryKey: ["wallets"] });
     },
   });
 

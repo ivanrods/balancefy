@@ -19,10 +19,10 @@ import { WalletsFormData, walletSchema } from "@/lib/schemas/wallet-schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { useWalllets } from "@/hooks/use-wallets";
+import { useWalletsMutations } from "@/hooks/use-wallets";
 
 export function WalletDialog() {
-  const { createWallets } = useWalllets();
+  const { createWallet } = useWalletsMutations();
   const { t } = useTranslation();
 
   const {
@@ -38,7 +38,7 @@ export function WalletDialog() {
   });
 
   function onSubmit(formData: WalletsFormData) {
-    createWallets.mutate(
+    createWallet.mutate(
       {
         name: formData.name,
       },
