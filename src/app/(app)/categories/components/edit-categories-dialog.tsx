@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useCategories } from "@/hooks/use-categories";
+import { useCategoriesMutations } from "@/hooks/use-categories";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -26,12 +26,12 @@ import { Categories } from "@/types/categories";
 import { SliderColor } from "./slider-color";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 
-type EditCategoriesDialog = {
+type EditCategoriesDialogProps = {
   categories: Categories;
 };
 
-export function EditCategoriesDialog({ categories }: EditCategoriesDialog) {
-  const { updateCategories } = useCategories();
+export function EditCategoriesDialog({ categories }: EditCategoriesDialogProps) {
+  const { updateCategory } = useCategoriesMutations();
   const { t } = useTranslation();
 
   const {
@@ -48,7 +48,7 @@ export function EditCategoriesDialog({ categories }: EditCategoriesDialog) {
   });
 
   function onSubmit(formData: CategoriesFormData) {
-    updateCategories.mutate(
+    updateCategory.mutate(
       {
         id: categories.id,
         name: formData.name,
@@ -61,7 +61,7 @@ export function EditCategoriesDialog({ categories }: EditCategoriesDialog) {
         onError: () => {
           toast.error(t("category.editError"));
         },
-      }
+      },
     );
   }
 
@@ -71,7 +71,6 @@ export function EditCategoriesDialog({ categories }: EditCategoriesDialog) {
         <DialogTrigger asChild>
           <DropdownMenuItem
             onSelect={(e) => {
-              // Impede o Dropdown de fechar
               e.preventDefault();
             }}
           >

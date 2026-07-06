@@ -45,29 +45,18 @@ import {
 
 import { DeleteCategoriesDialog } from "./delete-categories-dialog";
 import { EditCategoriesDialog } from "./edit-categories-dialog";
-import { useCategories } from "@/hooks/use-categories";
+import { useCategoriesQuery } from "@/hooks/use-categories";
 import { usePeriod } from "@/context/period-context";
 import { useCurrency } from "@/context/currency-context";
 import { formatCurrency } from "@/utils/format-currency";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useTranslation } from "@/hooks/use-translation";
+import type { Categories } from "@/types/categories";
 
-// Tipagem da categoria
-export type Category = {
-  id: string;
-  name: string;
-  color: string;
-  value: number;
-  number: number;
-  relationship: string[];
-};
-
-// Definição das colunas
-export const columns = (
+const columns = (
   currency: string,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  t: (key: string, params?: any) => string
-): ColumnDef<Category>[] => [
+  t: (key: string, params?: Record<string, string | number>) => string,
+): ColumnDef<Categories>[] => [
   {
     accessorKey: "name",
     header: ({ column }) => (
@@ -157,27 +146,28 @@ export const columns = (
   },
 ];
 
-export function CategoriesDataTable() {
+type CategoriesDataTableProps = {
+  initialCategories?: Categories[];
+};
+
+export function CategoriesDataTable({ initialCategories }: CategoriesDataTableProps) {
   const { t } = useTranslation();
   const { mode, selectedMonth } = usePeriod();
   const { currency } = useCurrency();
-  const now = new Date();
-  const year = now.getFullYear();
+  const year = new Date().getFullYear();
 
-  const { categories, isLoading } = useCategories(
-    mode === "month" ? { month: selectedMonth, year } : undefined
+  const { data: categories, isLoading } = useCategoriesQuery(
+    mode === "month" ? { month: selectedMonth, year } : undefined,
+    initialCategories,
   );
 
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
-    data: categories,
+    data: categories ?? [],
     columns: columns(currency, t),
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -195,13 +185,12 @@ export function CategoriesDataTable() {
     },
   });
 
-  if (isLoading) {
+  if (isLoading && !categories) {
     return <Skeleton className="w-full h-96 rounded-xl animate-pulse" />;
   }
 
   return (
     <div className="w-full">
-      {/* Barra de filtro e controle de colunas */}
       <div className="flex items-center py-4 gap-2">
         <Input
           placeholder={t("categories.filterName")}
@@ -235,7 +224,6 @@ export function CategoriesDataTable() {
         </DropdownMenu>
       </div>
 
-      {/* Tabela */}
       <div className="overflow-hidden rounded-md border">
         <Table>
           <TableHeader>
@@ -247,7 +235,7 @@ export function CategoriesDataTable() {
                       ? null
                       : flexRender(
                           header.column.columnDef.header,
-                          header.getContext()
+                          header.getContext(),
                         )}
                   </TableHead>
                 ))}
@@ -262,7 +250,7 @@ export function CategoriesDataTable() {
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}
@@ -282,7 +270,6 @@ export function CategoriesDataTable() {
         </Table>
       </div>
 
-      {/* Paginação */}
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="text-muted-foreground flex-1 text-sm">
           {t("categories.count", { count: table.getFilteredRowModel().rows.length })}

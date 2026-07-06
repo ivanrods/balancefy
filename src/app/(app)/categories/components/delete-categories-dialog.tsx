@@ -12,19 +12,20 @@ import {
 
 import { toast } from "sonner";
 
-import { useCategories } from "@/hooks/use-categories";
+import { useCategoriesMutations } from "@/hooks/use-categories";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { useTranslation } from "@/hooks/use-translation";
 
 type DeleteCategoriesDialogProps = {
   id: string;
 };
+
 export function DeleteCategoriesDialog({ id }: DeleteCategoriesDialogProps) {
-  const { deleteCategories } = useCategories();
+  const { deleteCategory } = useCategoriesMutations();
   const { t } = useTranslation();
 
-  function handleDeleteCategories(id: string) {
-    deleteCategories.mutate(id, {
+  function handleDelete() {
+    deleteCategory.mutate(id, {
       onSuccess: () => {
         toast.success(t("category.deleted"));
       },
@@ -39,7 +40,6 @@ export function DeleteCategoriesDialog({ id }: DeleteCategoriesDialogProps) {
       <AlertDialogTrigger asChild>
         <DropdownMenuItem
           onSelect={(e) => {
-            // Impede o Dropdown de fechar
             e.preventDefault();
           }}
           className="text-primary"
@@ -58,7 +58,7 @@ export function DeleteCategoriesDialog({ id }: DeleteCategoriesDialogProps) {
           <AlertDialogCancel>{t("category.cancel")}</AlertDialogCancel>
           <AlertDialogAction asChild>
             <button
-              onClick={() => handleDeleteCategories(id)}
+              onClick={handleDelete}
               className="bg-destructive text-white px-4 py-2 rounded-md"
             >
               {t("category.deleteConfirm")}

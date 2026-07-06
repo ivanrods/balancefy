@@ -1,95 +1,64 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { authOptions } from "@/lib/auth-options";
-import { getServerSession } from "next-auth/next";
 import { categoriesSchema } from "@/lib/schemas/categories-schema";
+import { withAuth, apiError } from "@/lib/api-handler";
 
-// GET - detalhe de uma transação
 export async function GET(
-  req: Request,
+  _req: Request,
   context: { params: Promise<{ id: string }> },
 ) {
-  const { id } = await context.params;
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.email) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  try {
+    await withAuth();
+    const { id } = await context.params;
+
+    const category = await prisma.category.findUnique({ where: { id } });
+
+    if (!category) {
+      return NextResponse.json(
+        { error: "Categoria não encontrada" },
+        { status: 404 },
+      );
+    }
+
+    return NextResponse.json(category);
+  } catch (error) {
+    return apiError(error);
   }
-
-  const categories = await prisma.category.findUnique({
-    where: { id },
-  });
-
-  if (!categories) {
-    return NextResponse.json(
-      { error: "Categoria não encontrada" },
-      { status: 404 },
-    );
-  }
-
-  return NextResponse.json(categories);
 }
 
-// PUT - atualizar transação
 export async function PUT(
   req: Request,
   context: { params: Promise<{ id: string }> },
 ) {
-  const { id } = await context.params;
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.email) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  const body = await req.json();
-  const { name, color } = categoriesSchema.parse(body);
-
-  if (!name) {
-    return NextResponse.json(
-      { error: "Todos os campos são obrigatórios" },
-      { status: 400 },
-    );
-  }
-
   try {
-    const categories = await prisma.category.update({
+    await withAuth();
+    const { id } = await context.params;
+    const body = await req.json();
+    const { name, color } = categoriesSchema.parse(body);
+
+    const category = await prisma.category.update({
       where: { id },
-      data: {
-        name,
-        color,
-      },
+      data: { name, color },
     });
 
-    return NextResponse.json(categories, { status: 200 });
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    return NextResponse.json(category, { status: 200 });
   } catch (error) {
-    return NextResponse.json(
-      { error: "Erro ao atualizar categoria" },
-      { status: 500 },
-    );
+    return apiError(error);
   }
 }
 
-// DELETE - remover transação
 export async function DELETE(
-  req: Request,
+  _req: Request,
   context: { params: Promise<{ id: string }> },
 ) {
-  const { id } = await context.params;
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.email) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
   try {
-    await prisma.category.delete({
-      where: { id },
-    });
+    await withAuth();
+    const { id } = await context.params;
+
+    await prisma.category.delete({ where: { id } });
 
     return NextResponse.json({ message: "Categoria removida com sucesso" });
-  } catch {
-    return NextResponse.json(
-      { error: "Categoria não encontrada" },
-      { status: 404 },
-    );
+  } catch (error) {
+    return apiError(error);
   }
 }

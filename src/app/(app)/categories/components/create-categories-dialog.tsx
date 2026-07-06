@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Plus } from "lucide-react";
-import { useCategories } from "@/hooks/use-categories";
+import { useCategoriesMutations } from "@/hooks/use-categories";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -26,7 +26,7 @@ import {
 import { SliderColor } from "./slider-color";
 
 export function CategoriesDialog() {
-  const { createCategories } = useCategories();
+  const { createCategory } = useCategoriesMutations();
   const { t } = useTranslation();
 
   const {
@@ -44,25 +44,21 @@ export function CategoriesDialog() {
   });
 
   function onSubmit(formData: CategoriesFormData) {
-    createCategories.mutate(
+    createCategory.mutate(
       {
         name: formData.name,
         color: formData.color ?? "#cccccc",
-        relationship: [],
-        value: 0,
-        number: 0,
       },
       {
         onSuccess: () => {
           toast.success(t("category.success"));
+          reset();
         },
         onError: () => {
           toast.error(t("category.error"));
         },
-      }
+      },
     );
-
-    reset();
   }
 
   return (

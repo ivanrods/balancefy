@@ -10,7 +10,6 @@ export function useTransactions({ month, year }: UseTransactionsProps = {}) {
   const queryClient = useQueryClient();
 
   // GET
-
   const queryKey = ["transactions", { month, year }];
 
   const { data, isLoading, error } = useQuery<Transaction[]>({
@@ -43,7 +42,10 @@ export function useTransactions({ month, year }: UseTransactionsProps = {}) {
   // CREATE
   const createTransaction = useMutation({
     mutationFn: async (
-      transaction: Omit<Transaction, "id" | "createdAt" | "category" | "wallet">
+      transaction: Omit<
+        Transaction,
+        "id" | "createdAt" | "category" | "wallet"
+      >,
     ) => {
       const res = await fetch("/api/transactions", {
         method: "POST",
@@ -56,13 +58,14 @@ export function useTransactions({ month, year }: UseTransactionsProps = {}) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
       queryClient.invalidateQueries({ queryKey: ["wallets"] });
+      queryClient.invalidateQueries({ queryKey: ["categories"] });
     },
   });
 
   //UPDATE
   const updateTransaction = useMutation({
     mutationFn: async (
-      transaction: Omit<Transaction, "createdAt" | "category" | "wallet">
+      transaction: Omit<Transaction, "createdAt" | "category" | "wallet">,
     ) => {
       const res = await fetch(`/api/transactions/${transaction.id}`, {
         method: "PUT",
@@ -75,6 +78,7 @@ export function useTransactions({ month, year }: UseTransactionsProps = {}) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
       queryClient.invalidateQueries({ queryKey: ["wallets"] });
+      queryClient.invalidateQueries({ queryKey: ["categories"] });
     },
   });
 
@@ -88,6 +92,7 @@ export function useTransactions({ month, year }: UseTransactionsProps = {}) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
       queryClient.invalidateQueries({ queryKey: ["wallets"] });
+      queryClient.invalidateQueries({ queryKey: ["categories"] });
     },
   });
 
