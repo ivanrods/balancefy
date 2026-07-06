@@ -17,7 +17,6 @@ import {
   DollarSign,
   TrendingDown,
 } from "lucide-react";
-import { useTransactions } from "@/hooks/use-transactions";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useSummaryMonth } from "@/hooks/use-summary-month";
 import { usePeriod } from "@/context/period-context";
@@ -27,22 +26,18 @@ const Summary = () => {
   const { mode, selectedMonth } = usePeriod();
   const { t, locale } = useTranslation();
   const { currency } = useCurrency();
-  const now = new Date();
-  const year = now.getFullYear();
 
-  const { incomeAll, expenseAll, balanceAll, economyAll } = useSummaryAll();
-  const { incomeMonth, expenseMonth, balanceMonth, economyMonth } =
+  const { incomeAll, expenseAll, balanceAll, economyAll, isLoading: isLoadingAll } = useSummaryAll();
+  const { incomeMonth, expenseMonth, balanceMonth, economyMonth, isLoading: isLoadingMonth } =
     useSummaryMonth();
+
+  const isLoading = mode === "month" ? isLoadingMonth : isLoadingAll;
 
   // Escolhe qual conjunto de dados exibir com base no modo
   const income = mode === "month" ? incomeMonth : incomeAll;
   const expense = mode === "month" ? expenseMonth : expenseAll;
   const balance = mode === "month" ? balanceMonth : balanceAll;
   const economy = mode === "month" ? economyMonth : economyAll;
-
-  const { isLoading } = useTransactions(
-    mode === "month" ? { month: selectedMonth, year } : undefined,
-  );
 
   if (isLoading) {
     return <Skeleton className="w-full h-52 rounded-xl animate-pulse" />;

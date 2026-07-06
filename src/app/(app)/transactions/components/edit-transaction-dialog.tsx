@@ -17,7 +17,7 @@ import { Label } from "@/components/ui/label";
 import { Transaction } from "@/types/transaction";
 
 import { Controller } from "react-hook-form";
-import { useTransactions } from "@/hooks/use-transactions";
+import { useTransactionsMutations } from "@/hooks/use-transactions";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -40,7 +40,7 @@ export function EditTransactionDialog({
   transaction,
 }: EditTransactionDialogProps) {
   const { t } = useTranslation();
-  const { updateTransaction } = useTransactions();
+  const { updateTransaction } = useTransactionsMutations();
   const [categories, setCategories] = React.useState<
     { id: string; name: string }[]
   >([]);

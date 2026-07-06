@@ -1,12 +1,12 @@
-import { useTransactions } from "@/hooks/use-transactions";
+import { useTransactionsQuery } from "@/hooks/use-transactions";
 import { usePeriod } from "@/context/period-context";
 
 export function useSummaryMonth() {
   const { selectedMonth } = usePeriod();
-  const now = new Date();
-  const year = now.getFullYear();
+  const year = new Date().getFullYear();
 
-  const { transactions } = useTransactions({ month: selectedMonth, year });
+  const { data: transactions, isLoading } = useTransactionsQuery({ month: selectedMonth, year });
+
   const incomeMonth =
     transactions
       ?.filter((t) => t.type === "income")
@@ -20,5 +20,5 @@ export function useSummaryMonth() {
   const balanceMonth = incomeMonth - expenseMonth;
   const economyMonth = balanceMonth > 0 ? balanceMonth : 0;
 
-  return { incomeMonth, expenseMonth, balanceMonth, economyMonth };
+  return { incomeMonth, expenseMonth, balanceMonth, economyMonth, isLoading };
 }

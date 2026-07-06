@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useTransactions } from "@/hooks/use-transactions";
+import { useTransactionsQuery, useTransactionsMutations } from "@/hooks/use-transactions";
 import { Transaction } from "@/types/transaction";
 import { type UseMutationResult } from "@tanstack/react-query";
 
@@ -218,16 +218,22 @@ export const columns = (
   },
 ];
 
-export function TransactionsTable() {
+type TransactionsTableProps = {
+  initialTransactions?: Transaction[];
+};
+
+export function TransactionsTable({ initialTransactions }: TransactionsTableProps) {
   const { t, locale } = useTranslation();
   const { mode, selectedMonth } = usePeriod();
   const { currency } = useCurrency();
-  const now = new Date();
-  const year = now.getFullYear();
+  const year = new Date().getFullYear();
 
-  const { transactions, deleteTransaction, isLoading } = useTransactions(
-    mode === "month" ? { month: selectedMonth, year } : undefined
+  const { data: transactions, isLoading } = useTransactionsQuery(
+    mode === "month" ? { month: selectedMonth, year } : undefined,
+    initialTransactions,
   );
+
+  const { deleteTransaction } = useTransactionsMutations();
 
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -256,7 +262,7 @@ export function TransactionsTable() {
     },
   });
 
-  if (isLoading) {
+  if (isLoading && !transactions) {
     return <Skeleton className="h-96 w-full rounded-xl animate-pulse" />;
   }
 

@@ -16,7 +16,7 @@ import { Label } from "@/components/ui/label";
 import { Plus } from "lucide-react";
 
 import { Controller } from "react-hook-form";
-import { useTransactions } from "@/hooks/use-transactions";
+import { useTransactionsMutations } from "@/hooks/use-transactions";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -32,7 +32,7 @@ import { useTranslation } from "@/hooks/use-translation";
 
 export function TransactionDialog() {
   const { t } = useTranslation();
-  const { createTransaction } = useTransactions();
+  const { createTransaction } = useTransactionsMutations();
   const [categories, setCategories] = React.useState<
     { id: string; name: string }[]
   >([]);
