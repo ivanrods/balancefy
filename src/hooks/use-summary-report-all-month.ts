@@ -1,12 +1,13 @@
 import { useTransactions } from "@/hooks/use-transactions";
 import { usePeriod } from "@/context/period-context";
+import { Transaction } from "@/types/transaction";
 
-export function useSummaryReportMonth() {
+export function useSummaryReportMonth(initialTransactions?: Transaction[]) {
   const { selectedMonth } = usePeriod();
   const now = new Date();
   const year = now.getFullYear();
 
-  const { transactions } = useTransactions({ month: selectedMonth, year });
+  const { transactions } = useTransactions({ month: selectedMonth, year }, initialTransactions);
 
   const monthNames = [
     "janeiro",

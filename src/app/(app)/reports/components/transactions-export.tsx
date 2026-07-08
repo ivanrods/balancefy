@@ -8,8 +8,13 @@ import { useExportPDF } from "@/hooks/use-export-pdf";
 import { usePeriod } from "@/context/period-context";
 import { toast } from "sonner";
 import { useTranslation } from "@/hooks/use-translation";
+import { Transaction } from "@/types/transaction";
 
-export function TransactionsExport() {
+type TransactionsExportProps = {
+  initialTransactions?: Transaction[];
+};
+
+export function TransactionsExport({ initialTransactions }: TransactionsExportProps) {
   const { t, locale } = useTranslation();
   const { mode, selectedMonth } = usePeriod();
   const currentYear = new Date().getFullYear();
@@ -17,7 +22,7 @@ export function TransactionsExport() {
   const { transactions = [] } = useTransactions({
     month,
     year: currentYear,
-  });
+  }, initialTransactions);
   const { generateTransactionsPDF } = useExportPDF();
   const [isLoading, setIsLoading] = useState(false);
 

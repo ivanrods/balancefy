@@ -76,7 +76,11 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function ChartArea() {
+type ChartAreaProps = {
+  initialTransactions?: Transaction[];
+};
+
+export function ChartArea({ initialTransactions }: ChartAreaProps) {
   const { mode, selectedMonth } = usePeriod();
   const { currency } = useCurrency();
   const monthsLong = [
@@ -100,6 +104,7 @@ export function ChartArea() {
 
   const { transactions, isLoading } = useTransactions(
     mode === "month" ? { month: selectedMonth, year } : undefined,
+    initialTransactions,
   );
 
   const chartData = groupTransactionsByMonth(transactions || []);

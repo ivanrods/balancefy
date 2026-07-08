@@ -17,11 +17,16 @@ import {
 } from "@/components/ui/chart";
 import { usePeriod } from "@/context/period-context";
 import { useTransactionsType } from "@/hooks/use-transactions-type";
+import { TransactionType } from "@/types/transaction";
 import { TrendingUp } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useTranslation } from "@/hooks/use-translation";
 
-export function ChartLine() {
+type ChartLineProps = {
+  initialChartData?: TransactionType[];
+};
+
+export function ChartLine({ initialChartData }: ChartLineProps) {
   const { t, locale } = useTranslation();
 
   const chartConfig = {
@@ -39,7 +44,7 @@ export function ChartLine() {
     period: isMonthMode ? "week" : "month",
     month: isMonthMode ? selectedMonth : undefined,
     year,
-  });
+  }, initialChartData);
 
   const mothLabel = new Date(year, selectedMonth - 1).toLocaleString(locale, {
     month: "long",

@@ -14,13 +14,18 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { usePeriod } from "@/context/period-context";
 import { useSummaryReportMonth } from "@/hooks/use-summary-report-all-month";
 import { useTranslation } from "@/hooks/use-translation";
+import { Transaction } from "@/types/transaction";
 
-export function ChartPieReport() {
+type ChartPieReportProps = {
+  initialTransactions?: Transaction[];
+};
+
+export function ChartPieReport({ initialTransactions }: ChartPieReportProps) {
   const { t } = useTranslation();
   const { mode } = usePeriod();
 
-  const { incomeAll, expenseAll, isLoading } = useSummaryReportAll();
-  const { incomeMonth, expenseMonth } = useSummaryReportMonth();
+  const { incomeAll, expenseAll, isLoading } = useSummaryReportAll(initialTransactions);
+  const { incomeMonth, expenseMonth } = useSummaryReportMonth(initialTransactions);
 
   const income = mode === "month" ? incomeMonth : incomeAll;
   const expense = mode === "month" ? expenseMonth : expenseAll;

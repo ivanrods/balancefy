@@ -15,15 +15,20 @@ import { useSummaryReportMonth } from "@/hooks/use-summary-report-all-month";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ChartPieReport } from "./chart-pie-report";
 import { useTranslation } from "@/hooks/use-translation";
+import { Transaction } from "@/types/transaction";
 
-export default function SummaryCardReport() {
+type SummaryCardReportProps = {
+  initialTransactions?: Transaction[];
+};
+
+export default function SummaryCardReport({ initialTransactions }: SummaryCardReportProps) {
   const { t, locale } = useTranslation();
   const { mode } = usePeriod();
   const { currency } = useCurrency();
 
-  const { incomeAll, expenseAll, isLoading } = useSummaryReportAll();
+  const { incomeAll, expenseAll, isLoading } = useSummaryReportAll(initialTransactions);
 
-  const { incomeMonth, expenseMonth, dateToday } = useSummaryReportMonth();
+  const { incomeMonth, expenseMonth, dateToday } = useSummaryReportMonth(initialTransactions);
 
   const income = mode === "month" ? incomeMonth : incomeAll;
   const expense = mode === "month" ? expenseMonth : expenseAll;
@@ -98,7 +103,7 @@ export default function SummaryCardReport() {
           </CardFooter>
         </div>
         <div className="w-full h-full px-4 lg:max-w-md">
-          <ChartPieReport />
+          <ChartPieReport initialTransactions={initialTransactions} />
         </div>
       </div>
     </Card>

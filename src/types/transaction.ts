@@ -24,7 +24,8 @@ export type Transaction = {
 };
 
 export type TransactionType = {
-  month: string;
+  month?: string;
+  week?: string;
   income: number;
   expense: number;
 };

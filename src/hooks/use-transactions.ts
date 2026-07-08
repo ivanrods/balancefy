@@ -92,8 +92,8 @@ export function useTransactionsMutations() {
 }
 
 // API compatível retroativa — não quebra consumers existentes
-export function useTransactions(props?: UseTransactionsProps) {
-  const query = useTransactionsQuery(props);
+export function useTransactions(props?: UseTransactionsProps, initialData?: Transaction[]) {
+  const query = useTransactionsQuery(props, initialData);
   const mutations = useTransactionsMutations();
 
   return {
