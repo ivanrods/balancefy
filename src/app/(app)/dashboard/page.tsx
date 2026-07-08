@@ -4,6 +4,9 @@ import { TransactionsTable } from "@/components/transactions-table";
 import Summary from "./components/summary";
 import { PeriodFilterHeader } from "@/components/period-filter-header";
 import { getServerTranslations } from "@/lib/locale";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth-options";
+import { getTransactions } from "@/lib/services/transaction-service";
 
 export async function generateMetadata() {
   const t = await getServerTranslations();
@@ -15,20 +18,31 @@ export async function generateMetadata() {
 
 const Dashboard = async () => {
   const t = await getServerTranslations();
+  const session = await getServerSession(authOptions);
+
+  let initialTransactions = undefined;
+  if (session?.user?.id) {
+    const now = new Date();
+    initialTransactions = await getTransactions(session.user.id, {
+      month: now.getMonth() + 1,
+      year: now.getFullYear(),
+    });
+  }
+
   return (
     <div className="w-full h-full flex flex-col gap-4">
       <PeriodFilterHeader title={t("sidebar.dashboard")} />
-      <Summary />
+      <Summary initialTransactions={initialTransactions} />
       <section className="w-full grid grid-cols-1 lg:grid-cols-4 gap-4">
         <div className="lg:col-span-2 xl:col-span-1 ">
-          <ChartPieDonut />
+          <ChartPieDonut initialTransactions={initialTransactions} />
         </div>
         <div className="lg:col-span-2 xl:col-span-3 ">
-          <ChartArea />
+          <ChartArea initialTransactions={initialTransactions} />
         </div>
       </section>
       <section>
-        <TransactionsTable />
+        <TransactionsTable initialTransactions={initialTransactions} />
       </section>
     </div>
   );

@@ -45,7 +45,11 @@ function groupTransactions(transactions: Transaction[]) {
   }));
 }
 
-export function ChartPieDonut() {
+type ChartPieDonutProps = {
+  initialTransactions?: Transaction[];
+};
+
+export function ChartPieDonut({ initialTransactions }: ChartPieDonutProps) {
   const { mode, selectedMonth } = usePeriod();
   const months = [
     "janeiro",
@@ -66,7 +70,8 @@ export function ChartPieDonut() {
   const year = now.getFullYear();
 
   const { transactions, isLoading } = useTransactions(
-    mode === "month" ? { month: selectedMonth, year } : undefined
+    mode === "month" ? { month: selectedMonth, year } : undefined,
+    initialTransactions,
   );
 
   const chartData = groupTransactions(transactions ?? []);

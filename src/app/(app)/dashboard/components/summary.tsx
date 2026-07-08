@@ -21,15 +21,20 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useSummaryMonth } from "@/hooks/use-summary-month";
 import { usePeriod } from "@/context/period-context";
 import { useTranslation } from "@/hooks/use-translation";
+import { Transaction } from "@/types/transaction";
 
-const Summary = () => {
+type SummaryProps = {
+  initialTransactions?: Transaction[];
+};
+
+const Summary = ({ initialTransactions }: SummaryProps) => {
   const { mode, selectedMonth } = usePeriod();
   const { t, locale } = useTranslation();
   const { currency } = useCurrency();
 
-  const { incomeAll, expenseAll, balanceAll, economyAll, isLoading: isLoadingAll } = useSummaryAll();
+  const { incomeAll, expenseAll, balanceAll, economyAll, isLoading: isLoadingAll } = useSummaryAll(initialTransactions);
   const { incomeMonth, expenseMonth, balanceMonth, economyMonth, isLoading: isLoadingMonth } =
-    useSummaryMonth();
+    useSummaryMonth(initialTransactions);
 
   const isLoading = mode === "month" ? isLoadingMonth : isLoadingAll;
 

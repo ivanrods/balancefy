@@ -1,7 +1,8 @@
 import { useTransactionsQuery } from "@/hooks/use-transactions";
+import { Transaction } from "@/types/transaction";
 
-export function useSummaryAll() {
-  const { data: transactions, isLoading } = useTransactionsQuery();
+export function useSummaryAll(initialTransactions?: Transaction[]) {
+  const { data: transactions, isLoading } = useTransactionsQuery(undefined, initialTransactions);
 
   const incomeAll =
     transactions
