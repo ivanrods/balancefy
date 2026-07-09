@@ -9,6 +9,7 @@ import { Bell, Check, Megaphone } from "lucide-react";
 import { useTranslation } from "@/hooks/use-translation";
 import { useNotifications } from "@/hooks/use-notifications";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Notification } from "@/types/notification";
 
 function formatCurrency(value: number, locale: string) {
   const currency = locale === "en" ? "USD" : "BRL";
@@ -26,10 +27,14 @@ function formatDate(dateStr: string, locale: string) {
   }).format(new Date(dateStr));
 }
 
-export function Notifications() {
+type NotificationsProps = {
+  initialNotifications?: Notification[];
+};
+
+export function Notifications({ initialNotifications }: NotificationsProps) {
   const { t, locale } = useTranslation();
   const { notifications, unreadCount, isLoading, markAsRead, markAllAsRead } =
-    useNotifications();
+    useNotifications(initialNotifications);
 
   return (
     <Popover>

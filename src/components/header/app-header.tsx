@@ -9,8 +9,13 @@ import { Notifications } from "./components/notifications";
 import { CategoriesDialog } from "../../app/(app)/categories/components/create-categories-dialog";
 import { WalletDialog } from "../../app/(app)/wallet/components/create-wallet-dialog";
 import { TransactionDialog } from "@/app/(app)/transactions/components/create-transaction-dialog";
+import { Notification } from "@/types/notification";
 
-export function AppHeader() {
+type AppHeaderProps = {
+  initialNotifications?: Notification[];
+};
+
+export function AppHeader({ initialNotifications }: AppHeaderProps) {
   const pathname = usePathname();
   return (
     <header className=" flex items-center justify-between gap-4 py-4 border-b">
@@ -33,7 +38,7 @@ export function AppHeader() {
         {pathname === "/wallet" && <WalletDialog />}
 
         <ButtonTheme />
-        <Notifications />
+        <Notifications initialNotifications={initialNotifications} />
       </div>
     </header>
   );

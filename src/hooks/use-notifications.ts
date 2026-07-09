@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Notification } from "@/types/notification";
 
-export function useNotifications() {
+export function useNotifications(initialData?: Notification[]) {
   const queryClient = useQueryClient();
 
   const { data, isLoading, error } = useQuery<Notification[]>({
@@ -12,6 +12,8 @@ export function useNotifications() {
       return res.json();
     },
     refetchInterval: 60_000,
+    initialData,
+    staleTime: 30_000,
   });
 
   const markAsRead = useMutation({
