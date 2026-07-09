@@ -36,6 +36,7 @@ export function useTransactionsType(
       return res.json();
     },
     initialData: !month ? initialData : undefined,
+    staleTime: 30_000,
   });
 
   return { transactionsType: data, isLoading, error };

@@ -30,6 +30,7 @@ export function useWalletsQuery(props?: UseWalletsProps, initialData?: Wallets[]
     queryKey: ["wallets", props?.month, props?.year],
     queryFn: () => fetchWallets(props),
     initialData: !props?.month ? initialData : undefined,
+    staleTime: 30_000,
   });
 }
 

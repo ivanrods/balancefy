@@ -31,6 +31,7 @@ export function useTransactionsQuery(
     queryKey: ["transactions", { month: props?.month, year: props?.year }],
     queryFn: () => fetchTransactions(props),
     initialData: !props?.month ? initialData : undefined,
+    staleTime: 30_000,
   });
 }
 
