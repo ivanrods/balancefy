@@ -9,10 +9,10 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { useSummaryReportAll } from "@/hooks/use-summary-report-all";
+import { useSummaryAll } from "@/hooks/use-summary-all";
 import { Skeleton } from "@/components/ui/skeleton";
 import { usePeriod } from "@/context/period-context";
-import { useSummaryReportMonth } from "@/hooks/use-summary-report-all-month";
+import { useSummaryMonth } from "@/hooks/use-summary-month";
 import { useTranslation } from "@/hooks/use-translation";
 import { Transaction } from "@/types/transaction";
 
@@ -24,8 +24,8 @@ export function ChartPieReport({ initialTransactions }: ChartPieReportProps) {
   const { t } = useTranslation();
   const { mode } = usePeriod();
 
-  const { incomeAll, expenseAll, isLoading } = useSummaryReportAll(initialTransactions);
-  const { incomeMonth, expenseMonth } = useSummaryReportMonth(initialTransactions);
+  const { incomeAll, expenseAll, isLoading } = useSummaryAll(initialTransactions);
+  const { incomeMonth, expenseMonth } = useSummaryMonth(initialTransactions);
 
   const income = mode === "month" ? incomeMonth : incomeAll;
   const expense = mode === "month" ? expenseMonth : expenseAll;

@@ -10,8 +10,8 @@ import { formatCurrency } from "@/utils/format-currency";
 import { useCurrency } from "@/context/currency-context";
 import { ArrowDown, ArrowUp } from "lucide-react";
 import { usePeriod } from "@/context/period-context";
-import { useSummaryReportAll } from "@/hooks/use-summary-report-all";
-import { useSummaryReportMonth } from "@/hooks/use-summary-report-all-month";
+import { useSummaryAll } from "@/hooks/use-summary-all";
+import { useSummaryMonth } from "@/hooks/use-summary-month";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ChartPieReport } from "./chart-pie-report";
 import { useTranslation } from "@/hooks/use-translation";
@@ -26,9 +26,9 @@ export default function SummaryCardReport({ initialTransactions }: SummaryCardRe
   const { mode } = usePeriod();
   const { currency } = useCurrency();
 
-  const { incomeAll, expenseAll, isLoading } = useSummaryReportAll(initialTransactions);
+  const { incomeAll, expenseAll, isLoading } = useSummaryAll(initialTransactions);
 
-  const { incomeMonth, expenseMonth, dateToday } = useSummaryReportMonth(initialTransactions);
+  const { incomeMonth, expenseMonth, dateToday } = useSummaryMonth(initialTransactions);
 
   const income = mode === "month" ? incomeMonth : incomeAll;
   const expense = mode === "month" ? expenseMonth : expenseAll;
