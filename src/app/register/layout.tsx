@@ -1,12 +1,15 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth-options";
 import { redirect } from "next/navigation";
+import { getServerTranslations } from "@/lib/locale";
 
-export const metadata = {
-  title: "Criar Conta | Balancefy",
-  description:
-    "Crie sua conta gratuita e comece a organizar suas finanças de forma inteligente. Leve o controle do seu dinheiro para o próximo nível.",
-};
+export async function generateMetadata() {
+  const t = await getServerTranslations();
+  return {
+    title: t("meta.register.title"),
+    description: t("meta.register.description"),
+  };
+}
 
 export default async function RegisterLayout({
   children,
@@ -16,7 +19,7 @@ export default async function RegisterLayout({
   const session = await getServerSession(authOptions);
 
   if (session) {
-    redirect("/app/dashboard");
+    redirect("/dashboard");
   }
 
   return <>{children}</>;

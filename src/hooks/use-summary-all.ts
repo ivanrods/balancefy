@@ -1,7 +1,8 @@
-import { useTransactions } from "@/hooks/use-transactions";
+import { useTransactionsQuery } from "@/hooks/use-transactions";
+import { Transaction } from "@/types/transaction";
 
-export function useSummaryAll() {
-  const { transactions } = useTransactions();
+export function useSummaryAll(initialTransactions?: Transaction[]) {
+  const { data: transactions, isLoading } = useTransactionsQuery(undefined, initialTransactions);
 
   const incomeAll =
     transactions
@@ -16,5 +17,5 @@ export function useSummaryAll() {
   const balanceAll = incomeAll - expenseAll;
   const economyAll = balanceAll > 0 ? balanceAll : 0;
 
-  return { incomeAll, expenseAll, balanceAll, economyAll };
+  return { incomeAll, expenseAll, balanceAll, economyAll, isLoading };
 }

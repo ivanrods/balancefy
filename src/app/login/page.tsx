@@ -1,6 +1,6 @@
 "use client";
 
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,11 +20,14 @@ import {
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { toast } from "sonner";
+import { useTranslation } from "@/hooks/use-translation";
 
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const router = useRouter();
+  const { update } = useSession();
+  const { t } = useTranslation();
 
   const {
     register,
@@ -43,14 +46,15 @@ export default function LoginPage() {
       });
 
       if (res?.ok) {
-        router.push("/app/dashboard");
-        window.location.reload();
+        // Refresh session before navigating
+        await update();
+        router.push("/dashboard");
       } else {
-        toast.error(res?.error || "E-mail ou senha incorretos");
+        toast.error(res?.error || t("auth.loginError"));
       }
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
-      toast.error("Erro ao tentar fazer login");
+      toast.error(t("auth.loginError"));
     }
   };
 
@@ -58,14 +62,14 @@ export default function LoginPage() {
     <div className="flex h-screen items-center justify-center">
       <Card className="w-full max-w-sm">
         <CardHeader>
-          <CardTitle>Login</CardTitle>
+          <CardTitle>{t("auth.loginTitle")}</CardTitle>
 
           <CardDescription>
-            Digite seu e-mail abaixo para acessar sua conta
+            {t("auth.loginDescription")}
           </CardDescription>
           <CardAction>
             <Button variant="link">
-              <Link href="/register">Registrar</Link>
+              <Link href="/register">{t("auth.signUp")}</Link>
             </Button>
           </CardAction>
         </CardHeader>
@@ -73,10 +77,10 @@ export default function LoginPage() {
           <CardContent>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">{t("auth.email")}</Label>
                 <Input
                   type="email"
-                  placeholder="E-mail"
+                  placeholder={t("auth.email")}
                   {...register("email")}
                 />
                 {errors.email && (
@@ -87,7 +91,7 @@ export default function LoginPage() {
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
-                  <Label htmlFor="password">Senha</Label>
+                  <Label htmlFor="password">{t("auth.password")}</Label>
                   <a
                     href="#"
                     className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
@@ -97,7 +101,7 @@ export default function LoginPage() {
                 </div>
                 <Input
                   type="password"
-                  placeholder="Senha"
+                  placeholder={t("auth.password")}
                   {...register("password")}
                 />
                 {errors.password && (
@@ -110,17 +114,17 @@ export default function LoginPage() {
           </CardContent>
           <CardFooter className="flex-col gap-2 pt-6">
             <Button type="submit" className="w-full" disabled={isSubmitting}>
-              Entrar
+              {t("auth.loginSubmit")}
             </Button>
             <Button
               type="button"
               variant="outline"
               className="w-full"
               onClick={() =>
-                signIn("google", { callbackUrl: "/app/dashboard" })
+                signIn("google", { callbackUrl: "/dashboard" })
               }
             >
-              Entrar com Google
+              {t("auth.loginGoogle")}
             </Button>
           </CardFooter>{" "}
         </form>

@@ -3,30 +3,37 @@ import { Categories } from "@/types/categories";
 
 type UseCategoriesProps = { month?: number; year?: number };
 
-export function useCategories({ month, year }: UseCategoriesProps = {}) {
+async function fetchCategories(props?: UseCategoriesProps) {
+  const params = new URLSearchParams({ type: "summary" });
+  if (props?.month && props?.year) {
+    params.set("month", String(props.month));
+    params.set("year", String(props.year));
+  }
+
+  const res = await fetch(`/api/categories?${params}`);
+  if (!res.ok) throw new Error("Erro ao buscar categorias");
+  return res.json();
+}
+
+export function useCategoriesQuery(
+  props?: UseCategoriesProps,
+  initialData?: Categories[],
+) {
+  return useQuery<Categories[]>({
+    queryKey: ["categories", props?.month, props?.year],
+    queryFn: () => fetchCategories(props),
+    initialData: !props?.month ? initialData : undefined,
+  });
+}
+
+export function useCategoriesMutations() {
   const queryClient = useQueryClient();
 
-  // GET
-  const queryString =
-    month && year
-      ? `?type=summary&month=${month}&year=${year}`
-      : `?type=summary`;
-
-  const { data, isLoading, error } = useQuery<Categories[]>({
-    queryKey: ["categories", month, year],
-    queryFn: async () => {
-      const res = await fetch(`/api/categories${queryString}`);
-      if (!res.ok) throw new Error("Erro ao buscar transações");
-      return res.json();
-    },
-  });
-
-  // CREATE
-  const createCategories = useMutation({
-    mutationFn: async (categories: Omit<Categories, "id" | "createdAt">) => {
+  const createCategory = useMutation({
+    mutationFn: async (data: Pick<Categories, "name" | "color">) => {
       const res = await fetch("/api/categories", {
         method: "POST",
-        body: JSON.stringify(categories),
+        body: JSON.stringify(data),
         headers: { "Content-Type": "application/json" },
       });
       if (!res.ok) throw new Error("Erro ao criar categoria");
@@ -37,14 +44,11 @@ export function useCategories({ month, year }: UseCategoriesProps = {}) {
     },
   });
 
-  //UPDATE
-  const updateCategories = useMutation({
-    mutationFn: async (
-      categories: Pick<Categories, "id" | "name" | "color">
-    ) => {
-      const res = await fetch(`/api/categories/${categories.id}`, {
+  const updateCategory = useMutation({
+    mutationFn: async (data: Pick<Categories, "id" | "name" | "color">) => {
+      const res = await fetch(`/api/categories/${data.id}`, {
         method: "PUT",
-        body: JSON.stringify(categories),
+        body: JSON.stringify(data),
         headers: { "Content-Type": "application/json" },
       });
       if (!res.ok) throw new Error("Erro ao atualizar categoria");
@@ -55,8 +59,7 @@ export function useCategories({ month, year }: UseCategoriesProps = {}) {
     },
   });
 
-  // DELETE
-  const deleteCategories = useMutation({
+  const deleteCategory = useMutation({
     mutationFn: async (id: string) => {
       const res = await fetch(`/api/categories/${id}`, { method: "DELETE" });
       if (!res.ok) throw new Error("Erro ao deletar categoria");
@@ -67,12 +70,5 @@ export function useCategories({ month, year }: UseCategoriesProps = {}) {
     },
   });
 
-  return {
-    categories: data ?? [],
-    isLoading,
-    error,
-    createCategories,
-    updateCategories,
-    deleteCategories,
-  };
+  return { createCategory, updateCategory, deleteCategory };
 }

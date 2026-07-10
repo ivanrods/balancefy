@@ -6,30 +6,44 @@ type UseWalletsProps = {
   year?: number;
 };
 
-export function useWalllets({ month, year }: UseWalletsProps = {}) {
+async function fetchWallets(props?: UseWalletsProps) {
+  const params = new URLSearchParams({ type: "summary" });
+  const currentYear = new Date().getFullYear();
+  const hasMonth = typeof props?.month === "number";
+  const hasYear = typeof props?.year === "number";
+
+  if (hasMonth) {
+    params.set("month", String(props!.month));
+  }
+
+  if (hasMonth || hasYear) {
+    params.set("year", String(props?.year ?? currentYear));
+  }
+
+  const res = await fetch(`/api/wallets?${params}`);
+  if (!res.ok) throw new Error("Erro ao buscar carteiras");
+  return res.json();
+}
+
+export function useWalletsQuery(
+  props?: UseWalletsProps,
+  initialData?: Wallets[],
+) {
+  return useQuery<Wallets[]>({
+    queryKey: ["wallets", props?.month, props?.year],
+    queryFn: () => fetchWallets(props),
+    initialData: !props?.month ? initialData : undefined,
+  });
+}
+
+export function useWalletsMutations() {
   const queryClient = useQueryClient();
 
-  // GET
-  const queryString =
-    month && year
-      ? `?type=summary&month=${month}&year=${year}`
-      : `?type=summary`;
-
-  const { data, isLoading, error } = useQuery<Wallets[]>({
-    queryKey: ["wallets", month, year],
-    queryFn: async () => {
-      const res = await fetch(`/api/wallets${queryString}`);
-      if (!res.ok) throw new Error("Erro ao buscar carteiras");
-      return res.json();
-    },
-  });
-
-  // CREATE
-  const createWallets = useMutation({
-    mutationFn: async (wallets: Pick<Wallets, "name">) => {
+  const createWallet = useMutation({
+    mutationFn: async (data: Pick<Wallets, "name">) => {
       const res = await fetch("/api/wallets", {
         method: "POST",
-        body: JSON.stringify(wallets),
+        body: JSON.stringify(data),
         headers: { "Content-Type": "application/json" },
       });
       if (!res.ok) throw new Error("Erro ao criar carteira");
@@ -40,12 +54,11 @@ export function useWalllets({ month, year }: UseWalletsProps = {}) {
     },
   });
 
-  //UPDATE
-  const updateWallets = useMutation({
-    mutationFn: async (wallets: Pick<Wallets, "id" | "name">) => {
-      const res = await fetch(`/api/wallets/${wallets.id}`, {
+  const updateWallet = useMutation({
+    mutationFn: async (data: Pick<Wallets, "id" | "name">) => {
+      const res = await fetch(`/api/wallets/${data.id}`, {
         method: "PUT",
-        body: JSON.stringify(wallets),
+        body: JSON.stringify(data),
         headers: { "Content-Type": "application/json" },
       });
       if (!res.ok) throw new Error("Erro ao atualizar carteira");
@@ -56,8 +69,7 @@ export function useWalllets({ month, year }: UseWalletsProps = {}) {
     },
   });
 
-  // DELETE
-  const deleteWallets = useMutation({
+  const deleteWallet = useMutation({
     mutationFn: async (id: string) => {
       const res = await fetch(`/api/wallets/${id}`, { method: "DELETE" });
       if (!res.ok) throw new Error("Erro ao deletar carteira");
@@ -68,12 +80,5 @@ export function useWalllets({ month, year }: UseWalletsProps = {}) {
     },
   });
 
-  return {
-    wallets: data ?? [],
-    isLoading,
-    error,
-    createWallets,
-    updateWallets,
-    deleteWallets,
-  };
+  return { createWallet, updateWallet, deleteWallet };
 }

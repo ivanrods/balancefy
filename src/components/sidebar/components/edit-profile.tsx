@@ -23,12 +23,16 @@ import { AvatarProfile } from "./avatar-profile";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 
 import { updateUserSchema } from "@/lib/schemas/update-user-schema";
-import { signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
+import { useTranslation } from "@/hooks/use-translation";
 
 type updateFormData = z.infer<typeof updateUserSchema>;
 
 export function EditProfile() {
-  const [avatar, setAvatar] = useState(String);
+  const { t } = useTranslation();
+  const { data: session, update } = useSession();
+  const [avatar, setAvatar] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isGoogleUser, setIsGoogleUser] = useState(false);
 
   const {
@@ -48,6 +52,7 @@ export function EditProfile() {
           email: data.email,
         });
         setAvatar(data.image || null);
+        setSelectedFile(null);
         setIsGoogleUser(data.provider === "google");
       }
     }
@@ -55,20 +60,52 @@ export function EditProfile() {
   }, [reset]);
 
   async function onSubmit(data: updateFormData) {
+    let imageUrl = avatar;
+    if (selectedFile) {
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+      try {
+        const resUpload = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
+        const uploadData = await resUpload.json();
+        if (resUpload.ok) {
+          imageUrl = uploadData.url;
+        } else {
+          toast.error(t("profile.imageError") + " " + (uploadData.error || ""));
+          return;
+        }
+      } catch (err) {
+        toast.error(t("profile.imageError"));
+        return;
+      }
+    }
+
     const res = await fetch("/api/profile", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         ...data,
-        image: avatar,
+        image: imageUrl,
       }),
     });
 
     if (res.ok) {
-      toast.success("Perfil atualizado. Faça login novamente para continuar");
-      signOut({ callbackUrl: "/login" });
+      const updatedUser = await res.json();
+      if (update) {
+        await update({
+        user: {
+          ...session?.user,
+          name: updatedUser.name,
+          email: updatedUser.email,
+          image: updatedUser.image,
+        },
+      });
+      }
+      toast.success(t("profile.success"));
     } else {
-      toast.error("Erro ao atualizar perfil.");
+      toast.error(t("profile.error"));
     }
   }
 
@@ -76,15 +113,14 @@ export function EditProfile() {
     <Sheet>
       <SheetTrigger asChild className="w-full">
         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-          <UserPen className="w-4 h-4 mr-2" /> Editar perfil
+          <UserPen className="w-4 h-4 mr-2" /> {t("nav.editProfile")}
         </DropdownMenuItem>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Editar perfil</SheetTitle>
+          <SheetTitle>{t("profile.editTitle")}</SheetTitle>
           <SheetDescription>
-            Faça alterações no seu perfil aqui. Clique em Salvar quando
-            terminar.
+            {t("profile.editDescription")}
           </SheetDescription>
         </SheetHeader>
         <form
@@ -94,15 +130,18 @@ export function EditProfile() {
           <div className="flex justify-center ">
             <AvatarProfile
               imageUrl={avatar}
-              onUpload={(url) => setAvatar(url)}
+              onSelectFile={(file, previewUrl) => {
+                setSelectedFile(file);
+                if (previewUrl) setAvatar(previewUrl);
+              }}
               disabled={isGoogleUser}
             />
           </div>
           <div className="grid gap-3">
-            <Label htmlFor="name">Nome*</Label>
+            <Label htmlFor="name">{t("profile.name")}</Label>
             <Input
               type="text"
-              placeholder="Nome"
+              placeholder={t("profile.namePlaceholder")}
               {...register("name")}
               disabled={isGoogleUser}
             />
@@ -113,10 +152,10 @@ export function EditProfile() {
             )}
           </div>
           <div className="grid gap-3">
-            <Label htmlFor="email">Email*</Label>
+            <Label htmlFor="email">{t("profile.email")}</Label>
             <Input
               type="email"
-              placeholder="E-mail"
+              placeholder={t("profile.emailPlaceholder")}
               {...register("email")}
               disabled={isGoogleUser}
             />
@@ -127,12 +166,12 @@ export function EditProfile() {
             )}
           </div>
           <div className="grid gap-3">
-            <Label>Senha</Label>
+            <Label>{t("profile.password")}</Label>
             <Input
               type="password"
               {...register("password")}
               className="input"
-              placeholder="Deixe em branco para não alterar"
+              placeholder={t("profile.passwordPlaceholder")}
               disabled={isGoogleUser}
             />
             {errors.password && (
@@ -145,7 +184,7 @@ export function EditProfile() {
             <Alert variant="destructive">
               <AlertCircleIcon />
               <AlertTitle>
-                Usuários do Google não podem editar dados aqui.
+                {t("profile.googleAlert")}
               </AlertTitle>
             </Alert>
           )}
@@ -154,10 +193,10 @@ export function EditProfile() {
             onClick={handleSubmit(onSubmit)}
             disabled={isGoogleUser}
           >
-            Salvar alterações
+            {t("profile.save")}
           </Button>
           <SheetClose asChild>
-            <Button variant="outline">Fechar</Button>
+            <Button variant="outline">{t("profile.close")}</Button>
           </SheetClose>
         </SheetFooter>
       </SheetContent>

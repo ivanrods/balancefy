@@ -9,6 +9,7 @@ import {
   User,
   Wallet,
 } from "lucide-react";
+import { useTranslation } from "@/hooks/use-translation";
 
 import {
   CommandDialog,
@@ -27,6 +28,7 @@ type SearchDialogProps = {
 };
 
 export function SearchDialog({ open, setOpen }: SearchDialogProps) {
+  const { t } = useTranslation();
   return (
     <div>
       <p className="text-muted-foreground text-sm">
@@ -36,37 +38,37 @@ export function SearchDialog({ open, setOpen }: SearchDialogProps) {
         </kbd>
       </p>
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder="Digite um comando ou pesquise..." />
+        <CommandInput placeholder={t("header.commandPlaceholder")} />
         <CommandList>
-          <CommandEmpty>Nenhum resultado encontrado.</CommandEmpty>
-          <CommandGroup heading="Sugestões">
+          <CommandEmpty>{t("header.noResults")}</CommandEmpty>
+          <CommandGroup heading={t("header.suggestions")}>
             <CommandItem>
               <Wallet />
-              <Link href="wallet">Carteira</Link>
+              <Link href="wallet">{t("sidebar.wallet")}</Link>
             </CommandItem>
             <CommandItem>
               <ChartBarStacked />
-              <Link href="categories">Categorias</Link>
+              <Link href="categories">{t("sidebar.categories")}</Link>
             </CommandItem>
             <CommandItem>
               <ClipboardMinus />
-              <Link href="reports">Relatórios</Link>
+              <Link href="reports">{t("sidebar.reports")}</Link>
             </CommandItem>
             <CommandItem>
               <Info />
-              <Link href="help">Ajuda</Link>
+              <Link href="help">{t("sidebar.help")}</Link>
             </CommandItem>
           </CommandGroup>
           <CommandSeparator />
-          <CommandGroup heading="Configurações">
+          <CommandGroup heading={t("header.settings")}>
             <CommandItem>
               <User />
-              <span>Perfil</span>
+              <span>{t("header.profile")}</span>
               <CommandShortcut>⌘P</CommandShortcut>
             </CommandItem>
             <CommandItem>
               <Settings />
-              <span>Configurações</span>
+              <span>{t("header.settings")}</span>
               <CommandShortcut>⌘S</CommandShortcut>
             </CommandItem>
           </CommandGroup>
