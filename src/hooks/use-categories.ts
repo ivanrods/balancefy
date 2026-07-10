@@ -23,7 +23,6 @@ export function useCategoriesQuery(
     queryKey: ["categories", props?.month, props?.year],
     queryFn: () => fetchCategories(props),
     initialData: !props?.month ? initialData : undefined,
-    staleTime: 30_000,
   });
 }
 

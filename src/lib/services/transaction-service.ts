@@ -50,6 +50,7 @@ export async function updateTransaction(id: string, body: Record<string, unknown
 }
 
 export async function deleteTransaction(id: string) {
+  await prisma.notification.deleteMany({ where: { transactionId: id } });
   await prisma.transaction.delete({ where: { id } });
 }
 

@@ -13,10 +13,13 @@ async function fetchTransactions(props?: UseTransactionsProps) {
   const hasYear = typeof props?.year === "number";
 
   if (hasMonth) params.set("month", String(props!.month));
-  if (hasMonth || hasYear) params.set("year", String(props?.year ?? currentYear));
+  if (hasMonth || hasYear)
+    params.set("year", String(props?.year ?? currentYear));
 
   const queryString = params.toString();
-  const url = queryString ? `/api/transactions?${queryString}` : "/api/transactions";
+  const url = queryString
+    ? `/api/transactions?${queryString}`
+    : "/api/transactions";
 
   const res = await fetch(url);
   if (!res.ok) throw new Error("Erro ao buscar transações");
@@ -31,7 +34,6 @@ export function useTransactionsQuery(
     queryKey: ["transactions", { month: props?.month, year: props?.year }],
     queryFn: () => fetchTransactions(props),
     initialData: !props?.month ? initialData : undefined,
-    staleTime: 30_000,
   });
 }
 
@@ -40,7 +42,10 @@ export function useTransactionsMutations() {
 
   const createTransaction = useMutation({
     mutationFn: async (
-      transaction: Omit<Transaction, "id" | "createdAt" | "category" | "wallet">,
+      transaction: Omit<
+        Transaction,
+        "id" | "createdAt" | "category" | "wallet"
+      >,
     ) => {
       const res = await fetch("/api/transactions", {
         method: "POST",
@@ -93,7 +98,10 @@ export function useTransactionsMutations() {
 }
 
 // API compatível retroativa — não quebra consumers existentes
-export function useTransactions(props?: UseTransactionsProps, initialData?: Transaction[]) {
+export function useTransactions(
+  props?: UseTransactionsProps,
+  initialData?: Transaction[],
+) {
   const query = useTransactionsQuery(props, initialData);
   const mutations = useTransactionsMutations();
 
