@@ -40,7 +40,10 @@ const mockHash = bcrypt.hash as jest.Mock;
 const createNextRequest = (body: any) =>
   new (NextRequest as any)(body) as NextRequest;
 
-beforeEach(() => jest.clearAllMocks());
+beforeEach(() => {
+  jest.clearAllMocks();
+  jest.spyOn(console, "error").mockImplementation(() => {});
+});
 
 it("registra usuário com sucesso", async () => {
   mockFindUnique.mockResolvedValue(null);
