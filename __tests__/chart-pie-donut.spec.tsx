@@ -7,12 +7,20 @@ if (typeof globalThis.ResizeObserver === "undefined") {
     observe() {}
     unobserve() {}
     disconnect() {}
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } as any;
 }
 
 jest.mock("@/context/period-context", () => ({
-  PeriodProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
-  usePeriod: jest.fn(() => ({ mode: "month" as const, setMode: jest.fn(), selectedMonth: 7, setSelectedMonth: jest.fn() })),
+  PeriodProvider: ({ children }: { children: React.ReactNode }) => (
+    <>{children}</>
+  ),
+  usePeriod: jest.fn(() => ({
+    mode: "month" as const,
+    setMode: jest.fn(),
+    selectedMonth: 7,
+    setSelectedMonth: jest.fn(),
+  })),
 }));
 
 function createWrapper() {
@@ -24,16 +32,23 @@ function createWrapper() {
 }
 
 const mockTx = {
-  id: "1", description: "Mercado", value: 200, type: "expense" as const,
-  date: new Date("2026-07-10"), categoryId: "c1",
+  id: "1",
+  description: "Mercado",
+  value: 200,
+  type: "expense" as const,
+  date: new Date("2026-07-10"),
+  categoryId: "c1",
   category: { id: "c1", name: "Alimentação", color: "#ff0000", userId: "u1" },
-  walletId: "w1", wallet: { id: "w1", name: "Principal", userId: "u1" },
+  walletId: "w1",
+  wallet: { id: "w1", name: "Principal", userId: "u1" },
 };
 
 let mockFetch: jest.Mock;
 
 beforeEach(() => {
-  mockFetch = jest.fn().mockResolvedValue({ ok: true, json: () => Promise.resolve([]) });
+  mockFetch = jest
+    .fn()
+    .mockResolvedValue({ ok: true, json: () => Promise.resolve([]) });
   globalThis.fetch = mockFetch;
 });
 
@@ -54,11 +69,16 @@ it("exibe título e descrição", async () => {
 });
 
 it("renderiza gráfico com transações agrupadas por categoria", async () => {
-  mockFetch.mockResolvedValue({ ok: true, json: () => Promise.resolve([mockTx]) });
+  mockFetch.mockResolvedValue({
+    ok: true,
+    json: () => Promise.resolve([mockTx]),
+  });
 
   render(<ChartPieDonut />, { wrapper: createWrapper() });
 
   await waitFor(() => {
-    expect(screen.getByText("Baseado nas transações do mês de julho")).toBeInTheDocument();
+    expect(
+      screen.getByText("Baseado nas transações do mês de julho"),
+    ).toBeInTheDocument();
   });
 });
