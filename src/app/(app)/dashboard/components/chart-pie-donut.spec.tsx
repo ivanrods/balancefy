@@ -2,6 +2,10 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ChartPieDonut } from "@/app/(app)/dashboard/components/chart-pie-donut";
 
+beforeAll(() => {
+  jest.spyOn(console, "warn").mockImplementation(() => {});
+});
+
 if (typeof globalThis.ResizeObserver === "undefined") {
   globalThis.ResizeObserver = class {
     observe() {}

@@ -4,6 +4,10 @@ import * as periodContext from "@/context/period-context";
 import * as currencyContext from "@/context/currency-context";
 import * as transactionsHook from "@/hooks/use-transactions";
 
+beforeAll(() => {
+  jest.spyOn(console, "warn").mockImplementation(() => {});
+});
+
 if (typeof globalThis.ResizeObserver === "undefined") {
   globalThis.ResizeObserver = class {
     observe() {}

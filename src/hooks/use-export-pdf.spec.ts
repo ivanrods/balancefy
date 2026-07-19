@@ -10,6 +10,10 @@ jest.mock("jspdf", () => ({
 }));
 jest.mock("jspdf-autotable", () => jest.fn());
 
+beforeAll(() => {
+  jest.spyOn(console, "error").mockImplementation(() => {});
+});
+
 const mockedUseCurrency = jest.mocked(useCurrency);
 const mockedJsPDF = jest.mocked(jsPDF);
 
