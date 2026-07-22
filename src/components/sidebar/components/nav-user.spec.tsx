@@ -27,21 +27,42 @@ jest.mock("@/components/ui/sidebar", () => ({
     size?: string;
     className?: string;
   }) => (
-    <button data-testid="sidebar-menu-button" data-size={size} className={className}>
+    <button
+      data-testid="sidebar-menu-button"
+      data-size={size}
+      className={className}
+    >
       {children}
     </button>
   ),
 }));
 
 jest.mock("@/components/ui/avatar", () => ({
-  Avatar: ({ children, className }: { children: React.ReactNode; className?: string }) => (
-    <span data-testid="avatar" className={className}>{children}</span>
+  Avatar: ({
+    children,
+    className,
+  }: {
+    children: React.ReactNode;
+    className?: string;
+  }) => (
+    <span data-testid="avatar" className={className}>
+      {children}
+    </span>
   ),
   AvatarImage: ({ src, alt }: { src?: string; alt?: string }) => (
+    // eslint-disable-next-line @next/next/no-img-element
     <img data-testid="avatar-image" src={src} alt={alt} />
   ),
-  AvatarFallback: ({ children, className }: { children: React.ReactNode; className?: string }) => (
-    <span data-testid="avatar-fallback" className={className}>{children}</span>
+  AvatarFallback: ({
+    children,
+    className,
+  }: {
+    children: React.ReactNode;
+    className?: string;
+  }) => (
+    <span data-testid="avatar-fallback" className={className}>
+      {children}
+    </span>
   ),
 }));
 
@@ -61,7 +82,13 @@ jest.mock("@/components/ui/dropdown-menu", () => ({
   DropdownMenuGroup: ({ children }: { children: React.ReactNode }) => (
     <div data-testid="dropdown-group">{children}</div>
   ),
-  DropdownMenuItem: ({ children, onClick }: { children: React.ReactNode; onClick?: () => void }) => (
+  DropdownMenuItem: ({
+    children,
+    onClick,
+  }: {
+    children: React.ReactNode;
+    onClick?: () => void;
+  }) => (
     <div data-testid="dropdown-item" onClick={onClick}>
       {children}
     </div>

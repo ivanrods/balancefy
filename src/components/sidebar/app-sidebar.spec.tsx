@@ -1,6 +1,5 @@
 import { render, screen } from "@testing-library/react";
 import { AppSidebar } from "./app-sidebar";
-import { NavUser } from "./components/nav-user";
 
 jest.mock("./components/nav-user", () => ({
   NavUser: () => <div data-testid="nav-user" />,
@@ -11,21 +10,57 @@ jest.mock("@/lib/locale", () => ({
 }));
 
 jest.mock("@/components/ui/sidebar", () => ({
-  Sidebar: ({ children, className }: { children: React.ReactNode; className?: string }) => (
-    <div data-testid="sidebar" className={className}>{children}</div>
+  Sidebar: ({
+    children,
+    className,
+  }: {
+    children: React.ReactNode;
+    className?: string;
+  }) => (
+    <div data-testid="sidebar" className={className}>
+      {children}
+    </div>
   ),
-  SidebarHeader: ({ children }: { children: React.ReactNode }) => <div data-testid="sidebar-header">{children}</div>,
-  SidebarContent: ({ children, className }: { children: React.ReactNode; className?: string }) => (
-    <div data-testid="sidebar-content" className={className}>{children}</div>
+  SidebarHeader: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="sidebar-header">{children}</div>
   ),
-  SidebarGroup: ({ children }: { children: React.ReactNode }) => <div data-testid="sidebar-group">{children}</div>,
-  SidebarGroupContent: ({ children }: { children: React.ReactNode }) => <div data-testid="sidebar-group-content">{children}</div>,
-  SidebarMenu: ({ children }: { children: React.ReactNode }) => <div data-testid="sidebar-menu">{children}</div>,
-  SidebarMenuItem: ({ children }: { children: React.ReactNode }) => <div data-testid="sidebar-menu-item">{children}</div>,
-  SidebarMenuButton: ({ children, className }: { children: React.ReactNode; className?: string }) => (
-    <div data-testid="sidebar-menu-button" className={className}>{children}</div>
+  SidebarContent: ({
+    children,
+    className,
+  }: {
+    children: React.ReactNode;
+    className?: string;
+  }) => (
+    <div data-testid="sidebar-content" className={className}>
+      {children}
+    </div>
   ),
-  SidebarFooter: ({ children }: { children: React.ReactNode }) => <div data-testid="sidebar-footer">{children}</div>,
+  SidebarGroup: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="sidebar-group">{children}</div>
+  ),
+  SidebarGroupContent: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="sidebar-group-content">{children}</div>
+  ),
+  SidebarMenu: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="sidebar-menu">{children}</div>
+  ),
+  SidebarMenuItem: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="sidebar-menu-item">{children}</div>
+  ),
+  SidebarMenuButton: ({
+    children,
+    className,
+  }: {
+    children: React.ReactNode;
+    className?: string;
+  }) => (
+    <div data-testid="sidebar-menu-button" className={className}>
+      {children}
+    </div>
+  ),
+  SidebarFooter: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="sidebar-footer">{children}</div>
+  ),
   SidebarRail: () => <div data-testid="sidebar-rail" />,
 }));
 
@@ -40,25 +75,21 @@ const mockedGetServerTranslations = jest.mocked(
 beforeEach(() => {
   jest.clearAllMocks();
 
-  mockedGetServerTranslations.mockResolvedValue(
-    (key: string) => {
-      const map: Record<string, string> = {
-        "sidebar.dashboard": "Dashboard",
-        "sidebar.wallet": "Carteira",
-        "sidebar.transactions": "Transações",
-        "sidebar.categories": "Categorias",
-        "sidebar.reports": "Relatórios",
-        "sidebar.help": "Ajuda",
-      };
-      return map[key] ?? key;
-    },
-  );
+  mockedGetServerTranslations.mockResolvedValue((key: string) => {
+    const map: Record<string, string> = {
+      "sidebar.dashboard": "Dashboard",
+      "sidebar.wallet": "Carteira",
+      "sidebar.transactions": "Transações",
+      "sidebar.categories": "Categorias",
+      "sidebar.reports": "Relatórios",
+      "sidebar.help": "Ajuda",
+    };
+    return map[key] ?? key;
+  });
 });
 
 describe("AppSidebar", () => {
   it("renders sidebar structure", async () => {
-    const { container } = render(await AppSidebar());
-
     expect(screen.getByTestId("sidebar")).toBeInTheDocument();
     expect(screen.getByTestId("sidebar-header")).toBeInTheDocument();
     expect(screen.getByTestId("sidebar-content")).toBeInTheDocument();
