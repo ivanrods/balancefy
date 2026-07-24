@@ -90,6 +90,7 @@ beforeEach(() => {
 
 describe("AppSidebar", () => {
   it("renders sidebar structure", async () => {
+    render(await AppSidebar());
     expect(screen.getByTestId("sidebar")).toBeInTheDocument();
     expect(screen.getByTestId("sidebar-header")).toBeInTheDocument();
     expect(screen.getByTestId("sidebar-content")).toBeInTheDocument();
