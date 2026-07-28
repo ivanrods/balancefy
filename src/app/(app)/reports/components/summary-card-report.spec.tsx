@@ -27,8 +27,7 @@ jest.mock("@/hooks/use-translation", () => ({
         "reports.summaryCard.spendingDistribution": "Distribuicao de Gastos",
         "reports.summaryCard.balanceEvolutionBefore": "Analise do saldo",
         "reports.summaryCard.balanceEvolutionAfter": "ate o momento",
-        "reports.summaryCard.categoryDistributionBefore":
-          "Veja como seus gastos se distribuem por",
+        "reports.summaryCard.categoryDistributionBefore": "Veja como seus gastos se distribuem por",
         "reports.summaryCard.categoryDistributionHighlight": "categorias",
         "reports.summaryCard.categoryDistributionMiddle": "no periodo de",
         "reports.summaryCard.categoryDistributionAfter": "",
@@ -46,9 +45,7 @@ jest.mock("@/hooks/use-translation", () => ({
 }));
 
 jest.mock("@/context/period-context", () => ({
-  PeriodProvider: ({ children }: { children: React.ReactNode }) => (
-    <>{children}</>
-  ),
+  PeriodProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
   usePeriod: jest.fn(() => ({
     mode: "month" as const,
     setMode: jest.fn(),
@@ -58,9 +55,7 @@ jest.mock("@/context/period-context", () => ({
 }));
 
 jest.mock("@/context/currency-context", () => ({
-  CurrencyProvider: ({ children }: { children: React.ReactNode }) => (
-    <>{children}</>
-  ),
+  CurrencyProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
   useCurrency: jest.fn(() => ({
     currency: "BRL",
     setCurrency: jest.fn(),
@@ -76,16 +71,10 @@ jest.mock("@/hooks/use-summary-month", () => ({
 }));
 
 jest.mock("./chart-pie-report", () => ({
-  ChartPieReport: ({
-    initialTransactions,
-  }: {
-    initialTransactions?: unknown;
-  }) => (
+  ChartPieReport: ({ initialTransactions }: { initialTransactions?: unknown }) => (
     <div
       data-testid="chart-pie-report"
-      data-has-transactions={
-        initialTransactions !== undefined ? "true" : "false"
-      }
+      data-has-transactions={initialTransactions !== undefined ? "true" : "false"}
     />
   ),
 }));
@@ -110,9 +99,7 @@ const mockTx = {
   wallet: { id: "w1", name: "Principal", userId: "u1" },
 };
 
-function mockUsePeriod(
-  overrides: Partial<ReturnType<typeof periodContext.usePeriod>> = {},
-) {
+function mockUsePeriod(overrides: Partial<ReturnType<typeof periodContext.usePeriod>> = {}) {
   const defaultMock = {
     mode: "month" as const,
     setMode: jest.fn(),
@@ -162,9 +149,7 @@ it("exibe skeleton enquanto carrega", () => {
 it("nao exibe skeleton quando dados carregaram", () => {
   mockSummaryHooks({ isLoading: false });
   render(<SummaryCardReport />, { wrapper: createWrapper() });
-  expect(
-    document.querySelector('[data-slot="skeleton"]'),
-  ).not.toBeInTheDocument();
+  expect(document.querySelector('[data-slot="skeleton"]')).not.toBeInTheDocument();
 });
 
 it("renderiza titulo Distribuicao de Gastos", () => {
@@ -234,19 +219,13 @@ it("renderiza ChartPieReport com initialTransactions", () => {
     wrapper: createWrapper(),
   });
 
-  expect(screen.getByTestId("chart-pie-report")).toHaveAttribute(
-    "data-has-transactions",
-    "true",
-  );
+  expect(screen.getByTestId("chart-pie-report")).toHaveAttribute("data-has-transactions", "true");
 });
 
 it("renderiza ChartPieReport sem initialTransactions", () => {
   render(<SummaryCardReport />, { wrapper: createWrapper() });
 
-  expect(screen.getByTestId("chart-pie-report")).toHaveAttribute(
-    "data-has-transactions",
-    "false",
-  );
+  expect(screen.getByTestId("chart-pie-report")).toHaveAttribute("data-has-transactions", "false");
 });
 
 it("chama useSummaryAll e useSummaryMonth", () => {

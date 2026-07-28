@@ -11,7 +11,14 @@ function createWrapper() {
   return Wrapper;
 }
 
-const mockCat: Categories = { id: "c1", name: "Alimentação", color: "#f00", value: 0, number: 0, relationship: [] };
+const mockCat: Categories = {
+  id: "c1",
+  name: "Alimentação",
+  color: "#f00",
+  value: 0,
+  number: 0,
+  relationship: [],
+};
 
 let mockFetch: jest.Mock;
 
@@ -36,7 +43,9 @@ describe("useCategoriesQuery", () => {
   });
 
   it("usa initialData quando não tem filtro de mês", () => {
-    const { result } = renderHook(() => useCategoriesQuery(undefined, [mockCat]), { wrapper: createWrapper() });
+    const { result } = renderHook(() => useCategoriesQuery(undefined, [mockCat]), {
+      wrapper: createWrapper(),
+    });
     expect(result.current.data).toHaveLength(1);
   });
 });
@@ -49,7 +58,10 @@ describe("useCategoriesMutations", () => {
     result.current.createCategory.mutate({ name: "Lazer", color: "#0f0" });
 
     await waitFor(() => expect(result.current.createCategory.isSuccess).toBe(true));
-    expect(mockFetch).toHaveBeenCalledWith("/api/categories", expect.objectContaining({ method: "POST" }));
+    expect(mockFetch).toHaveBeenCalledWith(
+      "/api/categories",
+      expect.objectContaining({ method: "POST" }),
+    );
   });
 
   it("updateCategory faz PUT", async () => {

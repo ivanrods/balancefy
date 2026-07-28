@@ -10,7 +10,13 @@ jest.mock("@/hooks/use-categories");
 jest.mock("sonner");
 
 jest.mock("./slider-color", () => ({
-  SliderColor: ({ value, onValueChange }: { value: string; onValueChange: (v: string) => void }) => (
+  SliderColor: ({
+    value,
+    onValueChange,
+  }: {
+    value: string;
+    onValueChange: (v: string) => void;
+  }) => (
     <input
       data-testid="color-picker"
       type="color"
@@ -138,9 +144,7 @@ describe("CategoriesDialog", () => {
     fireEvent.click(saveButton);
 
     await waitFor(() => {
-      expect(mockedToast.success).toHaveBeenCalledWith(
-        "Categoria criada com sucesso!",
-      );
+      expect(mockedToast.success).toHaveBeenCalledWith("Categoria criada com sucesso!");
     });
   });
 
@@ -158,9 +162,7 @@ describe("CategoriesDialog", () => {
     fireEvent.click(saveButton);
 
     await waitFor(() => {
-      expect(mockedToast.error).toHaveBeenCalledWith(
-        "Erro ao criar categoria",
-      );
+      expect(mockedToast.error).toHaveBeenCalledWith("Erro ao criar categoria");
     });
   });
 
@@ -172,9 +174,7 @@ describe("CategoriesDialog", () => {
     const cancelButton = screen.getByRole("button", { name: /Cancelar/i });
     fireEvent.click(cancelButton);
 
-    expect(
-      screen.queryByText("Adicionar Categoria"),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText("Adicionar Categoria")).not.toBeInTheDocument();
   });
 
   it("resets form after successful creation", async () => {

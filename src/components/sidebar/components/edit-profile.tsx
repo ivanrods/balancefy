@@ -95,13 +95,13 @@ export function EditProfile() {
       const updatedUser = await res.json();
       if (update) {
         await update({
-        user: {
-          ...session?.user,
-          name: updatedUser.name,
-          email: updatedUser.email,
-          image: updatedUser.image,
-        },
-      });
+          user: {
+            ...session?.user,
+            name: updatedUser.name,
+            email: updatedUser.email,
+            image: updatedUser.image,
+          },
+        });
       }
       toast.success(t("profile.success"));
     } else {
@@ -119,14 +119,9 @@ export function EditProfile() {
       <SheetContent>
         <SheetHeader>
           <SheetTitle>{t("profile.editTitle")}</SheetTitle>
-          <SheetDescription>
-            {t("profile.editDescription")}
-          </SheetDescription>
+          <SheetDescription>{t("profile.editDescription")}</SheetDescription>
         </SheetHeader>
-        <form
-          className="grid flex-1 auto-rows-min gap-6 px-4"
-          onSubmit={handleSubmit(onSubmit)}
-        >
+        <form className="grid flex-1 auto-rows-min gap-6 px-4" onSubmit={handleSubmit(onSubmit)}>
           <div className="flex justify-center ">
             <AvatarProfile
               imageUrl={avatar}
@@ -145,11 +140,7 @@ export function EditProfile() {
               {...register("name")}
               disabled={isGoogleUser}
             />
-            {errors.name && (
-              <span className="text-red-500 text-sm">
-                {errors.name.message}
-              </span>
-            )}
+            {errors.name && <span className="text-red-500 text-sm">{errors.name.message}</span>}
           </div>
           <div className="grid gap-3">
             <Label htmlFor="email">{t("profile.email")}</Label>
@@ -159,11 +150,7 @@ export function EditProfile() {
               {...register("email")}
               disabled={isGoogleUser}
             />
-            {errors.email && (
-              <span className="text-red-500 text-sm">
-                {errors.email.message}
-              </span>
-            )}
+            {errors.email && <span className="text-red-500 text-sm">{errors.email.message}</span>}
           </div>
           <div className="grid gap-3">
             <Label>{t("profile.password")}</Label>
@@ -174,25 +161,17 @@ export function EditProfile() {
               placeholder={t("profile.passwordPlaceholder")}
               disabled={isGoogleUser}
             />
-            {errors.password && (
-              <p className="text-red-500 text-sm">{errors.password.message}</p>
-            )}
+            {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
           </div>
         </form>
         <SheetFooter>
           {isGoogleUser && (
             <Alert variant="destructive">
               <AlertCircleIcon />
-              <AlertTitle>
-                {t("profile.googleAlert")}
-              </AlertTitle>
+              <AlertTitle>{t("profile.googleAlert")}</AlertTitle>
             </Alert>
           )}
-          <Button
-            type="submit"
-            onClick={handleSubmit(onSubmit)}
-            disabled={isGoogleUser}
-          >
+          <Button type="submit" onClick={handleSubmit(onSubmit)} disabled={isGoogleUser}>
             {t("profile.save")}
           </Button>
           <SheetClose asChild>

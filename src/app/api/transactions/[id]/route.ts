@@ -1,15 +1,9 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { withAuth, apiError } from "@/lib/api-handler";
-import {
-  updateTransaction,
-  deleteTransaction,
-} from "@/lib/services/transaction-service";
+import { updateTransaction, deleteTransaction } from "@/lib/services/transaction-service";
 
-export async function GET(
-  _req: Request,
-  context: { params: Promise<{ id: string }> },
-) {
+export async function GET(_req: Request, context: { params: Promise<{ id: string }> }) {
   try {
     await withAuth();
     const { id } = await context.params;
@@ -19,10 +13,7 @@ export async function GET(
     });
 
     if (!transaction) {
-      return NextResponse.json(
-        { error: "Transação não encontrada" },
-        { status: 404 },
-      );
+      return NextResponse.json({ error: "Transação não encontrada" }, { status: 404 });
     }
 
     return NextResponse.json(transaction);
@@ -31,10 +22,7 @@ export async function GET(
   }
 }
 
-export async function PUT(
-  req: Request,
-  context: { params: Promise<{ id: string }> },
-) {
+export async function PUT(req: Request, context: { params: Promise<{ id: string }> }) {
   try {
     await withAuth();
     const { id } = await context.params;
@@ -46,10 +34,7 @@ export async function PUT(
   }
 }
 
-export async function DELETE(
-  _req: Request,
-  context: { params: Promise<{ id: string }> },
-) {
+export async function DELETE(_req: Request, context: { params: Promise<{ id: string }> }) {
   try {
     await withAuth();
     const { id } = await context.params;

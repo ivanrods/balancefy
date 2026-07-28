@@ -27,10 +27,7 @@ export async function getTransactions(userId: string, filters?: TransactionFilte
   });
 }
 
-export async function createTransaction(
-  userId: string,
-  body: Record<string, unknown>,
-) {
+export async function createTransaction(userId: string, body: Record<string, unknown>) {
   const parsed = transactionSchema.parse({ ...body, date: new Date(body.date as string) });
   const { description, value, categoryId, walletId, type, date } = parsed;
 
@@ -99,8 +96,18 @@ export async function getTransactionChart(
   }
 
   const monthNames = [
-    "janeiro", "fevereiro", "março", "abril", "maio", "junho",
-    "julho", "agosto", "setembro", "outubro", "novembro", "dezembro",
+    "janeiro",
+    "fevereiro",
+    "março",
+    "abril",
+    "maio",
+    "junho",
+    "julho",
+    "agosto",
+    "setembro",
+    "outubro",
+    "novembro",
+    "dezembro",
   ];
 
   const monthlyData: Record<string, { income: number; expense: number }> = {};

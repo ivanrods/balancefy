@@ -60,9 +60,7 @@ export default function RegisterPage() {
       <Card className="w-full max-w-sm">
         <CardHeader>
           <CardTitle>{t("auth.registerTitle")}</CardTitle>
-          <CardDescription>
-            {t("auth.registerDescription")}
-          </CardDescription>
+          <CardDescription>{t("auth.registerDescription")}</CardDescription>
           <CardAction>
             <Button variant="link">
               <Link href="/login">{t("auth.signIn")}</Link>{" "}
@@ -75,37 +73,21 @@ export default function RegisterPage() {
               <div className="grid gap-2">
                 <Label htmlFor="name">{t("auth.name")}</Label>
                 <Input type="text" placeholder={t("auth.name")} {...register("name")} />
-                {errors.name && (
-                  <span className="text-red-500 text-sm">
-                    {errors.name.message}
-                  </span>
-                )}
+                {errors.name && <span className="text-red-500 text-sm">{errors.name.message}</span>}
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="email">{t("auth.email")}</Label>
-                <Input
-                  type="email"
-                  placeholder={t("auth.email")}
-                  {...register("email")}
-                />
+                <Input type="email" placeholder={t("auth.email")} {...register("email")} />
                 {errors.email && (
-                  <span className="text-red-500 text-sm">
-                    {errors.email.message}
-                  </span>
+                  <span className="text-red-500 text-sm">{errors.email.message}</span>
                 )}
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="password">{t("auth.password")}</Label>
 
-                <Input
-                  type="password"
-                  placeholder={t("auth.password")}
-                  {...register("password")}
-                />
+                <Input type="password" placeholder={t("auth.password")} {...register("password")} />
                 {errors.password && (
-                  <span className="text-red-500 text-sm">
-                    {errors.password.message}
-                  </span>
+                  <span className="text-red-500 text-sm">{errors.password.message}</span>
                 )}
               </div>
             </div>
@@ -118,9 +100,7 @@ export default function RegisterPage() {
               type="button"
               variant="outline"
               className="w-full"
-              onClick={() =>
-                signIn("google", { callbackUrl: "/dashboard" })
-              }
+              onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
             >
               {t("auth.registerGoogle")}
             </Button>

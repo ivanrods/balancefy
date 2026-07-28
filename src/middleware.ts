@@ -8,8 +8,7 @@ export async function middleware(req: NextRequest) {
 
   const publicRoutes = ["/login", "/register", "/api/auth"];
   const isPublic = publicRoutes.some((r) => pathname.startsWith(r));
-  const isStatic =
-    pathname.startsWith("/_next") || pathname === "/favicon.ico";
+  const isStatic = pathname.startsWith("/_next") || pathname === "/favicon.ico";
 
   if (isStatic) return NextResponse.next();
 

@@ -19,10 +19,7 @@ import { Controller } from "react-hook-form";
 import { useTransactionsMutations } from "@/hooks/use-transactions";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  transactionSchema,
-  TransactionFormData,
-} from "@/lib/schemas/transaction-schema";
+import { transactionSchema, TransactionFormData } from "@/lib/schemas/transaction-schema";
 import { toast } from "sonner";
 import { SelectCategory } from "./select-category";
 import { SelectWallet } from "./select-wallet";
@@ -33,13 +30,9 @@ import { useTranslation } from "@/hooks/use-translation";
 export function TransactionDialog() {
   const { t } = useTranslation();
   const { createTransaction } = useTransactionsMutations();
-  const [categories, setCategories] = React.useState<
-    { id: string; name: string }[]
-  >([]);
+  const [categories, setCategories] = React.useState<{ id: string; name: string }[]>([]);
 
-  const [wallets, setWallets] = React.useState<{ id: string; name: string }[]>(
-    []
-  );
+  const [wallets, setWallets] = React.useState<{ id: string; name: string }[]>([]);
 
   React.useEffect(() => {
     fetch("/api/categories?type=select")
@@ -88,7 +81,7 @@ export function TransactionDialog() {
         onError: () => {
           toast.error(t("transaction.error"));
         },
-      }
+      },
     );
 
     reset();
@@ -105,31 +98,21 @@ export function TransactionDialog() {
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>{t("transaction.addTitle")}</DialogTitle>
-            <DialogDescription>
-              {t("transaction.addDescription")}
-            </DialogDescription>
+            <DialogDescription>{t("transaction.addDescription")}</DialogDescription>
           </DialogHeader>
           <div className="grid gap-4">
             <div className="grid gap-3">
               <Label htmlFor="description">{t("transaction.description")}</Label>
               <Input id="description" {...register("description")} />
               {errors.description && (
-                <span className="text-destructive text-sm">
-                  {errors.description.message}
-                </span>
+                <span className="text-destructive text-sm">{errors.description.message}</span>
               )}
             </div>
             <div className="grid gap-3">
               <Label htmlFor="valor">{t("transaction.value")}</Label>
-              <Input
-                id="valor"
-                type="number"
-                {...register("value", { valueAsNumber: true })}
-              />
+              <Input id="valor" type="number" {...register("value", { valueAsNumber: true })} />
               {errors.value && (
-                <span className="text-destructive text-sm">
-                  {errors.value.message}
-                </span>
+                <span className="text-destructive text-sm">{errors.value.message}</span>
               )}
             </div>
             <div className="flex gap-4 flex-col sm:flex-row">
@@ -146,9 +129,7 @@ export function TransactionDialog() {
                   )}
                 />
                 {errors.walletId && (
-                  <span className="text-destructive text-sm">
-                    {errors.walletId.message}
-                  </span>
+                  <span className="text-destructive text-sm">{errors.walletId.message}</span>
                 )}
               </div>
               <div className="flex flex-col gap-2">
@@ -164,9 +145,7 @@ export function TransactionDialog() {
                   )}
                 />
                 {errors.categoryId && (
-                  <span className="text-destructive text-sm">
-                    {errors.categoryId.message}
-                  </span>
+                  <span className="text-destructive text-sm">{errors.categoryId.message}</span>
                 )}
               </div>
             </div>
@@ -175,29 +154,20 @@ export function TransactionDialog() {
               <Controller
                 name="date"
                 control={control}
-                render={({ field }) => (
-                  <DateDialog value={field.value} onChange={field.onChange} />
-                )}
+                render={({ field }) => <DateDialog value={field.value} onChange={field.onChange} />}
               />
               {errors.date && (
-                <span className="text-destructive text-sm">
-                  {errors.date.message}
-                </span>
+                <span className="text-destructive text-sm">{errors.date.message}</span>
               )}
               <Controller
                 name="type"
                 control={control}
                 render={({ field }) => (
-                  <RadioGroupSelect
-                    value={field.value}
-                    onValueChange={field.onChange}
-                  />
+                  <RadioGroupSelect value={field.value} onValueChange={field.onChange} />
                 )}
               />
               {errors.type && (
-                <span className="text-destructive text-sm">
-                  {errors.type.message}
-                </span>
+                <span className="text-destructive text-sm">{errors.type.message}</span>
               )}
             </div>
           </div>
@@ -205,11 +175,7 @@ export function TransactionDialog() {
             <DialogClose asChild>
               <Button variant="outline">{t("transaction.cancel")}</Button>
             </DialogClose>
-            <Button
-              onClick={handleSubmit(onSubmit)}
-              type="submit"
-              disabled={isSubmitting}
-            >
+            <Button onClick={handleSubmit(onSubmit)} type="submit" disabled={isSubmitting}>
               {t("transaction.save")}
             </Button>
           </DialogFooter>

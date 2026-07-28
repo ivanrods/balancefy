@@ -24,13 +24,12 @@ export function DrawerConfig() {
   const { currency, setCurrency } = useCurrency();
   const { locale, setLocale } = useLocale();
   const [open, setOpen] = React.useState(false);
-  const [tempCurrency, setTempCurrency] = React.useState<"BRL" | "USD">(
-    currency,
-  );
+  const [tempCurrency, setTempCurrency] = React.useState<"BRL" | "USD">(currency);
   const [tempLocale, setTempLocale] = React.useState<"pt-BR" | "en">(locale);
 
   React.useEffect(() => {
     if (open) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setTempCurrency(currency);
       setTempLocale(locale);
     }
@@ -61,9 +60,7 @@ export function DrawerConfig() {
           </DrawerHeader>
           <div className="p-4 pb-0 space-y-4">
             <div>
-              <label className="text-sm font-medium mb-2 block">
-                {t("config.currency")}
-              </label>
+              <label className="text-sm font-medium mb-2 block">{t("config.currency")}</label>
               <div className="flex gap-2">
                 <Button
                   variant={tempCurrency === "BRL" ? "default" : "outline"}
@@ -82,9 +79,7 @@ export function DrawerConfig() {
               </div>
             </div>
             <div>
-              <label className="text-sm font-medium mb-2 block">
-                {t("config.language")}
-              </label>
+              <label className="text-sm font-medium mb-2 block">{t("config.language")}</label>
               <div className="flex gap-2">
                 <Button
                   variant={tempLocale === "pt-BR" ? "default" : "outline"}

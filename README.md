@@ -25,20 +25,20 @@ Aplicação web para **gestão financeira pessoal** — controle categorias, reg
 
 ## Tecnologias
 
-| Categoria      | Tecnologias |
-|----------------|-------------|
-| Framework      | [Next.js](https://nextjs.org/) |
-| Linguagem      | [TypeScript](https://www.typescriptlang.org/) |
-| Banco          | [PostgreSQL](https://www.postgresql.org/) |
-| ORM            | [Prisma](https://www.prisma.io/) |
-| Autenticação   | [NextAuth](https://next-auth.js.org/) |
-| Estilização    | [TailwindCSS](https://tailwindcss.com/) + [shadcn/ui](https://ui.shadcn.com/) |
-| Formulários    | [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/) |
-| Upload         | [Cloudinary](https://cloudinary.com/) |
-| Estado         | [React Query](https://tanstack.com/query/latest) |
-| Gráficos       | [Recharts](https://recharts.org/) |
-| PDF            | [jsPDF](https://github.com/parallax/jsPDF) |
-| Testes         | [Jest](https://jestjs.io/) + [Testing Library](https://testing-library.com/) |
+| Categoria    | Tecnologias                                                                   |
+| ------------ | ----------------------------------------------------------------------------- |
+| Framework    | [Next.js](https://nextjs.org/)                                                |
+| Linguagem    | [TypeScript](https://www.typescriptlang.org/)                                 |
+| Banco        | [PostgreSQL](https://www.postgresql.org/)                                     |
+| ORM          | [Prisma](https://www.prisma.io/)                                              |
+| Autenticação | [NextAuth](https://next-auth.js.org/)                                         |
+| Estilização  | [TailwindCSS](https://tailwindcss.com/) + [shadcn/ui](https://ui.shadcn.com/) |
+| Formulários  | [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/)     |
+| Upload       | [Cloudinary](https://cloudinary.com/)                                         |
+| Estado       | [React Query](https://tanstack.com/query/latest)                              |
+| Gráficos     | [Recharts](https://recharts.org/)                                             |
+| PDF          | [jsPDF](https://github.com/parallax/jsPDF)                                    |
+| Testes       | [Jest](https://jestjs.io/) + [Testing Library](https://testing-library.com/)  |
 
 ---
 
@@ -148,16 +148,16 @@ cp .env.exemple .env
 
 Preencha as credenciais no `.env`:
 
-| Variável | Descrição |
-|----------|-----------|
-| `DATABASE_URL` | URL de conexão do PostgreSQL |
-| `NEXTAUTH_URL` | URL da aplicação (ex: `http://localhost:3000`) |
-| `NEXTAUTH_SECRET` | Segredo para criptografia dos tokens |
-| `GOOGLE_CLIENT_ID` | Client ID do Google OAuth |
-| `GOOGLE_CLIENT_SECRET` | Client Secret do Google OAuth |
-| `CLOUDINARY_CLOUD_NAME` | Cloud name do Cloudinary |
-| `CLOUDINARY_API_KEY` | API Key do Cloudinary |
-| `CLOUDINARY_API_SECRET` | API Secret do Cloudinary |
+| Variável                | Descrição                                      |
+| ----------------------- | ---------------------------------------------- |
+| `DATABASE_URL`          | URL de conexão do PostgreSQL                   |
+| `NEXTAUTH_URL`          | URL da aplicação (ex: `http://localhost:3000`) |
+| `NEXTAUTH_SECRET`       | Segredo para criptografia dos tokens           |
+| `GOOGLE_CLIENT_ID`      | Client ID do Google OAuth                      |
+| `GOOGLE_CLIENT_SECRET`  | Client Secret do Google OAuth                  |
+| `CLOUDINARY_CLOUD_NAME` | Cloud name do Cloudinary                       |
+| `CLOUDINARY_API_KEY`    | API Key do Cloudinary                          |
+| `CLOUDINARY_API_SECRET` | API Secret do Cloudinary                       |
 
 ### 3. Prepare o banco
 

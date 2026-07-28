@@ -34,27 +34,21 @@ export default async function Page() {
           <CardContent className="flex flex-col items-center text-center p-6">
             <Wallet className="h-12 w-12 text-primary mb-4" />
             <h3 className="font-semibold text-lg">{t("landing.benefit1Title")}</h3>
-            <p className="text-muted-foreground mt-2">
-              {t("landing.benefit1Desc")}
-            </p>
+            <p className="text-muted-foreground mt-2">{t("landing.benefit1Desc")}</p>
           </CardContent>
         </Card>
         <Card className="shadow-lg">
           <CardContent className="flex flex-col items-center text-center p-6">
             <PieChart className="h-12 w-12 text-primary mb-4" />
             <h3 className="font-semibold text-lg">{t("landing.benefit2Title")}</h3>
-            <p className="text-muted-foreground mt-2">
-              {t("landing.benefit2Desc")}
-            </p>
+            <p className="text-muted-foreground mt-2">{t("landing.benefit2Desc")}</p>
           </CardContent>
         </Card>
         <Card className="shadow-lg">
           <CardContent className="flex flex-col items-center text-center p-6">
             <BarChart3 className="h-12 w-12 text-primary mb-4" />
             <h3 className="font-semibold text-lg">{t("landing.benefit3Title")}</h3>
-            <p className="text-muted-foreground mt-2">
-              {t("landing.benefit3Desc")}
-            </p>
+            <p className="text-muted-foreground mt-2">{t("landing.benefit3Desc")}</p>
           </CardContent>
         </Card>
       </section>
@@ -62,12 +56,8 @@ export default async function Page() {
       {/* Print / Demonstração */}
       <section className="py-20 px-6 bg-muted/30">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold">
-            {t("landing.sectionTitle")}
-          </h2>
-          <p className="mt-4 text-muted-foreground">
-            {t("landing.sectionDesc")}
-          </p>
+          <h2 className="text-3xl md:text-4xl font-bold">{t("landing.sectionTitle")}</h2>
+          <p className="mt-4 text-muted-foreground">{t("landing.sectionDesc")}</p>
           <div className="mt-10 md:block">
             <div className="rounded-xl shadow-xl border bg-background p-4">
               <div className="relative w-full h-40 sm:h-72 md:h-80 lg:h-96">
@@ -92,9 +82,7 @@ export default async function Page() {
       {/* Call To Action */}
       <section className="py-16 px-6 text-center">
         <h2 className="text-3xl font-bold">{t("landing.ctaTitle")}</h2>
-        <p className="mt-2 text-muted-foreground">
-          {t("landing.ctaDesc")}
-        </p>
+        <p className="mt-2 text-muted-foreground">{t("landing.ctaDesc")}</p>
         <div className="mt-6 flex justify-center gap-4">
           <Button asChild size="lg">
             <Link href="/register">{t("landing.signUp")}</Link>
@@ -107,9 +95,7 @@ export default async function Page() {
 
       {/* Footer */}
       <footer className="py-6 border-t text-center text-sm text-muted-foreground">
-        <p>
-          {t("landing.footer", { year: new Date().getFullYear() })}
-        </p>
+        <p>{t("landing.footer", { year: new Date().getFullYear() })}</p>
       </footer>
     </div>
   );

@@ -25,13 +25,9 @@ export function AppHeader({ initialNotifications }: AppHeaderProps) {
         <DynamicBreadcrumb />
       </div>
 
-      {(pathname === "/transactions" || pathname === "/dashboard") && (
-        <InputSearch />
-      )}
+      {(pathname === "/transactions" || pathname === "/dashboard") && <InputSearch />}
 
-      {(pathname === "/transactions" || pathname === "/dashboard") && (
-        <TransactionDialog />
-      )}
+      {(pathname === "/transactions" || pathname === "/dashboard") && <TransactionDialog />}
 
       <div className="flex items-center gap-2">
         {pathname === "/categories" && <CategoriesDialog />}

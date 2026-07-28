@@ -12,7 +12,8 @@ beforeAll(async () => {
     data: { name: "Test", email: `notif-${Date.now()}@test.com`, password: "123" },
   });
   userId = user.id;
-  categoryId = (await prisma.category.create({ data: { name: "Geral", color: "#000", userId } })).id;
+  categoryId = (await prisma.category.create({ data: { name: "Geral", color: "#000", userId } }))
+    .id;
   walletId = (await prisma.wallet.create({ data: { name: "Carteira", userId } })).id;
 });
 
@@ -27,9 +28,33 @@ afterAll(async () => {
 it("cria notificações para despesas vencidas sem notificação", async () => {
   await prisma.transaction.createMany({
     data: [
-      { description: "Conta luz", value: 150, type: "expense", categoryId, walletId, userId, date: new Date("2024-01-01") },
-      { description: "Assinatura", value: 30, type: "expense", categoryId, walletId, userId, date: new Date("2099-01-01") },
-      { description: "Salário", value: 5000, type: "income", categoryId, walletId, userId, date: new Date("2024-01-01") },
+      {
+        description: "Conta luz",
+        value: 150,
+        type: "expense",
+        categoryId,
+        walletId,
+        userId,
+        date: new Date("2024-01-01"),
+      },
+      {
+        description: "Assinatura",
+        value: 30,
+        type: "expense",
+        categoryId,
+        walletId,
+        userId,
+        date: new Date("2099-01-01"),
+      },
+      {
+        description: "Salário",
+        value: 5000,
+        type: "income",
+        categoryId,
+        walletId,
+        userId,
+        date: new Date("2024-01-01"),
+      },
     ],
   });
 
@@ -43,15 +68,21 @@ it("cria notificações para despesas vencidas sem notificação", async () => {
 it("não duplica notificações na segunda chamada", async () => {
   await prisma.notification.deleteMany({ where: { userId } });
 
-  const before = await prisma.notification.count({ where: { transaction: { description: "Conta luz" } } });
+  const before = await prisma.notification.count({
+    where: { transaction: { description: "Conta luz" } },
+  });
   expect(before).toBe(0);
 
   await getNotifications(userId);
-  const afterFirst = await prisma.notification.count({ where: { transaction: { description: "Conta luz" } } });
+  const afterFirst = await prisma.notification.count({
+    where: { transaction: { description: "Conta luz" } },
+  });
   expect(afterFirst).toBe(1);
 
   await getNotifications(userId);
-  const afterSecond = await prisma.notification.count({ where: { transaction: { description: "Conta luz" } } });
+  const afterSecond = await prisma.notification.count({
+    where: { transaction: { description: "Conta luz" } },
+  });
   expect(afterSecond).toBe(1);
 });
 

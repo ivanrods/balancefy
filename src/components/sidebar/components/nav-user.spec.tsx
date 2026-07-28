@@ -15,9 +15,7 @@ jest.mock("@/components/ui/sidebar", () => ({
   SidebarMenu: ({ children }: { children: React.ReactNode }) => (
     <div data-testid="sidebar-menu">{children}</div>
   ),
-  SidebarMenuItem: ({ children }: { children: React.ReactNode }) => (
-    <div>{children}</div>
-  ),
+  SidebarMenuItem: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
   SidebarMenuButton: ({
     children,
     size,
@@ -27,24 +25,14 @@ jest.mock("@/components/ui/sidebar", () => ({
     size?: string;
     className?: string;
   }) => (
-    <button
-      data-testid="sidebar-menu-button"
-      data-size={size}
-      className={className}
-    >
+    <button data-testid="sidebar-menu-button" data-size={size} className={className}>
       {children}
     </button>
   ),
 }));
 
 jest.mock("@/components/ui/avatar", () => ({
-  Avatar: ({
-    children,
-    className,
-  }: {
-    children: React.ReactNode;
-    className?: string;
-  }) => (
+  Avatar: ({ children, className }: { children: React.ReactNode; className?: string }) => (
     <span data-testid="avatar" className={className}>
       {children}
     </span>
@@ -53,13 +41,7 @@ jest.mock("@/components/ui/avatar", () => ({
     // eslint-disable-next-line @next/next/no-img-element
     <img data-testid="avatar-image" src={src} alt={alt} />
   ),
-  AvatarFallback: ({
-    children,
-    className,
-  }: {
-    children: React.ReactNode;
-    className?: string;
-  }) => (
+  AvatarFallback: ({ children, className }: { children: React.ReactNode; className?: string }) => (
     <span data-testid="avatar-fallback" className={className}>
       {children}
     </span>

@@ -71,7 +71,11 @@ export function useExportPDF() {
           yPosition,
         );
         yPosition += 5;
-        doc.text(`${_t("exportPdf.balance")}: ${formatCurrency(balance, currency, locale)}`, margin, yPosition);
+        doc.text(
+          `${_t("exportPdf.balance")}: ${formatCurrency(balance, currency, locale)}`,
+          margin,
+          yPosition,
+        );
         yPosition += 10;
 
         const columns = [
@@ -83,9 +87,7 @@ export function useExportPDF() {
         ];
         const tableData = transactions.map((t) => [
           new Date(t.date).toLocaleDateString(locale),
-          t.description.length > 20
-            ? t.description.substring(0, 20) + "..."
-            : t.description,
+          t.description.length > 20 ? t.description.substring(0, 20) + "..." : t.description,
           t.category.name,
           t.type === "income" ? _t("table.typeIncome") : _t("table.typeExpense"),
           formatCurrency(t.value, currency, locale),

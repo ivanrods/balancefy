@@ -33,9 +33,7 @@ jest.mock("@/hooks/use-translation", () => ({
 }));
 
 jest.mock("@/context/period-context", () => ({
-  PeriodProvider: ({ children }: { children: React.ReactNode }) => (
-    <>{children}</>
-  ),
+  PeriodProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
   usePeriod: jest.fn(() => ({
     mode: "month" as const,
     setMode: jest.fn(),
@@ -72,9 +70,7 @@ const mockTx = {
   wallet: { id: "w1", name: "Principal", userId: "u1" },
 };
 
-function mockUsePeriod(
-  overrides: Partial<ReturnType<typeof periodContext.usePeriod>> = {},
-) {
+function mockUsePeriod(overrides: Partial<ReturnType<typeof periodContext.usePeriod>> = {}) {
   const defaultMock = {
     mode: "month" as const,
     setMode: jest.fn(),
@@ -122,9 +118,7 @@ it("exibe skeleton enquanto carrega", () => {
 it("nao exibe skeleton quando dados carregaram", () => {
   mockSummaryHooks({ isLoading: false });
   render(<ChartPieReport />, { wrapper: createWrapper() });
-  expect(
-    document.querySelector('[data-slot="skeleton"]'),
-  ).not.toBeInTheDocument();
+  expect(document.querySelector('[data-slot="skeleton"]')).not.toBeInTheDocument();
 });
 
 it("renderiza container do grafico quando dados carregam", async () => {

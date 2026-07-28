@@ -20,9 +20,7 @@ jest.mock("bcryptjs", () => ({
   compare: jest.fn(),
 }));
 
-jest.mock("next-auth/providers/google", () =>
-  jest.fn(() => ({ id: "google", name: "Google" })),
-);
+jest.mock("next-auth/providers/google", () => jest.fn(() => ({ id: "google", name: "Google" })));
 
 jest.mock("@next-auth/prisma-adapter", () => ({
   PrismaAdapter: jest.fn(() => ({ adapter: true })),
@@ -31,7 +29,9 @@ jest.mock("@next-auth/prisma-adapter", () => ({
 import { authOptions } from "./auth-options";
 
 const mockedBcryptCompare = jest.mocked(bcrypt.compare);
-const credentialsProvider = authOptions.providers[1] as { options: { authorize: (credentials: { email?: string; password?: string }) => Promise<unknown> } };
+const credentialsProvider = authOptions.providers[1] as {
+  options: { authorize: (credentials: { email?: string; password?: string }) => Promise<unknown> };
+};
 const authorize = credentialsProvider.options.authorize;
 
 beforeEach(() => {
@@ -63,17 +63,17 @@ describe("CredentialsProvider authorize", () => {
   it("lança erro quando usuário não é encontrado", async () => {
     mockFindUnique.mockResolvedValue(null);
 
-    await expect(
-      authorize({ email: "x@y.com", password: "123" }),
-    ).rejects.toThrow("E-mail não encontrado");
+    await expect(authorize({ email: "x@y.com", password: "123" })).rejects.toThrow(
+      "E-mail não encontrado",
+    );
   });
 
   it("lança erro quando usuário não tem password", async () => {
     mockFindUnique.mockResolvedValue({ id: "u1", password: null });
 
-    await expect(
-      authorize({ email: "x@y.com", password: "123" }),
-    ).rejects.toThrow("E-mail não encontrado");
+    await expect(authorize({ email: "x@y.com", password: "123" })).rejects.toThrow(
+      "E-mail não encontrado",
+    );
   });
 
   it("lança erro quando senha não confere", async () => {
@@ -84,9 +84,9 @@ describe("CredentialsProvider authorize", () => {
     });
     mockedBcryptCompare.mockResolvedValue(false as never);
 
-    await expect(
-      authorize({ email: "x@y.com", password: "wrong" }),
-    ).rejects.toThrow("E-mail ou Senha incorreta");
+    await expect(authorize({ email: "x@y.com", password: "wrong" })).rejects.toThrow(
+      "E-mail ou Senha incorreta",
+    );
   });
 
   it("retorna usuário quando credenciais são válidas", async () => {

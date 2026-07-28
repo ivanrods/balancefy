@@ -2,36 +2,16 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { AvatarProfile } from "./avatar-profile";
 
 jest.mock("@/components/ui/avatar", () => ({
-  Avatar: ({
-    children,
-    className,
-  }: {
-    children: React.ReactNode;
-    className?: string;
-  }) => (
+  Avatar: ({ children, className }: { children: React.ReactNode; className?: string }) => (
     <span data-testid="avatar" className={className}>
       {children}
     </span>
   ),
-  AvatarImage: ({
-    src,
-    alt,
-    className,
-  }: {
-    src?: string;
-    alt?: string;
-    className?: string;
-  }) => (
+  AvatarImage: ({ src, alt, className }: { src?: string; alt?: string; className?: string }) => (
     // eslint-disable-next-line @next/next/no-img-element
     <img data-testid="avatar-image" src={src} alt={alt} className={className} />
   ),
-  AvatarFallback: ({
-    children,
-    className,
-  }: {
-    children: React.ReactNode;
-    className?: string;
-  }) => (
+  AvatarFallback: ({ children, className }: { children: React.ReactNode; className?: string }) => (
     <span data-testid="avatar-fallback" className={className}>
       {children}
     </span>
@@ -116,9 +96,7 @@ describe("AvatarProfile", () => {
   });
 
   it("updates preview when imageUrl prop changes", () => {
-    const { rerender } = render(
-      <AvatarProfile imageUrl="https://example.com/old.jpg" />,
-    );
+    const { rerender } = render(<AvatarProfile imageUrl="https://example.com/old.jpg" />);
     const img = screen.getByTestId("avatar-image") as HTMLImageElement;
     expect(img.src).toContain("https://example.com/old.jpg");
 

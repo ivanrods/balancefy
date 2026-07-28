@@ -123,9 +123,7 @@ describe("WalletDialog", () => {
     fireEvent.click(saveButton);
 
     await waitFor(() => {
-      expect(mockedToast.success).toHaveBeenCalledWith(
-        "Carteira criada com sucesso!",
-      );
+      expect(mockedToast.success).toHaveBeenCalledWith("Carteira criada com sucesso!");
     });
   });
 
@@ -143,9 +141,7 @@ describe("WalletDialog", () => {
     fireEvent.click(saveButton);
 
     await waitFor(() => {
-      expect(mockedToast.error).toHaveBeenCalledWith(
-        "Erro ao criar carteira",
-      );
+      expect(mockedToast.error).toHaveBeenCalledWith("Erro ao criar carteira");
     });
   });
 
@@ -157,9 +153,7 @@ describe("WalletDialog", () => {
     const cancelButton = screen.getByRole("button", { name: /Cancelar/i });
     fireEvent.click(cancelButton);
 
-    expect(
-      screen.queryByText("Adicionar Carteira"),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText("Adicionar Carteira")).not.toBeInTheDocument();
   });
 
   it("resets form after successful creation", async () => {

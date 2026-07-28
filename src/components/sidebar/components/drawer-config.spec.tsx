@@ -15,7 +15,9 @@ jest.mock("@/components/ui/dropdown-menu", () => ({
 }));
 
 jest.mock("@/components/ui/drawer", () => ({
-  Drawer: ({ children }: { children: React.ReactNode }) => <div data-testid="drawer">{children}</div>,
+  Drawer: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="drawer">{children}</div>
+  ),
   DrawerTrigger: ({ children }: { children: React.ReactNode }) => (
     <div data-testid="drawer-trigger">{children}</div>
   ),
@@ -26,9 +28,7 @@ jest.mock("@/components/ui/drawer", () => ({
   DrawerTitle: ({ children }: { children: React.ReactNode }) => <h2>{children}</h2>,
   DrawerDescription: ({ children }: { children: React.ReactNode }) => <p>{children}</p>,
   DrawerFooter: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-  DrawerClose: ({ children }: { children: React.ReactNode }) => (
-    <div>{children}</div>
-  ),
+  DrawerClose: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
 }));
 
 beforeAll(() => {

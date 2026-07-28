@@ -89,9 +89,7 @@ describe("useExportPDF", () => {
       (key) => key,
     );
 
-    expect(mockDoc.save).toHaveBeenCalledWith(
-      expect.stringMatching(/^transactions_\d+\.pdf$/),
-    );
+    expect(mockDoc.save).toHaveBeenCalledWith(expect.stringMatching(/^transactions_\d+\.pdf$/));
   });
 
   it("uses currency from context", async () => {
@@ -138,11 +136,7 @@ describe("useExportPDF", () => {
   it("uses default t function when none provided", async () => {
     const { result } = renderHook(() => useExportPDF());
 
-    const res = await result.current.generateTransactionsPDF(
-      [],
-      "Período",
-      "pt-BR",
-    );
+    const res = await result.current.generateTransactionsPDF([], "Período", "pt-BR");
 
     expect(res).toEqual({
       success: true,

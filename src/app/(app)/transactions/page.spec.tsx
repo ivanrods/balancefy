@@ -31,7 +31,10 @@ jest.mock("@/components/period-filter-header", () => ({
 jest.mock("@/components/transactions-table", () => ({
   __esModule: true,
   TransactionsTable: ({ initialTransactions }: { initialTransactions: unknown }) => (
-    <div data-testid="transactions-table" data-has-transactions={initialTransactions !== undefined ? "true" : "false"} />
+    <div
+      data-testid="transactions-table"
+      data-has-transactions={initialTransactions !== undefined ? "true" : "false"}
+    />
   ),
 }));
 
@@ -75,7 +78,10 @@ describe("TransactionsPage", () => {
     const page = await TransactionsPage();
     render(page);
 
-    expect(screen.getByTestId("transactions-table")).toHaveAttribute("data-has-transactions", "false");
+    expect(screen.getByTestId("transactions-table")).toHaveAttribute(
+      "data-has-transactions",
+      "false",
+    );
   });
 
   it("renderiza TransactionsTable com transacoes quando usuario autenticado", async () => {
@@ -99,7 +105,10 @@ describe("TransactionsPage", () => {
     const page = await TransactionsPage();
     render(page);
 
-    expect(screen.getByTestId("transactions-table")).toHaveAttribute("data-has-transactions", "true");
+    expect(screen.getByTestId("transactions-table")).toHaveAttribute(
+      "data-has-transactions",
+      "true",
+    );
     expect(mockGetTransactions).toHaveBeenCalledWith("u1", {
       month: expect.any(Number),
       year: expect.any(Number),

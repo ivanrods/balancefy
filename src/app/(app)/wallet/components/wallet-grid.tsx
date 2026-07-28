@@ -45,9 +45,7 @@ export default function WalletGrid({ initialWallets }: WalletGridProps) {
         />
       ))}
       {(wallets?.length ?? 0) === 0 && (
-        <p className="text-center col-span-full text-muted-foreground">
-          {t("wallet.noWallet")}
-        </p>
+        <p className="text-center col-span-full text-muted-foreground">{t("wallet.noWallet")}</p>
       )}
     </div>
   );

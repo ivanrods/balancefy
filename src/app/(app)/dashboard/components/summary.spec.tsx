@@ -22,10 +22,15 @@ function createWrapper() {
 }
 
 const mockTransaction = {
-  id: "1", description: "Salário", value: 5000, type: "income" as const,
-  date: new Date("2026-07-10"), categoryId: "c1",
+  id: "1",
+  description: "Salário",
+  value: 5000,
+  type: "income" as const,
+  date: new Date("2026-07-10"),
+  categoryId: "c1",
   category: { id: "c1", name: "Geral", color: "#000", userId: "u1" },
-  walletId: "w1", wallet: { id: "w1", name: "Principal", userId: "u1" },
+  walletId: "w1",
+  wallet: { id: "w1", name: "Principal", userId: "u1" },
 };
 
 let mockFetch: jest.Mock;

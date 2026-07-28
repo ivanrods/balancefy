@@ -1,17 +1,18 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 if (typeof globalThis.Request === "undefined") {
   globalThis.Request = class Request {
-    body: any;
+    body: unknown;
     url: string;
     constructor(input: string | URL, init?: RequestInit) {
       this.url = typeof input === "string" ? input : input.toString();
       this.body = init?.body ? JSON.parse(init.body as string) : {};
     }
-    json() { return Promise.resolve(this.body); }
+    json() {
+      return Promise.resolve(this.body);
+    }
   } as unknown as typeof globalThis.Request;
 }
-/* eslint-enable @typescript-eslint/no-explicit-any */
 
+import type { Transaction, TransactionType } from "@/types/transaction";
 import { GET as LIST_GET, POST } from "@/app/api/transactions/route";
 import { GET as DETAIL_GET, PUT, DELETE } from "@/app/api/transactions/[id]/route";
 import { GET as CHART_GET } from "@/app/api/transactions/transaction-type/route";
@@ -59,8 +60,9 @@ const ctx = { params: Promise.resolve({ id: "tx-1" }) };
 describe("GET /api/transactions", () => {
   it("retorna lista de transações", async () => {
     mockWithAuth.mockResolvedValue({ id: "u1", email: "a@b.com" });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    jest.mocked(txService.getTransactions).mockResolvedValue([{ id: "t1", description: "Teste" } as any]);
+    jest
+      .mocked(txService.getTransactions)
+      .mockResolvedValue([{ id: "t1", description: "Teste" } as unknown as Transaction]);
     const res = await LIST_GET(new Request("http://localhost/api/transactions"));
     expect(res.status).toBe(200);
     const body = await res.json();
@@ -77,12 +79,22 @@ describe("GET /api/transactions", () => {
 describe("POST /api/transactions", () => {
   it("cria transação e retorna 201", async () => {
     mockWithAuth.mockResolvedValue({ id: "u1", email: "a@b.com" });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    jest.mocked(txService.createTransaction).mockResolvedValue({ id: "t1", description: "Compra" } as any);
-    const res = await POST(new Request("http://localhost", {
-      method: "POST",
-      body: JSON.stringify({ description: "Compra", value: 100, categoryId: "c1", walletId: "w1", type: "expense", date: "2024-06-15" }),
-    }));
+    jest
+      .mocked(txService.createTransaction)
+      .mockResolvedValue({ id: "t1", description: "Compra" } as unknown as Transaction);
+    const res = await POST(
+      new Request("http://localhost", {
+        method: "POST",
+        body: JSON.stringify({
+          description: "Compra",
+          value: 100,
+          categoryId: "c1",
+          walletId: "w1",
+          type: "expense",
+          date: "2024-06-15",
+        }),
+      }),
+    );
     expect(res.status).toBe(201);
     const body = await res.json();
     expect(body.description).toBe("Compra");
@@ -110,12 +122,23 @@ describe("GET /api/transactions/[id]", () => {
 describe("PUT /api/transactions/[id]", () => {
   it("atualiza transação", async () => {
     mockWithAuth.mockResolvedValue({ id: "u1", email: "a@b.com" });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    jest.mocked(txService.updateTransaction).mockResolvedValue({ id: "tx-1", description: "Alterado" } as any);
-    const res = await PUT(new Request("http://localhost", {
-      method: "PUT",
-      body: JSON.stringify({ description: "Alterado", value: 99, categoryId: "c1", walletId: "w1", type: "expense", date: "2024-06-15" }),
-    }), ctx);
+    jest
+      .mocked(txService.updateTransaction)
+      .mockResolvedValue({ id: "tx-1", description: "Alterado" } as unknown as Transaction);
+    const res = await PUT(
+      new Request("http://localhost", {
+        method: "PUT",
+        body: JSON.stringify({
+          description: "Alterado",
+          value: 99,
+          categoryId: "c1",
+          walletId: "w1",
+          type: "expense",
+          date: "2024-06-15",
+        }),
+      }),
+      ctx,
+    );
     expect(res.status).toBe(200);
     const body = await res.json();
     expect(body.description).toBe("Alterado");
@@ -134,9 +157,14 @@ describe("DELETE /api/transactions/[id]", () => {
 describe("GET /api/transactions/transaction-type", () => {
   it("retorna dados do gráfico", async () => {
     mockWithAuth.mockResolvedValue({ id: "u1", email: "a@b.com" });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    jest.mocked(txService.getTransactionChart).mockResolvedValue([{ month: "janeiro", income: 100, expense: 50 }] as any);
-    const res = await CHART_GET(new Request("http://localhost/api/transactions/transaction-type?period=month&year=2024"));
+    jest
+      .mocked(txService.getTransactionChart)
+      .mockResolvedValue([
+        { month: "janeiro", income: 100, expense: 50 },
+      ] as unknown as TransactionType[]);
+    const res = await CHART_GET(
+      new Request("http://localhost/api/transactions/transaction-type?period=month&year=2024"),
+    );
     expect(res.status).toBe(200);
     const body = await res.json();
     expect(body[0].income).toBe(100);

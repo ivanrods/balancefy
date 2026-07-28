@@ -10,7 +10,12 @@ export async function GET(req: Request) {
     const month = searchParams.get("month");
     const year = searchParams.get("year");
 
-    const result = await getTransactionChart(user.id, period, month ? Number(month) : null, year ? Number(year) : null);
+    const result = await getTransactionChart(
+      user.id,
+      period,
+      month ? Number(month) : null,
+      year ? Number(year) : null,
+    );
     return NextResponse.json(result);
   } catch (error) {
     return apiError(error);

@@ -3,11 +3,7 @@
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Label } from "@/components/ui/label";
 import { ChevronDown } from "lucide-react";
 import { useTranslation } from "@/hooks/use-translation";
@@ -28,14 +24,8 @@ export function DateDialog({ value, onChange }: DatePickerProps) {
       </Label>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <Button
-            variant="outline"
-            id="date"
-            className=" justify-between font-normal"
-          >
-            {value
-              ? new Date(value).toLocaleDateString(locale)
-              : t("transaction.selectDate")}
+          <Button variant="outline" id="date" className=" justify-between font-normal">
+            {value ? new Date(value).toLocaleDateString(locale) : t("transaction.selectDate")}
             <ChevronDown className="ml-2 h-4 w-4 opacity-50" />
           </Button>
         </PopoverTrigger>

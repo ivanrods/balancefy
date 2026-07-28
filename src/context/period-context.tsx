@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useState,
-  ReactNode,
-  useEffect,
-} from "react";
+import { createContext, useContext, useState, ReactNode, useEffect } from "react";
 
 type PeriodMode = "month" | "total";
 
@@ -20,22 +14,20 @@ interface PeriodContextProps {
 const PeriodContext = createContext<PeriodContextProps | undefined>(undefined);
 
 export function PeriodProvider({ children }: { children: ReactNode }) {
-  const [mode, setMode] = useState<PeriodMode>("month");
-  const [selectedMonth, setSelectedMonth] = useState<number>(
-    new Date().getMonth() + 1
-  );
-
-  useEffect(() => {
-    const saved = localStorage.getItem("period-mode");
-    if (saved === "month" || saved === "total") {
-      setMode(saved);
+  const [mode, setMode] = useState<PeriodMode>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("period-mode");
+      if (saved === "month" || saved === "total") return saved;
     }
-
-    const savedMonth = Number(localStorage.getItem("period-selected-month"));
-    if (Number.isInteger(savedMonth) && savedMonth >= 1 && savedMonth <= 12) {
-      setSelectedMonth(savedMonth);
+    return "month";
+  });
+  const [selectedMonth, setSelectedMonth] = useState<number>(() => {
+    if (typeof window !== "undefined") {
+      const savedMonth = Number(localStorage.getItem("period-selected-month"));
+      if (Number.isInteger(savedMonth) && savedMonth >= 1 && savedMonth <= 12) return savedMonth;
     }
-  }, []);
+    return new Date().getMonth() + 1;
+  });
 
   useEffect(() => {
     localStorage.setItem("period-mode", mode);
@@ -46,9 +38,7 @@ export function PeriodProvider({ children }: { children: ReactNode }) {
   }, [selectedMonth]);
 
   return (
-    <PeriodContext.Provider
-      value={{ mode, setMode, selectedMonth, setSelectedMonth }}
-    >
+    <PeriodContext.Provider value={{ mode, setMode, selectedMonth, setSelectedMonth }}>
       {children}
     </PeriodContext.Provider>
   );

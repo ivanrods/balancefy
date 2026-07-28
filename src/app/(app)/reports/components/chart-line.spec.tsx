@@ -35,9 +35,7 @@ jest.mock("@/hooks/use-translation", () => ({
 }));
 
 jest.mock("@/context/period-context", () => ({
-  PeriodProvider: ({ children }: { children: React.ReactNode }) => (
-    <>{children}</>
-  ),
+  PeriodProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
   usePeriod: jest.fn(() => ({
     mode: "month" as const,
     setMode: jest.fn(),
@@ -64,9 +62,7 @@ const mockTransactionsType = [
   { week: "Semana 3", income: 2000, expense: 1200 },
 ];
 
-function mockUsePeriod(
-  overrides: Partial<ReturnType<typeof periodContext.usePeriod>> = {},
-) {
+function mockUsePeriod(overrides: Partial<ReturnType<typeof periodContext.usePeriod>> = {}) {
   const defaultMock = {
     mode: "month" as const,
     setMode: jest.fn(),
@@ -107,9 +103,7 @@ it("exibe skeleton enquanto carrega", () => {
 it("nao exibe skeleton quando dados carregaram", () => {
   mockUseTransactionsType({ isLoading: false });
   render(<ChartLine />, { wrapper: createWrapper() });
-  expect(
-    document.querySelector('[data-slot="skeleton"]'),
-  ).not.toBeInTheDocument();
+  expect(document.querySelector('[data-slot="skeleton"]')).not.toBeInTheDocument();
 });
 
 it("renderiza titulo e descricao", () => {
@@ -156,9 +150,7 @@ it("usa periodo 'month' e sem month quando mode='total'", () => {
 
 it("renderiza sem initialChartData", () => {
   render(<ChartLine />, { wrapper: createWrapper() });
-  expect(useTransactionsTypeModule.useTransactionsType).toHaveBeenCalledTimes(
-    1,
-  );
+  expect(useTransactionsTypeModule.useTransactionsType).toHaveBeenCalledTimes(1);
 });
 
 it("renderiza com initialChartData", () => {
@@ -173,9 +165,7 @@ it("renderiza com initialChartData", () => {
 
 it("chama useTransactionsType uma vez", () => {
   render(<ChartLine />, { wrapper: createWrapper() });
-  expect(useTransactionsTypeModule.useTransactionsType).toHaveBeenCalledTimes(
-    1,
-  );
+  expect(useTransactionsTypeModule.useTransactionsType).toHaveBeenCalledTimes(1);
 });
 
 it("exibe label do mes no modo month", () => {
@@ -184,9 +174,7 @@ it("exibe label do mes no modo month", () => {
 
   render(<ChartLine />, { wrapper: createWrapper() });
 
-  expect(
-    screen.getByText(/Baseado nas transações do mês de/),
-  ).toBeInTheDocument();
+  expect(screen.getByText(/Baseado nas transações do mês de/)).toBeInTheDocument();
 });
 
 it("exibe label de periodo total no modo total", () => {
@@ -195,14 +183,10 @@ it("exibe label de periodo total no modo total", () => {
 
   render(<ChartLine />, { wrapper: createWrapper() });
 
-  expect(
-    screen.getByText(/Baseado nas transações de todo o período/),
-  ).toBeInTheDocument();
+  expect(screen.getByText(/Baseado nas transações de todo o período/)).toBeInTheDocument();
 });
 
 it("renderiza footer com instrucao", () => {
   render(<ChartLine />, { wrapper: createWrapper() });
-  expect(
-    screen.getByText("Passe o mouse sobre o gráfico para ver detalhes"),
-  ).toBeInTheDocument();
+  expect(screen.getByText("Passe o mouse sobre o gráfico para ver detalhes")).toBeInTheDocument();
 });

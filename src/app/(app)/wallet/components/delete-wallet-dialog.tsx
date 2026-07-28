@@ -42,9 +42,7 @@ export function DeleteWalletDialog({ id }: DeleteWalletDialogProps) {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{t("wallet.deleteTitle")}</AlertDialogTitle>
-          <AlertDialogDescription>
-            {t("wallet.deleteDescription")}
-          </AlertDialogDescription>
+          <AlertDialogDescription>{t("wallet.deleteDescription")}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>{t("wallet.cancel")}</AlertDialogCancel>

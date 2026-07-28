@@ -56,25 +56,19 @@ export default function WalletCard({
       </CardHeader>
 
       <CardContent className="space-y-2 flex flex-col justify-between ">
-        <p className="text-3xl font-bold wrap-break-word">
-          {formatCurrency(balance, currency)}
-        </p>
+        <p className="text-3xl font-bold wrap-break-word">{formatCurrency(balance, currency)}</p>
         <p className="text-sm text-muted-foreground">
           {t("wallet.lastMovement")}{" "}
           {lastTransaction ? (
             <span
               className={`font-semibold ${
-                lastTransaction.type === "income"
-                  ? "text-green-500"
-                  : "text-red-500"
+                lastTransaction.type === "income" ? "text-green-500" : "text-red-500"
               }`}
             >
               {formatCurrency(lastTransaction.amount, currency)}
             </span>
           ) : (
-            <span className="text-muted-foreground italic">
-              {t("wallet.noMovement")}
-            </span>
+            <span className="text-muted-foreground italic">{t("wallet.noMovement")}</span>
           )}
         </p>
       </CardContent>

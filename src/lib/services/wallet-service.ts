@@ -14,12 +14,8 @@ export async function getWalletsSummary({
 }: WalletSummaryParams): Promise<Wallets[]> {
   const hasMonthFilter = month != null;
   const yearNum = year ?? new Date().getFullYear();
-  const startDate = hasMonthFilter
-    ? new Date(yearNum, month! - 1, 1)
-    : new Date(0);
-  const endDate = hasMonthFilter
-    ? new Date(yearNum, month!, 0, 23, 59, 59, 999)
-    : new Date();
+  const startDate = hasMonthFilter ? new Date(yearNum, month! - 1, 1) : new Date(0);
+  const endDate = hasMonthFilter ? new Date(yearNum, month!, 0, 23, 59, 59, 999) : new Date();
 
   const wallets = await prisma.wallet.findMany({
     where: { userId },
@@ -76,9 +72,7 @@ export async function getWalletsSummary({
       name: wallet.name,
       totalIncome: period.income,
       totalExpense: period.expense,
-      balance: hasMonthFilter
-        ? period.income - period.expense
-        : allTime.income - allTime.expense,
+      balance: hasMonthFilter ? period.income - period.expense : allTime.income - allTime.expense,
       lastTransaction: lastTx
         ? { amount: lastTx.value, date: lastTx.date.toISOString(), type: lastTx.type }
         : null,

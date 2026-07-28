@@ -14,7 +14,9 @@ beforeAll(async () => {
     data: { name: "Test", email: `tx-${Date.now()}@test.com`, password: "123" },
   });
   userId = user.id;
-  categoryId = (await prisma.category.create({ data: { name: "Categoria", color: "#000", userId } })).id;
+  categoryId = (
+    await prisma.category.create({ data: { name: "Categoria", color: "#000", userId } })
+  ).id;
   walletId = (await prisma.wallet.create({ data: { name: "Carteira", userId } })).id;
 });
 
@@ -26,8 +28,13 @@ afterAll(async () => {
 });
 
 const makeTx = (overrides = {}) => ({
-  description: "Compra", value: 50, categoryId, walletId, type: "expense" as const,
-  date: "2024-06-15", ...overrides,
+  description: "Compra",
+  value: 50,
+  categoryId,
+  walletId,
+  type: "expense" as const,
+  date: "2024-06-15",
+  ...overrides,
 });
 
 it("cria e retorna transação", async () => {
@@ -67,7 +74,11 @@ it("deleta transação e notificações associadas", async () => {
 it("getTransactionChart agrupa por mês", async () => {
   await createTransaction(userId, makeTx({ value: 100, type: "income", date: "2024-01-10" }));
   await createTransaction(userId, makeTx({ value: 30, type: "expense", date: "2024-01-15" }));
-  const chart = await getTransactionChart(userId, "month", null, 2024) as { month: string; income: number; expense: number }[];
+  const chart = (await getTransactionChart(userId, "month", null, 2024)) as {
+    month: string;
+    income: number;
+    expense: number;
+  }[];
   const jan = chart.find((c) => c.month === "janeiro");
   expect(jan?.income).toBe(100);
   expect(jan?.expense).toBe(30);
@@ -75,7 +86,11 @@ it("getTransactionChart agrupa por mês", async () => {
 
 it("getTransactionChart agrupa por semana", async () => {
   await createTransaction(userId, makeTx({ value: 200, type: "income", date: "2024-06-03" }));
-  const chart = await getTransactionChart(userId, "week", 6, 2024) as { week: string; income: number; expense: number }[];
+  const chart = (await getTransactionChart(userId, "week", 6, 2024)) as {
+    week: string;
+    income: number;
+    expense: number;
+  }[];
   const s1 = chart.find((c) => c.week === "Semana 1");
   expect(s1?.income).toBe(200);
 });

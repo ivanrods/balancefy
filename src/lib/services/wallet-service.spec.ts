@@ -9,7 +9,8 @@ beforeAll(async () => {
   });
   userId = user.id;
   walletId = (await prisma.wallet.create({ data: { name: "Principal", userId } })).id;
-  categoryId = (await prisma.category.create({ data: { name: "Geral", color: "#000", userId } })).id;
+  categoryId = (await prisma.category.create({ data: { name: "Geral", color: "#000", userId } }))
+    .id;
 });
 
 afterAll(async () => {
@@ -31,9 +32,33 @@ it("retorna summary zerado sem transações", async () => {
 it("calcula totalIncome, totalExpense e balance all-time", async () => {
   await prisma.transaction.createMany({
     data: [
-      { description: "Salário", value: 5000, type: "income", walletId, categoryId, userId, date: new Date("2024-01-05") },
-      { description: "Aluguel", value: 1500, type: "expense", walletId, categoryId, userId, date: new Date("2024-01-10") },
-      { description: "Freela", value: 1000, type: "income", walletId, categoryId, userId, date: new Date("2024-06-01") },
+      {
+        description: "Salário",
+        value: 5000,
+        type: "income",
+        walletId,
+        categoryId,
+        userId,
+        date: new Date("2024-01-05"),
+      },
+      {
+        description: "Aluguel",
+        value: 1500,
+        type: "expense",
+        walletId,
+        categoryId,
+        userId,
+        date: new Date("2024-01-10"),
+      },
+      {
+        description: "Freela",
+        value: 1000,
+        type: "income",
+        walletId,
+        categoryId,
+        userId,
+        date: new Date("2024-06-01"),
+      },
     ],
   });
 

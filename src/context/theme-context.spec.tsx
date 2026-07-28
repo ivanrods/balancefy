@@ -73,8 +73,6 @@ describe("ThemeProvider", () => {
 
 describe("useTheme", () => {
   it("throws when used outside ThemeProvider", () => {
-    expect(() => render(<TestConsumer />)).toThrow(
-      "useTheme must be used within a ThemeProvider",
-    );
+    expect(() => render(<TestConsumer />)).toThrow("useTheme must be used within a ThemeProvider");
   });
 });

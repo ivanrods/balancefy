@@ -22,12 +22,7 @@ export default async function helpPage() {
   return (
     <div className="h-full flex justify-center mx-auto flex-col gap-4 w-full md:w-md lg:w-lg xl:w-xl">
       <section className="space-y-4 mt-6 w-full">
-        <Accordion
-          type="single"
-          collapsible
-          className="w-full"
-          defaultValue="item-1"
-        >
+        <Accordion type="single" collapsible className="w-full" defaultValue="item-1">
           <AccordionItem value="item-1" className="border-b pb-2 ">
             <AccordionTrigger>{t("help.howToAddTransaction")}</AccordionTrigger>
             <AccordionContent className="flex flex-col gap-4 text-balance">

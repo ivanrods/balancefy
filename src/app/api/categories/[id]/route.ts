@@ -3,10 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { categoriesSchema } from "@/lib/schemas/categories-schema";
 import { withAuth, apiError } from "@/lib/api-handler";
 
-export async function GET(
-  _req: Request,
-  context: { params: Promise<{ id: string }> },
-) {
+export async function GET(_req: Request, context: { params: Promise<{ id: string }> }) {
   try {
     await withAuth();
     const { id } = await context.params;
@@ -14,10 +11,7 @@ export async function GET(
     const category = await prisma.category.findUnique({ where: { id } });
 
     if (!category) {
-      return NextResponse.json(
-        { error: "Categoria não encontrada" },
-        { status: 404 },
-      );
+      return NextResponse.json({ error: "Categoria não encontrada" }, { status: 404 });
     }
 
     return NextResponse.json(category);
@@ -26,10 +20,7 @@ export async function GET(
   }
 }
 
-export async function PUT(
-  req: Request,
-  context: { params: Promise<{ id: string }> },
-) {
+export async function PUT(req: Request, context: { params: Promise<{ id: string }> }) {
   try {
     await withAuth();
     const { id } = await context.params;
@@ -47,10 +38,7 @@ export async function PUT(
   }
 }
 
-export async function DELETE(
-  _req: Request,
-  context: { params: Promise<{ id: string }> },
-) {
+export async function DELETE(_req: Request, context: { params: Promise<{ id: string }> }) {
   try {
     await withAuth();
     const { id } = await context.params;

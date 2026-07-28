@@ -16,9 +16,7 @@ if (typeof globalThis.ResizeObserver === "undefined") {
 }
 
 jest.mock("@/context/period-context", () => ({
-  PeriodProvider: ({ children }: { children: React.ReactNode }) => (
-    <>{children}</>
-  ),
+  PeriodProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
   usePeriod: jest.fn(() => ({
     mode: "month" as const,
     setMode: jest.fn(),
@@ -50,9 +48,7 @@ const mockTx = {
 let mockFetch: jest.Mock;
 
 beforeEach(() => {
-  mockFetch = jest
-    .fn()
-    .mockResolvedValue({ ok: true, json: () => Promise.resolve([]) });
+  mockFetch = jest.fn().mockResolvedValue({ ok: true, json: () => Promise.resolve([]) });
   globalThis.fetch = mockFetch;
 });
 
@@ -81,8 +77,6 @@ it("renderiza gráfico com transações agrupadas por categoria", async () => {
   render(<ChartPieDonut />, { wrapper: createWrapper() });
 
   await waitFor(() => {
-    expect(
-      screen.getByText("Baseado nas transações do mês de julho"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Baseado nas transações do mês de julho")).toBeInTheDocument();
   });
 });

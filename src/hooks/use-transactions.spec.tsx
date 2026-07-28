@@ -12,10 +12,15 @@ function createWrapper() {
 }
 
 const mockTx: Transaction = {
-  id: "1", description: "Teste", value: 100, type: "expense",
-  date: new Date("2024-06-15"), categoryId: "c1",
+  id: "1",
+  description: "Teste",
+  value: 100,
+  type: "expense",
+  date: new Date("2024-06-15"),
+  categoryId: "c1",
   category: { id: "c1", name: "Geral", color: "#000", userId: "u1" },
-  walletId: "w1", wallet: { id: "w1", name: "Principal", userId: "u1" },
+  walletId: "w1",
+  wallet: { id: "w1", name: "Principal", userId: "u1" },
 };
 
 let mockFetch: jest.Mock;
@@ -44,7 +49,9 @@ describe("useTransactionsQuery", () => {
   });
 
   it("usa initialData quando não tem filtro de mês", () => {
-    const { result } = renderHook(() => useTransactionsQuery(undefined, [mockTx]), { wrapper: createWrapper() });
+    const { result } = renderHook(() => useTransactionsQuery(undefined, [mockTx]), {
+      wrapper: createWrapper(),
+    });
     expect(result.current.data).toHaveLength(1);
   });
 });
@@ -55,12 +62,19 @@ describe("useTransactionsMutations", () => {
 
     const { result } = renderHook(() => useTransactionsMutations(), { wrapper: createWrapper() });
     result.current.createTransaction.mutate({
-      description: "Teste", value: 100, type: "expense",
-      categoryId: "c1", walletId: "w1", date: new Date("2024-06-15"),
+      description: "Teste",
+      value: 100,
+      type: "expense",
+      categoryId: "c1",
+      walletId: "w1",
+      date: new Date("2024-06-15"),
     });
 
     await waitFor(() => expect(result.current.createTransaction.isSuccess).toBe(true));
-    expect(mockFetch).toHaveBeenCalledWith("/api/transactions", expect.objectContaining({ method: "POST" }));
+    expect(mockFetch).toHaveBeenCalledWith(
+      "/api/transactions",
+      expect.objectContaining({ method: "POST" }),
+    );
   });
 
   it("updateTransaction faz PUT", async () => {

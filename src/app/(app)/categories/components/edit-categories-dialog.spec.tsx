@@ -6,7 +6,13 @@ import { useCategoriesMutations } from "@/hooks/use-categories";
 import { toast } from "sonner";
 
 jest.mock("@/components/ui/dropdown-menu", () => ({
-  DropdownMenuItem: ({ children, onClick }: { children: React.ReactNode; onClick?: React.MouseEventHandler }) => (
+  DropdownMenuItem: ({
+    children,
+    onClick,
+  }: {
+    children: React.ReactNode;
+    onClick?: React.MouseEventHandler;
+  }) => (
     <button type="button" data-testid="dialog-trigger" onClick={onClick}>
       {children}
     </button>
@@ -18,7 +24,13 @@ jest.mock("@/hooks/use-categories");
 jest.mock("sonner");
 
 jest.mock("./slider-color", () => ({
-  SliderColor: ({ value, onValueChange }: { value: string; onValueChange: (v: string) => void }) => (
+  SliderColor: ({
+    value,
+    onValueChange,
+  }: {
+    value: string;
+    onValueChange: (v: string) => void;
+  }) => (
     <input
       data-testid="color-picker"
       type="color"
@@ -140,9 +152,7 @@ describe("EditCategoriesDialog", () => {
     fireEvent.click(saveButton);
 
     await waitFor(() => {
-      expect(mockedToast.success).toHaveBeenCalledWith(
-        "Categoria atualizada com sucesso!",
-      );
+      expect(mockedToast.success).toHaveBeenCalledWith("Categoria atualizada com sucesso!");
     });
   });
 
@@ -158,9 +168,7 @@ describe("EditCategoriesDialog", () => {
     fireEvent.click(saveButton);
 
     await waitFor(() => {
-      expect(mockedToast.error).toHaveBeenCalledWith(
-        "Erro ao atualizar categoria",
-      );
+      expect(mockedToast.error).toHaveBeenCalledWith("Erro ao atualizar categoria");
     });
   });
 
@@ -190,8 +198,6 @@ describe("EditCategoriesDialog", () => {
     const cancelButton = screen.getByRole("button", { name: /Cancelar/i });
     fireEvent.click(cancelButton);
 
-    expect(
-      screen.queryByText("Altere o nome ou a cor da categoria."),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText("Altere o nome ou a cor da categoria.")).not.toBeInTheDocument();
   });
 });

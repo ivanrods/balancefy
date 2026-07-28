@@ -7,7 +7,9 @@ jest.mock("@/hooks/use-translation");
 jest.mock("@/hooks/use-notifications");
 
 jest.mock("@/components/ui/popover", () => ({
-  Popover: ({ children }: { children: React.ReactNode }) => <div data-testid="popover">{children}</div>,
+  Popover: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="popover">{children}</div>
+  ),
   PopoverTrigger: ({ children }: { children: React.ReactNode }) => (
     <div data-testid="popover-trigger">{children}</div>
   ),
@@ -49,8 +51,12 @@ const mockTransactionNotification = {
   },
 };
 
-const mockMarkAsRead = { mutate: jest.fn(), isPending: false } as unknown as ReturnType<typeof useNotifications>["markAsRead"];
-const mockMarkAllAsRead = { mutate: jest.fn(), isPending: false } as unknown as ReturnType<typeof useNotifications>["markAllAsRead"];
+const mockMarkAsRead = { mutate: jest.fn(), isPending: false } as unknown as ReturnType<
+  typeof useNotifications
+>["markAsRead"];
+const mockMarkAllAsRead = { mutate: jest.fn(), isPending: false } as unknown as ReturnType<
+  typeof useNotifications
+>["markAllAsRead"];
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -137,9 +143,7 @@ describe("Notifications", () => {
 
   it("hides mark all as read when unreadCount is 0", () => {
     render(<Notifications />);
-    expect(
-      screen.queryByText("Marcar tudo como lido"),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText("Marcar tudo como lido")).not.toBeInTheDocument();
   });
 
   it("shows loading skeletons", () => {

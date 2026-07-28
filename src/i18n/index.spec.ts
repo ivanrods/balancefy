@@ -31,16 +31,12 @@ describe("i18n", () => {
 
     it("interpolates params in en", () => {
       const t = getTranslations("en");
-      expect(t("table.rowsSelected", { count: 3, total: 7 })).toBe(
-        "3 of 7 row(s) selected",
-      );
+      expect(t("table.rowsSelected", { count: 3, total: 7 })).toBe("3 of 7 row(s) selected");
     });
 
     it("accesses deeply nested keys", () => {
       const t = getTranslations("pt-BR");
-      expect(t("reports.charts.spendingDistribution")).toBe(
-        "Distribuição de Gastos",
-      );
+      expect(t("reports.charts.spendingDistribution")).toBe("Distribuição de Gastos");
     });
   });
 

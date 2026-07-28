@@ -26,11 +26,7 @@ type SelectCategoryProps = {
   categories: Category[];
 };
 
-export function SelectCategory({
-  value,
-  onValueChange,
-  categories,
-}: SelectCategoryProps) {
+export function SelectCategory({ value, onValueChange, categories }: SelectCategoryProps) {
   const { t } = useTranslation();
   return (
     <div className="flex flex-col gap-3">

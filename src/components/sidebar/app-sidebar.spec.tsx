@@ -10,13 +10,7 @@ jest.mock("@/lib/locale", () => ({
 }));
 
 jest.mock("@/components/ui/sidebar", () => ({
-  Sidebar: ({
-    children,
-    className,
-  }: {
-    children: React.ReactNode;
-    className?: string;
-  }) => (
+  Sidebar: ({ children, className }: { children: React.ReactNode; className?: string }) => (
     <div data-testid="sidebar" className={className}>
       {children}
     </div>
@@ -24,13 +18,7 @@ jest.mock("@/components/ui/sidebar", () => ({
   SidebarHeader: ({ children }: { children: React.ReactNode }) => (
     <div data-testid="sidebar-header">{children}</div>
   ),
-  SidebarContent: ({
-    children,
-    className,
-  }: {
-    children: React.ReactNode;
-    className?: string;
-  }) => (
+  SidebarContent: ({ children, className }: { children: React.ReactNode; className?: string }) => (
     <div data-testid="sidebar-content" className={className}>
       {children}
     </div>

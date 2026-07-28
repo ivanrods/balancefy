@@ -45,7 +45,8 @@ describe("transactionSchema", () => {
 describe("categoriesSchema", () => {
   it("aceita dados válidos", () => {
     expect(categoriesSchema.parse({ name: "Alimentação", color: "#ff0000" })).toEqual({
-      name: "Alimentação", color: "#ff0000",
+      name: "Alimentação",
+      color: "#ff0000",
     });
   });
 
@@ -75,7 +76,8 @@ describe("walletSchema", () => {
 describe("loginSchema", () => {
   it("aceita email e password válidos", () => {
     expect(loginSchema.parse({ email: "user@test.com", password: "123456" })).toEqual({
-      email: "user@test.com", password: "123456",
+      email: "user@test.com",
+      password: "123456",
     });
   });
 
@@ -90,34 +92,51 @@ describe("loginSchema", () => {
 
 describe("registerSchema", () => {
   it("aceita dados válidos", () => {
-    expect(registerSchema.parse({ name: "João", email: "joao@test.com", password: "123456" })).toEqual({
-      name: "João", email: "joao@test.com", password: "123456",
+    expect(
+      registerSchema.parse({ name: "João", email: "joao@test.com", password: "123456" }),
+    ).toEqual({
+      name: "João",
+      email: "joao@test.com",
+      password: "123456",
     });
   });
 
   it("rejeita name com 1 caractere", () => {
-    expect(() => registerSchema.parse({ name: "J", email: "a@b.com", password: "123456" })).toThrow();
+    expect(() =>
+      registerSchema.parse({ name: "J", email: "a@b.com", password: "123456" }),
+    ).toThrow();
   });
 });
 
 describe("updateUserSchema", () => {
   it("aceita apenas name e email (sem password e image)", () => {
     expect(updateUserSchema.parse({ name: "João", email: "joao@test.com" })).toEqual({
-      name: "João", email: "joao@test.com",
+      name: "João",
+      email: "joao@test.com",
     });
   });
 
   it("aceita password com 6+ caracteres ou vazio", () => {
-    expect(updateUserSchema.parse({ name: "João", email: "a@b.com", password: "123456" }).password).toBe("123456");
-    expect(updateUserSchema.parse({ name: "João", email: "a@b.com", password: "" }).password).toBe("");
+    expect(
+      updateUserSchema.parse({ name: "João", email: "a@b.com", password: "123456" }).password,
+    ).toBe("123456");
+    expect(updateUserSchema.parse({ name: "João", email: "a@b.com", password: "" }).password).toBe(
+      "",
+    );
   });
 
   it("rejeita password com 5 caracteres", () => {
-    expect(() => updateUserSchema.parse({ name: "João", email: "a@b.com", password: "12345" })).toThrow();
+    expect(() =>
+      updateUserSchema.parse({ name: "João", email: "a@b.com", password: "12345" }),
+    ).toThrow();
   });
 
   it("aceita image como null ou string", () => {
-    expect(updateUserSchema.parse({ name: "João", email: "a@b.com", image: null }).image).toBeNull();
-    expect(updateUserSchema.parse({ name: "João", email: "a@b.com", image: "url" }).image).toBe("url");
+    expect(
+      updateUserSchema.parse({ name: "João", email: "a@b.com", image: null }).image,
+    ).toBeNull();
+    expect(updateUserSchema.parse({ name: "João", email: "a@b.com", image: "url" }).image).toBe(
+      "url",
+    );
   });
 });

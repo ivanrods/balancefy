@@ -21,13 +21,19 @@ export async function getNotifications(userId: string) {
 
   for (const transaction of dueTransactions) {
     const formattedValue = currencyFormatter.format(transaction.value);
-    const typeLabel = transaction.type === "income"
-      ? (locale === "en" ? "income" : "entrada")
-      : (locale === "en" ? "expense" : "saída");
+    const typeLabel =
+      transaction.type === "income"
+        ? locale === "en"
+          ? "income"
+          : "entrada"
+        : locale === "en"
+          ? "expense"
+          : "saída";
 
-    const message = locale === "en"
-      ? `Transaction '${transaction.description}' of ${formattedValue} (${typeLabel}) is due today!`
-      : `Transação '${transaction.description}' de ${formattedValue} (${typeLabel}) venceu hoje!`;
+    const message =
+      locale === "en"
+        ? `Transaction '${transaction.description}' of ${formattedValue} (${typeLabel}) is due today!`
+        : `Transação '${transaction.description}' de ${formattedValue} (${typeLabel}) venceu hoje!`;
 
     await prisma.notification.create({
       data: {

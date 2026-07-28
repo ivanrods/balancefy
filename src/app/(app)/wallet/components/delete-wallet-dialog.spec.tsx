@@ -60,9 +60,7 @@ describe("DeleteWalletDialog", () => {
   it("opens dialog when trigger is clicked", () => {
     render(<DeleteWalletDialog id="w-1" />);
     fireEvent.click(getTrigger());
-    expect(
-      screen.getByText("Tem certeza que deseja excluir esta carteira?"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Tem certeza que deseja excluir esta carteira?")).toBeInTheDocument();
   });
 
   it("calls deleteWallet.mutate with id on confirm", async () => {
@@ -91,9 +89,7 @@ describe("DeleteWalletDialog", () => {
     fireEvent.click(deleteButton);
 
     await waitFor(() => {
-      expect(mockedToast.success).toHaveBeenCalledWith(
-        "Carteira excluída com sucesso!",
-      );
+      expect(mockedToast.success).toHaveBeenCalledWith("Carteira excluída com sucesso!");
     });
   });
 
@@ -109,9 +105,7 @@ describe("DeleteWalletDialog", () => {
     fireEvent.click(deleteButton);
 
     await waitFor(() => {
-      expect(mockedToast.error).toHaveBeenCalledWith(
-        "Erro ao excluir carteira",
-      );
+      expect(mockedToast.error).toHaveBeenCalledWith("Erro ao excluir carteira");
     });
   });
 
@@ -119,9 +113,7 @@ describe("DeleteWalletDialog", () => {
     render(<DeleteWalletDialog id="w-1" />);
     fireEvent.click(getTrigger());
 
-    expect(
-      screen.getByText("Tem certeza que deseja excluir esta carteira?"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Tem certeza que deseja excluir esta carteira?")).toBeInTheDocument();
 
     const cancelButton = screen.getByText("Cancelar");
     fireEvent.click(cancelButton);

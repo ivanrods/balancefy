@@ -15,10 +15,7 @@ async function fetchCategories(props?: UseCategoriesProps) {
   return res.json();
 }
 
-export function useCategoriesQuery(
-  props?: UseCategoriesProps,
-  initialData?: Categories[],
-) {
+export function useCategoriesQuery(props?: UseCategoriesProps, initialData?: Categories[]) {
   return useQuery<Categories[]>({
     queryKey: ["categories", props?.month, props?.year],
     queryFn: () => fetchCategories(props),

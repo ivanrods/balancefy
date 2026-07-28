@@ -1,7 +1,7 @@
 "use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Camera, LoaderCircle } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
 
 type AvatarProfileProps = {
   imageUrl?: string | null;
@@ -9,18 +9,17 @@ type AvatarProfileProps = {
   disabled?: boolean;
 };
 
-export function AvatarProfile({
-  imageUrl,
-  onSelectFile,
-  disabled,
-}: AvatarProfileProps) {
+export function AvatarProfile({ imageUrl, onSelectFile, disabled }: AvatarProfileProps) {
   const [preview, setPreview] = useState(imageUrl || null);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
+  const prevImageUrl = useRef(imageUrl);
 
-  useEffect(() => {
+  // eslint-disable-next-line react-hooks/refs
+  if (imageUrl !== prevImageUrl.current) {
+    // eslint-disable-next-line react-hooks/refs
+    prevImageUrl.current = imageUrl;
     setPreview(imageUrl || null);
-  }, [imageUrl]);
+  }
 
   const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -44,9 +43,7 @@ export function AvatarProfile({
         <AvatarImage
           src={preview || "/avatar.png"}
           alt="User"
-          className={`h-24 w-24 object-cover ${
-            loading ? "opacity-50" : "opacity-100"
-          }`}
+          className={`h-24 w-24 object-cover ${loading ? "opacity-50" : "opacity-100"}`}
         />
         <AvatarFallback>CN</AvatarFallback>
 

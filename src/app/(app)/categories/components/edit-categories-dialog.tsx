@@ -18,10 +18,7 @@ import { useCategoriesMutations } from "@/hooks/use-categories";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import {
-  CategoriesFormData,
-  categoriesSchema,
-} from "@/lib/schemas/categories-schema";
+import { CategoriesFormData, categoriesSchema } from "@/lib/schemas/categories-schema";
 import { Categories } from "@/types/categories";
 import { SliderColor } from "./slider-color";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
@@ -80,18 +77,12 @@ export function EditCategoriesDialog({ categories }: EditCategoriesDialogProps) 
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>{t("category.editTitle")}</DialogTitle>
-            <DialogDescription>
-              {t("category.editDescription")}
-            </DialogDescription>
+            <DialogDescription>{t("category.editDescription")}</DialogDescription>
           </DialogHeader>
           <div className="grid gap-3">
             <Label htmlFor="description">{t("category.name")}</Label>
             <Input id="name" {...register("name")} disabled={isSubmitting} />
-            {errors.name && (
-              <span className="text-destructive text-sm">
-                {errors.name.message}
-              </span>
-            )}
+            {errors.name && <span className="text-destructive text-sm">{errors.name.message}</span>}
           </div>
           <div className="grid gap-3">
             <Label htmlFor="color">{t("category.color")}</Label>
@@ -100,10 +91,7 @@ export function EditCategoriesDialog({ categories }: EditCategoriesDialogProps) 
               control={control}
               render={({ field }) => (
                 <>
-                  <SliderColor
-                    value={field.value}
-                    onValueChange={field.onChange}
-                  />
+                  <SliderColor value={field.value} onValueChange={field.onChange} />
                   <div
                     className="w-6 h-6 rounded-full border mt-2"
                     style={{ backgroundColor: field.value }}

@@ -12,11 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { Transaction } from "@/types/transaction";
 
 import { usePeriod } from "@/context/period-context";
@@ -26,17 +22,20 @@ export const description = "Distribuição de gastos por categoria";
 
 // Função para agrupar transações por categoria
 function groupTransactions(transactions: Transaction[]) {
-  const grouped = transactions.reduce((acc, curr) => {
-    const categoria = curr.category?.name || "Outros";
-    const cor = curr.category?.color || "#cccccc"; // fallback cinza
+  const grouped = transactions.reduce(
+    (acc, curr) => {
+      const categoria = curr.category?.name || "Outros";
+      const cor = curr.category?.color || "#cccccc"; // fallback cinza
 
-    if (!acc[categoria]) {
-      acc[categoria] = { valor: 0, cor };
-    }
+      if (!acc[categoria]) {
+        acc[categoria] = { valor: 0, cor };
+      }
 
-    acc[categoria].valor += curr.value;
-    return acc;
-  }, {} as Record<string, { valor: number; cor: string }>);
+      acc[categoria].valor += curr.value;
+      return acc;
+    },
+    {} as Record<string, { valor: number; cor: string }>,
+  );
 
   return Object.entries(grouped).map(([categoria, { valor, cor }]) => ({
     categoria,
@@ -84,9 +83,7 @@ export function ChartPieDonut({ initialTransactions }: ChartPieDonutProps) {
     <Card className="h-full w-full ">
       <CardHeader className="items-center pb-0">
         <CardTitle>Distribuição de Gastos</CardTitle>
-        <CardDescription>
-          {mode === "month" ? <p>{monthLabel}</p> : <p>Total</p>}
-        </CardDescription>
+        <CardDescription>{mode === "month" ? <p>{monthLabel}</p> : <p>Total</p>}</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
@@ -95,16 +92,8 @@ export function ChartPieDonut({ initialTransactions }: ChartPieDonutProps) {
           className="mx-auto aspect-square max-h-[250px]"
         >
           <PieChart>
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
-            <Pie
-              data={chartData}
-              dataKey="valor"
-              nameKey="categoria"
-              innerRadius={60}
-            />
+            <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
+            <Pie data={chartData} dataKey="valor" nameKey="categoria" innerRadius={60} />
           </PieChart>
         </ChartContainer>
       </CardContent>

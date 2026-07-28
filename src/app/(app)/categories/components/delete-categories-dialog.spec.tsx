@@ -5,7 +5,13 @@ import { useCategoriesMutations } from "@/hooks/use-categories";
 import { toast } from "sonner";
 
 jest.mock("@/components/ui/dropdown-menu", () => ({
-  DropdownMenuItem: ({ children, onClick }: { children: React.ReactNode; onClick?: React.MouseEventHandler }) => (
+  DropdownMenuItem: ({
+    children,
+    onClick,
+  }: {
+    children: React.ReactNode;
+    onClick?: React.MouseEventHandler;
+  }) => (
     <button type="button" data-testid="dialog-trigger" onClick={onClick}>
       {children}
     </button>
@@ -68,9 +74,7 @@ describe("DeleteCategoriesDialog", () => {
   it("opens dialog when trigger is clicked", () => {
     render(<DeleteCategoriesDialog id="cat-1" />);
     fireEvent.click(getTrigger());
-    expect(
-      screen.getByText("Tem certeza que deseja excluir esta categoria?"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Tem certeza que deseja excluir esta categoria?")).toBeInTheDocument();
   });
 
   it("calls deleteCategory.mutate with id on confirm", async () => {
@@ -99,9 +103,7 @@ describe("DeleteCategoriesDialog", () => {
     fireEvent.click(deleteButton);
 
     await waitFor(() => {
-      expect(mockedToast.success).toHaveBeenCalledWith(
-        "Categoria excluída com sucesso!",
-      );
+      expect(mockedToast.success).toHaveBeenCalledWith("Categoria excluída com sucesso!");
     });
   });
 
@@ -117,9 +119,7 @@ describe("DeleteCategoriesDialog", () => {
     fireEvent.click(deleteButton);
 
     await waitFor(() => {
-      expect(mockedToast.error).toHaveBeenCalledWith(
-        "Erro ao excluir categoria",
-      );
+      expect(mockedToast.error).toHaveBeenCalledWith("Erro ao excluir categoria");
     });
   });
 
@@ -127,9 +127,7 @@ describe("DeleteCategoriesDialog", () => {
     render(<DeleteCategoriesDialog id="cat-1" />);
     fireEvent.click(getTrigger());
 
-    expect(
-      screen.getByText("Tem certeza que deseja excluir esta categoria?"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Tem certeza que deseja excluir esta categoria?")).toBeInTheDocument();
 
     const cancelButton = screen.getByText("Cancelar");
     fireEvent.click(cancelButton);

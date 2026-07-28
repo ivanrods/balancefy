@@ -14,8 +14,18 @@ beforeAll(() => {
 });
 
 jest.mock("./select-category", () => ({
-  SelectCategory: ({ value, onValueChange }: { value: string; onValueChange: (v: string) => void }) => (
-    <select data-testid="select-category" value={value} onChange={(e) => onValueChange(e.target.value)}>
+  SelectCategory: ({
+    value,
+    onValueChange,
+  }: {
+    value: string;
+    onValueChange: (v: string) => void;
+  }) => (
+    <select
+      data-testid="select-category"
+      value={value}
+      onChange={(e) => onValueChange(e.target.value)}
+    >
       <option value="">Selecione</option>
       <option value="cat1">Trabalho</option>
     </select>
@@ -23,8 +33,18 @@ jest.mock("./select-category", () => ({
 }));
 
 jest.mock("./select-wallet", () => ({
-  SelectWallet: ({ value, onValueChange }: { value: string; onValueChange: (v: string) => void }) => (
-    <select data-testid="select-wallet" value={value} onChange={(e) => onValueChange(e.target.value)}>
+  SelectWallet: ({
+    value,
+    onValueChange,
+  }: {
+    value: string;
+    onValueChange: (v: string) => void;
+  }) => (
+    <select
+      data-testid="select-wallet"
+      value={value}
+      onChange={(e) => onValueChange(e.target.value)}
+    >
       <option value="">Selecione</option>
       <option value="wallet1">Principal</option>
     </select>
@@ -33,12 +53,23 @@ jest.mock("./select-wallet", () => ({
 
 jest.mock("./date-dialog", () => ({
   DateDialog: ({ value, onChange }: { value: Date; onChange: (d: Date) => void }) => (
-    <input data-testid="date-dialog" type="date" value={value.toISOString().split("T")[0]} onChange={(e) => onChange(new Date(e.target.value))} />
+    <input
+      data-testid="date-dialog"
+      type="date"
+      value={value.toISOString().split("T")[0]}
+      onChange={(e) => onChange(new Date(e.target.value))}
+    />
   ),
 }));
 
 jest.mock("./radio-group-select", () => ({
-  RadioGroupSelect: ({ value, onValueChange }: { value: string; onValueChange: (v: string) => void }) => (
+  RadioGroupSelect: ({
+    value,
+    onValueChange,
+  }: {
+    value: string;
+    onValueChange: (v: string) => void;
+  }) => (
     <select data-testid="radio-group" value={value} onChange={(e) => onValueChange(e.target.value)}>
       <option value="income">Entrada</option>
       <option value="expense">Saída</option>
@@ -87,10 +118,7 @@ beforeEach(() => {
   mockedToast.error = jest.fn();
 
   global.fetch = jest.fn().mockResolvedValue({
-    json: () =>
-      Promise.resolve([
-        { id: "cat1", name: "Trabalho" },
-      ]),
+    json: () => Promise.resolve([{ id: "cat1", name: "Trabalho" }]),
   });
 });
 
@@ -162,9 +190,7 @@ describe("TransactionDialog", () => {
     fireEvent.click(saveButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByText("A descrição deve ter pelo menos 3 caracteres"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("A descrição deve ter pelo menos 3 caracteres")).toBeInTheDocument();
     });
   });
 

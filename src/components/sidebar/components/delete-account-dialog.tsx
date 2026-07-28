@@ -46,9 +46,7 @@ export function DeleteAccountDialog() {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{t("deleteAccount.title")}</AlertDialogTitle>
-          <AlertDialogDescription>
-            {t("deleteAccount.description")}
-          </AlertDialogDescription>
+          <AlertDialogDescription>{t("deleteAccount.description")}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>{t("deleteAccount.cancel")}</AlertDialogCancel>

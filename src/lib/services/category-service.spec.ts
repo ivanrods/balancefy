@@ -11,7 +11,8 @@ beforeAll(async () => {
   });
   userId = user.id;
   walletId = (await prisma.wallet.create({ data: { name: "Carteira", userId } })).id;
-  cat1 = (await prisma.category.create({ data: { name: "Alimentação", color: "#f00", userId } })).id;
+  cat1 = (await prisma.category.create({ data: { name: "Alimentação", color: "#f00", userId } }))
+    .id;
   cat2 = (await prisma.category.create({ data: { name: "Transporte", color: "#00f", userId } })).id;
 });
 
@@ -35,9 +36,33 @@ it("retorna summary com valores zerados quando não há transações", async () 
 it("agrupa transações por categoria", async () => {
   await prisma.transaction.createMany({
     data: [
-      { description: "Mercado", value: 200, type: "expense", categoryId: cat1, walletId, userId, date: new Date("2024-06-10") },
-      { description: "Mercado", value: 50, type: "expense", categoryId: cat1, walletId, userId, date: new Date("2024-06-15") },
-      { description: "Uber", value: 30, type: "expense", categoryId: cat2, walletId, userId, date: new Date("2024-06-20") },
+      {
+        description: "Mercado",
+        value: 200,
+        type: "expense",
+        categoryId: cat1,
+        walletId,
+        userId,
+        date: new Date("2024-06-10"),
+      },
+      {
+        description: "Mercado",
+        value: 50,
+        type: "expense",
+        categoryId: cat1,
+        walletId,
+        userId,
+        date: new Date("2024-06-15"),
+      },
+      {
+        description: "Uber",
+        value: 30,
+        type: "expense",
+        categoryId: cat2,
+        walletId,
+        userId,
+        date: new Date("2024-06-20"),
+      },
     ],
   });
 
@@ -57,7 +82,15 @@ it("agrupa transações por categoria", async () => {
 it("filtra por mês/ano", async () => {
   await prisma.transaction.createMany({
     data: [
-      { description: "Antigo", value: 999, type: "expense", categoryId: cat1, walletId, userId, date: new Date("2023-01-01") },
+      {
+        description: "Antigo",
+        value: 999,
+        type: "expense",
+        categoryId: cat1,
+        walletId,
+        userId,
+        date: new Date("2023-01-01"),
+      },
     ],
   });
 

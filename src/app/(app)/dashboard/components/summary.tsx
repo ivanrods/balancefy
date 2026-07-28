@@ -11,12 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  ChartNoAxesCombined,
-  CircleDollarSign,
-  DollarSign,
-  TrendingDown,
-} from "lucide-react";
+import { ChartNoAxesCombined, CircleDollarSign, DollarSign, TrendingDown } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useSummaryMonth } from "@/hooks/use-summary-month";
 import { usePeriod } from "@/context/period-context";
@@ -32,9 +27,20 @@ const Summary = ({ initialTransactions }: SummaryProps) => {
   const { t, locale } = useTranslation();
   const { currency } = useCurrency();
 
-  const { incomeAll, expenseAll, balanceAll, economyAll, isLoading: isLoadingAll } = useSummaryAll(initialTransactions);
-  const { incomeMonth, expenseMonth, balanceMonth, economyMonth, isLoading: isLoadingMonth } =
-    useSummaryMonth(initialTransactions);
+  const {
+    incomeAll,
+    expenseAll,
+    balanceAll,
+    economyAll,
+    isLoading: isLoadingAll,
+  } = useSummaryAll(initialTransactions);
+  const {
+    incomeMonth,
+    expenseMonth,
+    balanceMonth,
+    economyMonth,
+    isLoading: isLoadingMonth,
+  } = useSummaryMonth(initialTransactions);
 
   const isLoading = mode === "month" ? isLoadingMonth : isLoadingAll;
 
@@ -52,8 +58,7 @@ const Summary = ({ initialTransactions }: SummaryProps) => {
     const date = new Date(2024, i, 1);
     return date.toLocaleDateString(locale, { month: "long" });
   });
-  const dateToday =
-    monthNames[selectedMonth - 1] ?? monthNames[new Date().getMonth()];
+  const dateToday = monthNames[selectedMonth - 1] ?? monthNames[new Date().getMonth()];
 
   return (
     <section className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4">
@@ -94,9 +99,7 @@ const Summary = ({ initialTransactions }: SummaryProps) => {
           </CardAction>
         </CardHeader>
         <CardContent>
-          <p className="text-4xl font-bold wrap-break-word">
-            {formatCurrency(income, currency)}
-          </p>
+          <p className="text-4xl font-bold wrap-break-word">{formatCurrency(income, currency)}</p>
         </CardContent>
         <CardFooter>
           {mode === "month" ? (
@@ -121,9 +124,7 @@ const Summary = ({ initialTransactions }: SummaryProps) => {
           </CardAction>
         </CardHeader>
         <CardContent>
-          <p className="text-4xl font-bold wrap-break-word">
-            {formatCurrency(expense, currency)}
-          </p>
+          <p className="text-4xl font-bold wrap-break-word">{formatCurrency(expense, currency)}</p>
         </CardContent>
         <CardFooter>
           {mode === "month" ? (
@@ -148,9 +149,7 @@ const Summary = ({ initialTransactions }: SummaryProps) => {
           </CardAction>
         </CardHeader>
         <CardContent>
-          <p className="text-4xl font-bold wrap-break-word">
-            {formatCurrency(economy, currency)}
-          </p>
+          <p className="text-4xl font-bold wrap-break-word">{formatCurrency(economy, currency)}</p>
         </CardContent>
         <CardFooter>
           {mode === "month" ? (

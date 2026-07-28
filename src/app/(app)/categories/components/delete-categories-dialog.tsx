@@ -50,9 +50,7 @@ export function DeleteCategoriesDialog({ id }: DeleteCategoriesDialogProps) {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{t("category.deleteTitle")}</AlertDialogTitle>
-          <AlertDialogDescription>
-            {t("category.deleteDescription")}
-          </AlertDialogDescription>
+          <AlertDialogDescription>{t("category.deleteDescription")}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>{t("category.cancel")}</AlertDialogCancel>

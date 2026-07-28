@@ -31,7 +31,10 @@ jest.mock("@/components/period-filter-header", () => ({
 jest.mock("./components/categories-table", () => ({
   __esModule: true,
   CategoriesDataTable: ({ initialCategories }: { initialCategories: unknown }) => (
-    <div data-testid="categories-data-table" data-has-categories={initialCategories !== undefined ? "true" : "false"} />
+    <div
+      data-testid="categories-data-table"
+      data-has-categories={initialCategories !== undefined ? "true" : "false"}
+    />
   ),
 }));
 
@@ -75,7 +78,10 @@ describe("CategoriesPage", () => {
     const page = await CategoriesPage();
     render(page);
 
-    expect(screen.getByTestId("categories-data-table")).toHaveAttribute("data-has-categories", "false");
+    expect(screen.getByTestId("categories-data-table")).toHaveAttribute(
+      "data-has-categories",
+      "false",
+    );
   });
 
   it("renderiza CategoriesDataTable com categorias quando usuario autenticado", async () => {
@@ -96,7 +102,10 @@ describe("CategoriesPage", () => {
     const page = await CategoriesPage();
     render(page);
 
-    expect(screen.getByTestId("categories-data-table")).toHaveAttribute("data-has-categories", "true");
+    expect(screen.getByTestId("categories-data-table")).toHaveAttribute(
+      "data-has-categories",
+      "true",
+    );
     expect(mockGetCategoriesSummary).toHaveBeenCalledWith({ userId: "u1" });
   });
 

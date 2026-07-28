@@ -26,10 +26,7 @@ export function PeriodFilterHeader({ title }: PeriodFilterHeaderProps) {
     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
       <h1 className="text-2xl font-bold">{title}</h1>
       <div className="flex flex-col sm:flex-row gap-2 sm:items-center">
-        <Select
-          value={mode}
-          onValueChange={(val) => setMode(val as "month" | "total")}
-        >
+        <Select value={mode} onValueChange={(val) => setMode(val as "month" | "total")}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder={t("period.selectPeriod")} />
           </SelectTrigger>

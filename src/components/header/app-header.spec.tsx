@@ -30,23 +30,17 @@ jest.mock("./components/button-theme", () => ({
   ButtonTheme: () => <div data-testid="button-theme" />,
 }));
 
-jest.mock(
-  "@/app/(app)/categories/components/create-categories-dialog",
-  () => ({
-    CategoriesDialog: () => <div data-testid="categories-dialog" />,
-  }),
-);
+jest.mock("@/app/(app)/categories/components/create-categories-dialog", () => ({
+  CategoriesDialog: () => <div data-testid="categories-dialog" />,
+}));
 
 jest.mock("@/app/(app)/wallet/components/create-wallet-dialog", () => ({
   WalletDialog: () => <div data-testid="wallet-dialog" />,
 }));
 
-jest.mock(
-  "@/app/(app)/transactions/components/create-transaction-dialog",
-  () => ({
-    TransactionDialog: () => <div data-testid="transaction-dialog" />,
-  }),
-);
+jest.mock("@/app/(app)/transactions/components/create-transaction-dialog", () => ({
+  TransactionDialog: () => <div data-testid="transaction-dialog" />,
+}));
 
 beforeAll(() => {
   jest.spyOn(console, "error").mockImplementation(() => {});

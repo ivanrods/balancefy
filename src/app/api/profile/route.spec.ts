@@ -9,7 +9,9 @@ if (typeof globalThis.Request === "undefined") {
     constructor(_url: string, init?: RequestInit) {
       this.body = init?.body ? JSON.parse(init.body as string) : {};
     }
-    json() { return Promise.resolve(this.body); }
+    json() {
+      return Promise.resolve(this.body);
+    }
   } as unknown as typeof globalThis.Request;
 }
 if (typeof globalThis.Response === "undefined") {
@@ -20,7 +22,9 @@ if (typeof globalThis.Response === "undefined") {
       this.data = JSON.parse(body);
       this.status = init?.status ?? 200;
     }
-    json() { return Promise.resolve(this.data); }
+    json() {
+      return Promise.resolve(this.data);
+    }
   } as unknown as typeof globalThis.Response;
 }
 /* eslint-enable @typescript-eslint/no-explicit-any */

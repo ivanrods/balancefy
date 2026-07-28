@@ -6,9 +6,7 @@ const mockSetMode = jest.fn();
 const mockSetSelectedMonth = jest.fn();
 
 jest.mock("@/context/period-context", () => ({
-  PeriodProvider: ({ children }: { children: React.ReactNode }) => (
-    <>{children}</>
-  ),
+  PeriodProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
   usePeriod: jest.fn(),
 }));
 
@@ -49,9 +47,7 @@ beforeEach(() => {
 describe("PeriodFilterHeader", () => {
   it("renderiza o título passado como prop", () => {
     render(<PeriodFilterHeader title="Minhas Transações" />);
-    expect(
-      screen.getByRole("heading", { name: "Minhas Transações" }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Minhas Transações" })).toBeInTheDocument();
   });
 
   it("exibe o Select de modo com valor atual Por mês", () => {
@@ -76,8 +72,18 @@ describe("PeriodFilterHeader", () => {
     const trigger = screen.getByText("julho");
     fireEvent.click(trigger);
     const months = [
-      "janeiro", "fevereiro", "março", "abril", "maio", "junho",
-      "julho", "agosto", "setembro", "outubro", "novembro", "dezembro",
+      "janeiro",
+      "fevereiro",
+      "março",
+      "abril",
+      "maio",
+      "junho",
+      "julho",
+      "agosto",
+      "setembro",
+      "outubro",
+      "novembro",
+      "dezembro",
     ];
     for (const month of months) {
       const elements = screen.getAllByText(month);

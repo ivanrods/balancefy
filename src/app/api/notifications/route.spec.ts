@@ -48,7 +48,17 @@ describe("GET /api/notifications", () => {
 
   it("retorna lista de notificações", async () => {
     mockSession.mockResolvedValue({ user: { email: "a@b.com", id: "u1" } });
-    mockGetNotifications.mockResolvedValue([{ id: "n1", message: "teste", read: false, transaction: null, userId: "u1", transactionId: null, createdAt: new Date() }]);
+    mockGetNotifications.mockResolvedValue([
+      {
+        id: "n1",
+        message: "teste",
+        read: false,
+        transaction: null,
+        userId: "u1",
+        transactionId: null,
+        createdAt: new Date(),
+      },
+    ]);
     const res = await GET();
     expect(res.status).toBe(200);
     const body = await res.json();

@@ -78,8 +78,7 @@ beforeEach(() => {
         "profile.success": "Perfil atualizado com sucesso!",
         "profile.error": "Erro ao atualizar perfil",
         "profile.imageError": "Erro ao fazer upload da imagem",
-        "profile.googleAlert":
-          "Conta vinculada ao Google. Para alterar, use o Google.",
+        "profile.googleAlert": "Conta vinculada ao Google. Para alterar, use o Google.",
       };
       return map[key] ?? key;
     },
@@ -87,9 +86,7 @@ beforeEach(() => {
     setLocale: jest.fn(),
   });
 
-  mockedUseSession.mockReturnValue(
-    defaultSession as unknown as ReturnType<typeof useSession>,
-  );
+  mockedUseSession.mockReturnValue(defaultSession as unknown as ReturnType<typeof useSession>);
 
   mockedToast.success = jest.fn();
   mockedToast.error = jest.fn();
@@ -201,9 +198,7 @@ describe("EditProfile", () => {
     fireEvent.click(screen.getByText("Salvar"));
 
     await waitFor(() => {
-      expect(
-        screen.getByText("Nome deve ter pelo menos 2 caracteres"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Nome deve ter pelo menos 2 caracteres")).toBeInTheDocument();
     });
   });
 
@@ -235,9 +230,7 @@ describe("EditProfile", () => {
     fireEvent.click(screen.getByText("Salvar"));
 
     await waitFor(() => {
-      expect(
-        screen.getByText("A senha deve ter no mínimo 6 caracteres"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("A senha deve ter no mínimo 6 caracteres")).toBeInTheDocument();
     });
   });
 
@@ -256,8 +249,7 @@ describe("EditProfile", () => {
       })
       .mockResolvedValueOnce({
         ok: true,
-        json: () =>
-          Promise.resolve({ name: "João", email: "joao@email.com", image: null }),
+        json: () => Promise.resolve({ name: "João", email: "joao@email.com", image: null }),
       });
     globalThis.fetch = mockFetch;
 
@@ -283,9 +275,7 @@ describe("EditProfile", () => {
       });
     });
 
-    expect(mockedToast.success).toHaveBeenCalledWith(
-      "Perfil atualizado com sucesso!",
-    );
+    expect(mockedToast.success).toHaveBeenCalledWith("Perfil atualizado com sucesso!");
   });
 
   it("calls toast.error on failed update", async () => {
@@ -314,9 +304,7 @@ describe("EditProfile", () => {
     fireEvent.click(screen.getByText("Salvar"));
 
     await waitFor(() => {
-      expect(mockedToast.error).toHaveBeenCalledWith(
-        "Erro ao atualizar perfil",
-      );
+      expect(mockedToast.error).toHaveBeenCalledWith("Erro ao atualizar perfil");
     });
   });
 
@@ -336,10 +324,7 @@ describe("EditProfile", () => {
     render(<EditProfile />);
 
     await waitFor(() => {
-      expect(screen.getByTestId("avatar-profile")).toHaveAttribute(
-        "data-disabled",
-        "true",
-      );
+      expect(screen.getByTestId("avatar-profile")).toHaveAttribute("data-disabled", "true");
     });
   });
 });

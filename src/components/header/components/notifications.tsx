@@ -1,10 +1,6 @@
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Bell, Check, Megaphone } from "lucide-react";
 import { useTranslation } from "@/hooks/use-translation";
 import { useNotifications } from "@/hooks/use-notifications";
@@ -39,11 +35,7 @@ export function Notifications({ initialNotifications }: NotificationsProps) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <button
-          type="button"
-          className="relative"
-          aria-label={t("notifications.title")}
-        >
+        <button type="button" className="relative" aria-label={t("notifications.title")}>
           <Bell />
           {unreadCount > 0 && (
             <span className="absolute -top-1 -right-1 flex items-center justify-center bg-destructive text-destructive-foreground text-[10px] font-bold rounded-full min-w-4 h-4 px-1">
@@ -56,9 +48,7 @@ export function Notifications({ initialNotifications }: NotificationsProps) {
         <div className="grid gap-2">
           <div className="flex items-center justify-between gap-2">
             <div className="space-y-1">
-              <h4 className="leading-none font-medium">
-                {t("notifications.title")}
-              </h4>
+              <h4 className="leading-none font-medium">{t("notifications.title")}</h4>
               <p className="text-muted-foreground text-sm">
                 {t("notifications.recentDescription")}
               </p>
@@ -102,10 +92,7 @@ export function Notifications({ initialNotifications }: NotificationsProps) {
 
                             <span className="text-muted-foreground">
                               {" "}
-                              {formatCurrency(
-                                notification.transaction.value,
-                                locale,
-                              )}
+                              {formatCurrency(notification.transaction.value, locale)}
                             </span>
                           </>
                         ) : (

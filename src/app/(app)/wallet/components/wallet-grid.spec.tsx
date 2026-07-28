@@ -118,17 +118,11 @@ describe("WalletGrid", () => {
 
   it("passes undefined filter when mode is total", () => {
     render(<WalletGrid />);
-    expect(mockedUseWalletsQuery).toHaveBeenCalledWith(
-      undefined,
-      undefined,
-    );
+    expect(mockedUseWalletsQuery).toHaveBeenCalledWith(undefined, undefined);
   });
 
   it("passes initialWallets to query", () => {
     render(<WalletGrid initialWallets={mockWallets} />);
-    expect(mockedUseWalletsQuery).toHaveBeenCalledWith(
-      undefined,
-      mockWallets,
-    );
+    expect(mockedUseWalletsQuery).toHaveBeenCalledWith(undefined, mockWallets);
   });
 });

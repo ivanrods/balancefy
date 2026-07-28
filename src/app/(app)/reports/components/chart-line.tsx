@@ -40,11 +40,14 @@ export function ChartLine({ initialChartData }: ChartLineProps) {
 
   const isMonthMode = mode === "month";
 
-  const { transactionsType, isLoading } = useTransactionsType({
-    period: isMonthMode ? "week" : "month",
-    month: isMonthMode ? selectedMonth : undefined,
-    year,
-  }, initialChartData);
+  const { transactionsType, isLoading } = useTransactionsType(
+    {
+      period: isMonthMode ? "week" : "month",
+      month: isMonthMode ? selectedMonth : undefined,
+      year,
+    },
+    initialChartData,
+  );
 
   const mothLabel = new Date(year, selectedMonth - 1).toLocaleString(locale, {
     month: "long",

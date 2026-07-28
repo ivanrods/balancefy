@@ -37,8 +37,7 @@ const mockFindUnique = prisma.user.findUnique as jest.Mock;
 const mockCreate = prisma.user.create as jest.Mock;
 const mockHash = bcrypt.hash as jest.Mock;
 
-const createNextRequest = (body: any) =>
-  new (NextRequest as any)(body) as NextRequest;
+const createNextRequest = (body: any) => new (NextRequest as any)(body) as NextRequest;
 
 beforeEach(() => {
   jest.clearAllMocks();

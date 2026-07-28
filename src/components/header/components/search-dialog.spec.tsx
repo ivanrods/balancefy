@@ -5,13 +5,9 @@ import { useTranslation } from "@/hooks/use-translation";
 jest.mock("@/hooks/use-translation");
 
 jest.mock("next/link", () => {
-  const MockLink = ({
-    children,
-    href,
-  }: {
-    children: React.ReactNode;
-    href: string;
-  }) => <a href={href}>{children}</a>;
+  const MockLink = ({ children, href }: { children: React.ReactNode; href: string }) => (
+    <a href={href}>{children}</a>
+  );
   MockLink.displayName = "MockLink";
   return MockLink;
 });
@@ -31,7 +27,9 @@ jest.mock("@/components/ui/command", () => ({
     <div data-testid="command-empty">{children}</div>
   ),
   CommandGroup: ({ children, heading }: { children: React.ReactNode; heading?: string }) => (
-    <div data-testid="command-group" data-heading={heading}>{children}</div>
+    <div data-testid="command-group" data-heading={heading}>
+      {children}
+    </div>
   ),
   CommandItem: ({ children }: { children: React.ReactNode }) => (
     <div data-testid="command-item">{children}</div>
@@ -73,9 +71,7 @@ beforeEach(() => {
 
 describe("SearchDialog", () => {
   it("renders nothing when open is false", () => {
-    const { container } = render(
-      <SearchDialog open={false} setOpen={mockSetOpen} />,
-    );
+    const { container } = render(<SearchDialog open={false} setOpen={mockSetOpen} />);
     expect(container.querySelector('[data-testid="command-dialog"]')).toBeNull();
   });
 
@@ -92,9 +88,7 @@ describe("SearchDialog", () => {
 
   it("renders empty state message", () => {
     render(<SearchDialog open setOpen={mockSetOpen} />);
-    expect(
-      screen.getByText("Nenhum resultado encontrado."),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Nenhum resultado encontrado.")).toBeInTheDocument();
   });
 
   it("renders suggestions group with heading", () => {

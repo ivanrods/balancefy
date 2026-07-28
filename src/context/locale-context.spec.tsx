@@ -57,8 +57,6 @@ describe("LocaleProvider", () => {
 
 describe("useLocale", () => {
   it("throws when used outside LocaleProvider", () => {
-    expect(() => render(<TestConsumer />)).toThrow(
-      "useLocale must be used within LocaleProvider",
-    );
+    expect(() => render(<TestConsumer />)).toThrow("useLocale must be used within LocaleProvider");
   });
 });

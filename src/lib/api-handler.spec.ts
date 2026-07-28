@@ -1,10 +1,5 @@
 import { NextResponse } from "next/server";
-import {
-  UnauthorizedError,
-  NotFoundError,
-  withAuth,
-  apiError,
-} from "@/lib/api-handler";
+import { UnauthorizedError, NotFoundError, withAuth, apiError } from "@/lib/api-handler";
 
 jest.mock("next/server", () => ({
   NextResponse: {

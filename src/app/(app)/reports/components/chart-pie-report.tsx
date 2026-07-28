@@ -54,15 +54,9 @@ export function ChartPieReport({ initialTransactions }: ChartPieReportProps) {
   return (
     <Card className="flex flex-col">
       <CardContent className="flex-1 pb-0">
-        <ChartContainer
-          config={chartConfig}
-          className="mx-auto aspect-square max-h-[200px]"
-        >
+        <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[200px]">
           <PieChart>
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
+            <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
             <Pie data={chartData} dataKey="valor" nameKey="tipo" />
           </PieChart>
         </ChartContainer>

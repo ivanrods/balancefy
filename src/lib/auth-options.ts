@@ -38,10 +38,7 @@ export const authOptions: AuthOptions = {
           throw new Error("E-mail não encontrado");
         }
 
-        const isValid = await bcrypt.compare(
-          credentials.password,
-          user.password,
-        );
+        const isValid = await bcrypt.compare(credentials.password, user.password);
         if (!isValid) {
           throw new Error("E-mail ou Senha incorreta");
         }
@@ -94,9 +91,7 @@ export const authOptions: AuthOptions = {
   events: {
     async createUser({ user }) {
       if (!user.id) {
-        console.error(
-          "Usuário sem ID, não é possível criar categorias e carteira",
-        );
+        console.error("Usuário sem ID, não é possível criar categorias e carteira");
         return;
       }
       await prisma.wallet.create({

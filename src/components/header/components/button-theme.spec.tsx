@@ -5,7 +5,13 @@ import { useTheme } from "@/context/theme-context";
 jest.mock("@/context/theme-context");
 
 jest.mock("@/components/ui/switch", () => ({
-  Switch: ({ checked, onCheckedChange }: { checked?: boolean; onCheckedChange?: (v: boolean) => void }) => (
+  Switch: ({
+    checked,
+    onCheckedChange,
+  }: {
+    checked?: boolean;
+    onCheckedChange?: (v: boolean) => void;
+  }) => (
     <button
       data-testid="switch"
       data-checked={checked}
@@ -55,10 +61,7 @@ describe("ButtonTheme", () => {
     });
 
     render(<ButtonTheme />);
-    expect(screen.getByTestId("switch")).toHaveAttribute(
-      "data-checked",
-      "true",
-    );
+    expect(screen.getByTestId("switch")).toHaveAttribute("data-checked", "true");
   });
 
   it("passes checked=false when theme is light", () => {
@@ -68,9 +71,6 @@ describe("ButtonTheme", () => {
     });
 
     render(<ButtonTheme />);
-    expect(screen.getByTestId("switch")).toHaveAttribute(
-      "data-checked",
-      "false",
-    );
+    expect(screen.getByTestId("switch")).toHaveAttribute("data-checked", "false");
   });
 });

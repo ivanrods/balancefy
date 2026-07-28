@@ -49,7 +49,7 @@ export function WalletDialog() {
         onError: () => {
           toast.error(t("wallet.error"));
         },
-      }
+      },
     );
 
     reset();
@@ -66,18 +66,12 @@ export function WalletDialog() {
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>{t("wallet.addTitle")}</DialogTitle>
-            <DialogDescription>
-              {t("wallet.addDescription")}
-            </DialogDescription>
+            <DialogDescription>{t("wallet.addDescription")}</DialogDescription>
           </DialogHeader>
           <div className="grid gap-3">
             <Label htmlFor="description">{t("wallet.name")}</Label>
             <Input id="name" {...register("name")} disabled={isSubmitting} />
-            {errors.name && (
-              <span className="text-destructive text-sm">
-                {errors.name.message}
-              </span>
-            )}
+            {errors.name && <span className="text-destructive text-sm">{errors.name.message}</span>}
           </div>
 
           <DialogFooter>

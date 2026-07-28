@@ -90,5 +90,4 @@ describe("useTransactionsType", () => {
     const { result } = renderHook(() => useTransactionsType());
     expect(result.current.transactionsType).toEqual(mockData);
   });
-
 });

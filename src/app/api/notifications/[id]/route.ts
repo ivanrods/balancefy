@@ -3,10 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { authOptions } from "@/lib/auth-options";
 import { getServerSession } from "next-auth/next";
 
-export async function PATCH(
-  req: Request,
-  context: { params: Promise<{ id: string }> }
-) {
+export async function PATCH(req: Request, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params;
   const session = await getServerSession(authOptions);
   if (!session?.user?.email) {
@@ -19,10 +16,7 @@ export async function PATCH(
   });
 
   if (!notification) {
-    return NextResponse.json(
-      { error: "Notification not found" },
-      { status: 404 }
-    );
+    return NextResponse.json({ error: "Notification not found" }, { status: 404 });
   }
 
   if (notification.user.email !== session.user.email) {

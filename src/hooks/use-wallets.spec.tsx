@@ -12,8 +12,12 @@ function createWrapper() {
 }
 
 const mockWallet: Wallets = {
-  id: "w1", name: "Principal", balance: 500,
-  totalIncome: 1000, totalExpense: 500, lastTransaction: null,
+  id: "w1",
+  name: "Principal",
+  balance: 500,
+  totalIncome: 1000,
+  totalExpense: 500,
+  lastTransaction: null,
 };
 
 let mockFetch: jest.Mock;
@@ -39,7 +43,9 @@ describe("useWalletsQuery", () => {
   });
 
   it("usa initialData quando não tem filtro de mês", () => {
-    const { result } = renderHook(() => useWalletsQuery(undefined, [mockWallet]), { wrapper: createWrapper() });
+    const { result } = renderHook(() => useWalletsQuery(undefined, [mockWallet]), {
+      wrapper: createWrapper(),
+    });
     expect(result.current.data).toHaveLength(1);
   });
 });
@@ -52,7 +58,10 @@ describe("useWalletsMutations", () => {
     result.current.createWallet.mutate({ name: "Nova" });
 
     await waitFor(() => expect(result.current.createWallet.isSuccess).toBe(true));
-    expect(mockFetch).toHaveBeenCalledWith("/api/wallets", expect.objectContaining({ method: "POST" }));
+    expect(mockFetch).toHaveBeenCalledWith(
+      "/api/wallets",
+      expect.objectContaining({ method: "POST" }),
+    );
   });
 
   it("updateWallet faz PUT", async () => {

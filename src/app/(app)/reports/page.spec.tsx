@@ -33,34 +33,49 @@ jest.mock("@/components/period-filter-header", () => ({
 jest.mock("./components/summary-card-report", () => ({
   __esModule: true,
   default: ({ initialTransactions }: { initialTransactions: unknown }) => (
-    <div data-testid="summary-card-report" data-has-transactions={initialTransactions !== undefined ? "true" : "false"} />
+    <div
+      data-testid="summary-card-report"
+      data-has-transactions={initialTransactions !== undefined ? "true" : "false"}
+    />
   ),
 }));
 
 jest.mock("./components/transactions-export", () => ({
   TransactionsExport: ({ initialTransactions }: { initialTransactions: unknown }) => (
-    <div data-testid="transactions-export" data-has-transactions={initialTransactions !== undefined ? "true" : "false"} />
+    <div
+      data-testid="transactions-export"
+      data-has-transactions={initialTransactions !== undefined ? "true" : "false"}
+    />
   ),
 }));
 
 jest.mock("@/components/transactions-table", () => ({
   __esModule: true,
   TransactionsTable: ({ initialTransactions }: { initialTransactions: unknown }) => (
-    <div data-testid="transactions-table" data-has-transactions={initialTransactions !== undefined ? "true" : "false"} />
+    <div
+      data-testid="transactions-table"
+      data-has-transactions={initialTransactions !== undefined ? "true" : "false"}
+    />
   ),
 }));
 
 jest.mock("@/components/chart-area", () => ({
   __esModule: true,
   ChartArea: ({ initialTransactions }: { initialTransactions: unknown }) => (
-    <div data-testid="chart-area" data-has-transactions={initialTransactions !== undefined ? "true" : "false"} />
+    <div
+      data-testid="chart-area"
+      data-has-transactions={initialTransactions !== undefined ? "true" : "false"}
+    />
   ),
 }));
 
 jest.mock("./components/chart-line", () => ({
   __esModule: true,
   ChartLine: ({ initialChartData }: { initialChartData: unknown }) => (
-    <div data-testid="chart-line" data-has-chart-data={initialChartData !== undefined ? "true" : "false"} />
+    <div
+      data-testid="chart-line"
+      data-has-chart-data={initialChartData !== undefined ? "true" : "false"}
+    />
   ),
 }));
 
@@ -97,7 +112,14 @@ describe("ReportsPage", () => {
     const page = await ReportsPage();
     const { container } = render(page);
 
-    expect(container.firstChild).toHaveClass("w-full", "h-full", "flex", "flex-col", "gap-4", "mb-4");
+    expect(container.firstChild).toHaveClass(
+      "w-full",
+      "h-full",
+      "flex",
+      "flex-col",
+      "gap-4",
+      "mb-4",
+    );
   });
 
   it("renderiza child components com undefined quando usuario nao autenticado", async () => {
@@ -108,11 +130,20 @@ describe("ReportsPage", () => {
     const page = await ReportsPage();
     render(page);
 
-    expect(screen.getByTestId("summary-card-report")).toHaveAttribute("data-has-transactions", "false");
+    expect(screen.getByTestId("summary-card-report")).toHaveAttribute(
+      "data-has-transactions",
+      "false",
+    );
     expect(screen.getByTestId("chart-area")).toHaveAttribute("data-has-transactions", "false");
     expect(screen.getByTestId("chart-line")).toHaveAttribute("data-has-chart-data", "false");
-    expect(screen.getByTestId("transactions-export")).toHaveAttribute("data-has-transactions", "false");
-    expect(screen.getByTestId("transactions-table")).toHaveAttribute("data-has-transactions", "false");
+    expect(screen.getByTestId("transactions-export")).toHaveAttribute(
+      "data-has-transactions",
+      "false",
+    );
+    expect(screen.getByTestId("transactions-table")).toHaveAttribute(
+      "data-has-transactions",
+      "false",
+    );
   });
 
   it("renderiza child components com dados quando usuario autenticado", async () => {
@@ -130,9 +161,7 @@ describe("ReportsPage", () => {
       },
     ];
 
-    const mockChartData = [
-      { week: "Semana 1", income: 1000, expense: 500 },
-    ];
+    const mockChartData = [{ week: "Semana 1", income: 1000, expense: 500 }];
 
     mockGetServerSession.mockResolvedValue({ user: { id: "u1" } });
     mockGetTransactions.mockResolvedValue(mockTransactions);
@@ -141,11 +170,20 @@ describe("ReportsPage", () => {
     const page = await ReportsPage();
     render(page);
 
-    expect(screen.getByTestId("summary-card-report")).toHaveAttribute("data-has-transactions", "true");
+    expect(screen.getByTestId("summary-card-report")).toHaveAttribute(
+      "data-has-transactions",
+      "true",
+    );
     expect(screen.getByTestId("chart-area")).toHaveAttribute("data-has-transactions", "true");
     expect(screen.getByTestId("chart-line")).toHaveAttribute("data-has-chart-data", "true");
-    expect(screen.getByTestId("transactions-export")).toHaveAttribute("data-has-transactions", "true");
-    expect(screen.getByTestId("transactions-table")).toHaveAttribute("data-has-transactions", "true");
+    expect(screen.getByTestId("transactions-export")).toHaveAttribute(
+      "data-has-transactions",
+      "true",
+    );
+    expect(screen.getByTestId("transactions-table")).toHaveAttribute(
+      "data-has-transactions",
+      "true",
+    );
   });
 
   it("nao chama services quando usuario nao tem id", async () => {

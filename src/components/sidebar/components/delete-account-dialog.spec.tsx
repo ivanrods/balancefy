@@ -55,25 +55,19 @@ beforeEach(() => {
 });
 
 function openDialog() {
-  fireEvent.click(
-    screen.getByRole("button", { name: /Excluir Conta/i }),
-  );
+  fireEvent.click(screen.getByRole("button", { name: /Excluir Conta/i }));
 }
 
 describe("DeleteAccountDialog", () => {
   it("renders trigger", () => {
     render(<DeleteAccountDialog />);
-    expect(
-      screen.getByRole("button", { name: /Excluir Conta/i }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Excluir Conta/i })).toBeInTheDocument();
   });
 
   it("opens dialog when trigger is clicked", () => {
     render(<DeleteAccountDialog />);
     openDialog();
-    expect(
-      screen.getByRole("heading", { name: "Excluir Conta" }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Excluir Conta" })).toBeInTheDocument();
   });
 
   it("calls fetch DELETE on confirm and calls toast.success and signOut", async () => {
@@ -94,9 +88,7 @@ describe("DeleteAccountDialog", () => {
       });
     });
 
-    expect(mockedToast.success).toHaveBeenCalledWith(
-      "Conta excluída com sucesso!",
-    );
+    expect(mockedToast.success).toHaveBeenCalledWith("Conta excluída com sucesso!");
     expect(mockedSignOut).toHaveBeenCalledWith({ callbackUrl: "/login" });
   });
 
@@ -135,15 +127,11 @@ describe("DeleteAccountDialog", () => {
     render(<DeleteAccountDialog />);
     openDialog();
 
-    expect(
-      screen.getByRole("heading", { name: "Excluir Conta" }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Excluir Conta" })).toBeInTheDocument();
 
     const cancelButton = screen.getByRole("button", { name: /Cancelar/i });
     fireEvent.click(cancelButton);
 
-    expect(
-      screen.queryByRole("heading", { name: "Excluir Conta" }),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "Excluir Conta" })).not.toBeInTheDocument();
   });
 });

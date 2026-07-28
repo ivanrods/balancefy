@@ -10,9 +10,7 @@ export default async function NotFound() {
       <h1 className="text-3xl md:text-5xl text-primary font-bold text-center">
         {t("notFound.title")}
       </h1>
-      <p className="text-sm md:text-md text-center">
-        {t("notFound.description")}
-      </p>
+      <p className="text-sm md:text-md text-center">{t("notFound.description")}</p>
 
       <Button>
         <Link href="/">{t("notFound.backHome")}</Link>

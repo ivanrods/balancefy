@@ -1,9 +1,6 @@
 import { NextResponse } from "next/server";
 import { withAuth, apiError } from "@/lib/api-handler";
-import {
-  getTransactions,
-  createTransaction,
-} from "@/lib/services/transaction-service";
+import { getTransactions, createTransaction } from "@/lib/services/transaction-service";
 
 export async function GET(req: Request) {
   try {

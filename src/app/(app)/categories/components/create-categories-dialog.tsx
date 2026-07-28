@@ -19,10 +19,7 @@ import { useCategoriesMutations } from "@/hooks/use-categories";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import {
-  CategoriesFormData,
-  categoriesSchema,
-} from "@/lib/schemas/categories-schema";
+import { CategoriesFormData, categoriesSchema } from "@/lib/schemas/categories-schema";
 import { SliderColor } from "./slider-color";
 
 export function CategoriesDialog() {
@@ -72,18 +69,12 @@ export function CategoriesDialog() {
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>{t("category.addTitle")}</DialogTitle>
-            <DialogDescription>
-              {t("category.addDescription")}
-            </DialogDescription>
+            <DialogDescription>{t("category.addDescription")}</DialogDescription>
           </DialogHeader>
           <div className="grid gap-3">
             <Label htmlFor="description">{t("category.name")}</Label>
             <Input id="name" {...register("name")} disabled={isSubmitting} />
-            {errors.name && (
-              <span className="text-destructive text-sm">
-                {errors.name.message}
-              </span>
-            )}
+            {errors.name && <span className="text-destructive text-sm">{errors.name.message}</span>}
             <div className="grid gap-3">
               <Label htmlFor="color">{t("category.color")}</Label>
               <Controller
@@ -91,10 +82,7 @@ export function CategoriesDialog() {
                 control={control}
                 render={({ field }) => (
                   <>
-                    <SliderColor
-                      value={field.value}
-                      onValueChange={field.onChange}
-                    />
+                    <SliderColor value={field.value} onValueChange={field.onChange} />
                     <div
                       className="w-6 h-6 rounded-full border mt-2"
                       style={{ backgroundColor: field.value }}

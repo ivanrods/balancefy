@@ -23,13 +23,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import {
-  ArrowUpDown,
-  ChevronDown,
-  MoreHorizontal,
-  ArrowLeftRight,
-  Circle,
-} from "lucide-react";
+import { ArrowUpDown, ChevronDown, MoreHorizontal, ArrowLeftRight, Circle } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -60,10 +54,7 @@ const columns = (
   {
     accessorKey: "name",
     header: ({ column }) => (
-      <Button
-        variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
+      <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
         {t("categories.name")}
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
@@ -96,25 +87,18 @@ const columns = (
   {
     accessorKey: "color",
     header: t("categories.color"),
-    cell: ({ row }) => (
-      <Circle color={row.original.color} fill={row.original.color} />
-    ),
+    cell: ({ row }) => <Circle color={row.original.color} fill={row.original.color} />,
     enableSorting: false,
   },
   {
     accessorKey: "value",
     header: ({ column }) => (
-      <Button
-        variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
+      <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
         {t("categories.value")}
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
-    cell: ({ row }) => (
-      <span className="px-4">{formatCurrency(row.original.value, currency)}</span>
-    ),
+    cell: ({ row }) => <span className="px-4">{formatCurrency(row.original.value, currency)}</span>,
   },
   {
     accessorKey: "number",
@@ -195,9 +179,7 @@ export function CategoriesDataTable({ initialCategories }: CategoriesDataTablePr
         <Input
           placeholder={t("categories.filterName")}
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
-          }
+          onChange={(event) => table.getColumn("name")?.setFilterValue(event.target.value)}
           className="max-w-sm"
         />
         <DropdownMenu>
@@ -233,10 +215,7 @@ export function CategoriesDataTable({ initialCategories }: CategoriesDataTablePr
                   <TableHead key={header.id}>
                     {header.isPlaceholder
                       ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
+                      : flexRender(header.column.columnDef.header, header.getContext())}
                   </TableHead>
                 ))}
               </TableRow>
@@ -248,20 +227,14 @@ export function CategoriesDataTable({ initialCategories }: CategoriesDataTablePr
                 <TableRow key={row.id}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
+                <TableCell colSpan={columns.length} className="h-24 text-center">
                   {t("categories.noResults")}
                 </TableCell>
               </TableRow>

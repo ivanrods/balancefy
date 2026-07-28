@@ -19,10 +19,13 @@ export function TransactionsExport({ initialTransactions }: TransactionsExportPr
   const { mode, selectedMonth } = usePeriod();
   const currentYear = new Date().getFullYear();
   const month = mode === "month" ? selectedMonth : undefined;
-  const { transactions = [] } = useTransactions({
-    month,
-    year: currentYear,
-  }, initialTransactions);
+  const { transactions = [] } = useTransactions(
+    {
+      month,
+      year: currentYear,
+    },
+    initialTransactions,
+  );
   const { generateTransactionsPDF } = useExportPDF();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -36,10 +39,10 @@ export function TransactionsExport({ initialTransactions }: TransactionsExportPr
     try {
       let periodLabel = "";
       if (mode === "month") {
-        periodLabel = new Date(
-          currentYear,
-          selectedMonth - 1,
-        ).toLocaleDateString(locale, { month: "long", year: "numeric" });
+        periodLabel = new Date(currentYear, selectedMonth - 1).toLocaleDateString(locale, {
+          month: "long",
+          year: "numeric",
+        });
       } else {
         periodLabel = `${currentYear}`;
       }

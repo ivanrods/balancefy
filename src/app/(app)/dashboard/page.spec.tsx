@@ -24,28 +24,40 @@ jest.mock("@/lib/services/transaction-service", () => ({
 jest.mock("../../../components/chart-area", () => ({
   __esModule: true,
   ChartArea: ({ initialTransactions }: { initialTransactions: unknown }) => (
-    <div data-testid="chart-area" data-has-transactions={initialTransactions !== undefined ? "true" : "false"} />
+    <div
+      data-testid="chart-area"
+      data-has-transactions={initialTransactions !== undefined ? "true" : "false"}
+    />
   ),
 }));
 
 jest.mock("./components/chart-pie-donut", () => ({
   __esModule: true,
   ChartPieDonut: ({ initialTransactions }: { initialTransactions: unknown }) => (
-    <div data-testid="chart-pie-donut" data-has-transactions={initialTransactions !== undefined ? "true" : "false"} />
+    <div
+      data-testid="chart-pie-donut"
+      data-has-transactions={initialTransactions !== undefined ? "true" : "false"}
+    />
   ),
 }));
 
 jest.mock("@/components/transactions-table", () => ({
   __esModule: true,
   TransactionsTable: ({ initialTransactions }: { initialTransactions: unknown }) => (
-    <div data-testid="transactions-table" data-has-transactions={initialTransactions !== undefined ? "true" : "false"} />
+    <div
+      data-testid="transactions-table"
+      data-has-transactions={initialTransactions !== undefined ? "true" : "false"}
+    />
   ),
 }));
 
 jest.mock("./components/summary", () => ({
   __esModule: true,
   default: ({ initialTransactions }: { initialTransactions: unknown }) => (
-    <div data-testid="summary" data-has-transactions={initialTransactions !== undefined ? "true" : "false"} />
+    <div
+      data-testid="summary"
+      data-has-transactions={initialTransactions !== undefined ? "true" : "false"}
+    />
   ),
 }));
 
@@ -89,7 +101,10 @@ describe("Dashboard Page", () => {
     expect(screen.getByTestId("summary")).toHaveAttribute("data-has-transactions", "false");
     expect(screen.getByTestId("chart-area")).toHaveAttribute("data-has-transactions", "false");
     expect(screen.getByTestId("chart-pie-donut")).toHaveAttribute("data-has-transactions", "false");
-    expect(screen.getByTestId("transactions-table")).toHaveAttribute("data-has-transactions", "false");
+    expect(screen.getByTestId("transactions-table")).toHaveAttribute(
+      "data-has-transactions",
+      "false",
+    );
   });
 
   it("renderiza child components com transacoes quando usuario autenticado", async () => {

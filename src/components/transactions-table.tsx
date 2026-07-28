@@ -54,15 +54,14 @@ export const columns = (
   currency: string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   t: (key: string, params?: any) => string,
-  locale: string = "pt-BR"
+  locale: string = "pt-BR",
 ): ColumnDef<Transaction>[] => [
   {
     id: "select",
     header: ({ table }) => (
       <Checkbox
         checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
+          table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")
         }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label={t("table.selectAll")}
@@ -86,16 +85,12 @@ export const columns = (
   {
     accessorKey: "wallet.name",
     header: t("table.wallet"),
-    cell: ({ row }) => (
-      <div className="capitalize">{row.original.wallet?.name ?? "—"}</div>
-    ),
+    cell: ({ row }) => <div className="capitalize">{row.original.wallet?.name ?? "—"}</div>,
   },
   {
     accessorKey: "category.name",
     header: t("table.category"),
-    cell: ({ row }) => (
-      <div className="capitalize">{row.original.category?.name ?? "—"}</div>
-    ),
+    cell: ({ row }) => <div className="capitalize">{row.original.category?.name ?? "—"}</div>,
   },
   {
     accessorKey: "type",
@@ -107,15 +102,13 @@ export const columns = (
         type === "income"
           ? t("table.typeIncome")
           : type === "expense"
-          ? t("table.typeExpense")
-          : t("table.typeUnknown");
+            ? t("table.typeExpense")
+            : t("table.typeUnknown");
 
       return (
         <span
           className={
-            type === "income"
-              ? "text-chart-2 font-medium"
-              : "text-destructive font-medium"
+            type === "income" ? "text-chart-2 font-medium" : "text-destructive font-medium"
           }
         >
           {label}
@@ -126,10 +119,7 @@ export const columns = (
   {
     accessorKey: "value",
     header: ({ column }) => (
-      <Button
-        variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
+      <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
         {t("table.value")}
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
@@ -186,17 +176,13 @@ export const columns = (
             <DropdownMenuLabel>{t("table.actions")}</DropdownMenuLabel>
 
             <DropdownMenuItem
-              onClick={() =>
-                navigator.clipboard.writeText(transaction.id.toString())
-              }
+              onClick={() => navigator.clipboard.writeText(transaction.id.toString())}
             >
               {t("table.copyId")}
             </DropdownMenuItem>
 
             <DropdownMenuItem
-              onClick={() =>
-                navigator.clipboard.writeText(transaction.description)
-              }
+              onClick={() => navigator.clipboard.writeText(transaction.description)}
             >
               {t("table.copyDescription")}
             </DropdownMenuItem>
@@ -205,10 +191,7 @@ export const columns = (
 
             <EditTransactionDialog transaction={transaction} />
 
-            <DropdownMenuItem
-              className="text-red-600"
-              onClick={handleDeleteTransaction}
-            >
+            <DropdownMenuItem className="text-red-600" onClick={handleDeleteTransaction}>
               {t("table.deleteTransaction")}
             </DropdownMenuItem>
           </DropdownMenuContent>
@@ -236,11 +219,8 @@ export function TransactionsTable({ initialTransactions }: TransactionsTableProp
   const { deleteTransaction } = useTransactionsMutations();
 
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable<Transaction>({
@@ -271,12 +251,8 @@ export function TransactionsTable({ initialTransactions }: TransactionsTableProp
       <div className="flex items-center py-4 gap-2">
         <Input
           placeholder={t("table.filterDescription")}
-          value={
-            (table.getColumn("description")?.getFilterValue() as string) ?? ""
-          }
-          onChange={(event) =>
-            table.getColumn("description")?.setFilterValue(event.target.value)
-          }
+          value={(table.getColumn("description")?.getFilterValue() as string) ?? ""}
+          onChange={(event) => table.getColumn("description")?.setFilterValue(event.target.value)}
           className="max-w-sm"
         />
         <DropdownMenu>
@@ -295,9 +271,7 @@ export function TransactionsTable({ initialTransactions }: TransactionsTableProp
                     key={column.id}
                     className="capitalize"
                     checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
+                    onCheckedChange={(value) => column.toggleVisibility(!!value)}
                   >
                     {column.id}
                   </DropdownMenuCheckboxItem>
@@ -316,10 +290,7 @@ export function TransactionsTable({ initialTransactions }: TransactionsTableProp
                     <TableHead key={header.id}>
                       {header.isPlaceholder
                         ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                        : flexRender(header.column.columnDef.header, header.getContext())}
                     </TableHead>
                   );
                 })}
@@ -329,26 +300,17 @@ export function TransactionsTable({ initialTransactions }: TransactionsTableProp
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
+                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
+                <TableCell colSpan={columns.length} className="h-24 text-center">
                   {t("table.noTransactions")}
                 </TableCell>
               </TableRow>

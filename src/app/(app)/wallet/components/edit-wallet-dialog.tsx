@@ -52,7 +52,7 @@ export function EditWalletDialog({ wallets }: EditWalletsDialog) {
         onError: () => {
           toast.error(t("wallet.editError"));
         },
-      }
+      },
     );
   }
 
@@ -65,18 +65,12 @@ export function EditWalletDialog({ wallets }: EditWalletsDialog) {
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>{t("wallet.editTitle")}</DialogTitle>
-            <DialogDescription>
-              {t("wallet.editDescription")}
-            </DialogDescription>
+            <DialogDescription>{t("wallet.editDescription")}</DialogDescription>
           </DialogHeader>
           <div className="grid gap-3">
             <Label htmlFor="description">{t("wallet.name")}</Label>
             <Input id="name" {...register("name")} disabled={isSubmitting} />
-            {errors.name && (
-              <span className="text-destructive text-sm">
-                {errors.name.message}
-              </span>
-            )}
+            {errors.name && <span className="text-destructive text-sm">{errors.name.message}</span>}
           </div>
 
           <DialogFooter>

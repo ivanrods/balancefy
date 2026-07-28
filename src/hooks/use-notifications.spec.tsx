@@ -12,8 +12,12 @@ function createWrapper() {
 }
 
 const mockNotif: Notification = {
-  id: "n1", userId: "u1", transactionId: null,
-  message: "Vencimento hoje", read: false, createdAt: "2024-01-01T00:00:00.000Z",
+  id: "n1",
+  userId: "u1",
+  transactionId: null,
+  message: "Vencimento hoje",
+  read: false,
+  createdAt: "2024-01-01T00:00:00.000Z",
   transaction: null,
 };
 
@@ -43,10 +47,7 @@ describe("useNotifications", () => {
   it("calcula unreadCount corretamente", async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
-      json: () => Promise.resolve([
-        mockNotif,
-        { ...mockNotif, id: "n2", read: true },
-      ]),
+      json: () => Promise.resolve([mockNotif, { ...mockNotif, id: "n2", read: true }]),
     });
 
     const { result } = renderHook(() => useNotifications(), { wrapper: createWrapper() });
@@ -55,7 +56,9 @@ describe("useNotifications", () => {
   });
 
   it("usa initialData", () => {
-    const { result } = renderHook(() => useNotifications([mockNotif]), { wrapper: createWrapper() });
+    const { result } = renderHook(() => useNotifications([mockNotif]), {
+      wrapper: createWrapper(),
+    });
     expect(result.current.notifications).toHaveLength(1);
     expect(result.current.unreadCount).toBe(1);
   });
@@ -65,11 +68,17 @@ describe("useNotifications", () => {
     await waitFor(() => expect(result.current.isLoading).toBe(false));
     expect(result.current.notifications).toEqual([]);
 
-    mockFetch.mockResolvedValueOnce({ ok: true, json: () => Promise.resolve({ ...mockNotif, read: true }) });
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: () => Promise.resolve({ ...mockNotif, read: true }),
+    });
     result.current.markAsRead.mutate("n1");
 
     await waitFor(() => expect(result.current.markAsRead.isSuccess).toBe(true));
-    expect(mockFetch).toHaveBeenCalledWith("/api/notifications/n1", expect.objectContaining({ method: "PATCH" }));
+    expect(mockFetch).toHaveBeenCalledWith(
+      "/api/notifications/n1",
+      expect.objectContaining({ method: "PATCH" }),
+    );
   });
 
   it("markAllAsRead faz PATCH", async () => {
@@ -82,6 +91,9 @@ describe("useNotifications", () => {
     result.current.markAllAsRead.mutate();
 
     await waitFor(() => expect(result.current.markAllAsRead.isSuccess).toBe(true));
-    expect(mockFetch).toHaveBeenCalledWith("/api/notifications/read-all", expect.objectContaining({ method: "PATCH" }));
+    expect(mockFetch).toHaveBeenCalledWith(
+      "/api/notifications/read-all",
+      expect.objectContaining({ method: "PATCH" }),
+    );
   });
 });

@@ -117,9 +117,7 @@ describe("EditWalletDialog", () => {
     fireEvent.click(screen.getByRole("button", { name: /Salvar alterações/i }));
 
     await waitFor(() => {
-      expect(mockedToast.success).toHaveBeenCalledWith(
-        "Carteira atualizada com sucesso!",
-      );
+      expect(mockedToast.success).toHaveBeenCalledWith("Carteira atualizada com sucesso!");
     });
   });
 
@@ -134,9 +132,7 @@ describe("EditWalletDialog", () => {
     fireEvent.click(screen.getByRole("button", { name: /Salvar alterações/i }));
 
     await waitFor(() => {
-      expect(mockedToast.error).toHaveBeenCalledWith(
-        "Erro ao atualizar carteira",
-      );
+      expect(mockedToast.error).toHaveBeenCalledWith("Erro ao atualizar carteira");
     });
   });
 
@@ -155,8 +151,6 @@ describe("EditWalletDialog", () => {
     expect(screen.getByText("Faça alterações na sua carteira.")).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: /Cancelar/i }));
-    expect(
-      screen.queryByText("Faça alterações na sua carteira."),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText("Faça alterações na sua carteira.")).not.toBeInTheDocument();
   });
 });

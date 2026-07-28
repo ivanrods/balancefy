@@ -25,10 +25,7 @@ async function fetchWallets(props?: UseWalletsProps) {
   return res.json();
 }
 
-export function useWalletsQuery(
-  props?: UseWalletsProps,
-  initialData?: Wallets[],
-) {
+export function useWalletsQuery(props?: UseWalletsProps, initialData?: Wallets[]) {
   return useQuery<Wallets[]>({
     queryKey: ["wallets", props?.month, props?.year],
     queryFn: () => fetchWallets(props),

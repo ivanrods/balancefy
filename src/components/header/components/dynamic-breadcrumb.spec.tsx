@@ -7,13 +7,9 @@ jest.mock("next/navigation", () => ({
 }));
 
 jest.mock("next/link", () => {
-  const MockLink = ({
-    children,
-    href,
-  }: {
-    children: React.ReactNode;
-    href: string;
-  }) => <a href={href}>{children}</a>;
+  const MockLink = ({ children, href }: { children: React.ReactNode; href: string }) => (
+    <a href={href}>{children}</a>
+  );
   MockLink.displayName = "MockLink";
   return MockLink;
 });
@@ -31,9 +27,7 @@ jest.mock("@/components/ui/breadcrumb", () => ({
   BreadcrumbLink: ({ children }: { children: React.ReactNode }) => (
     <span data-testid="breadcrumb-link">{children}</span>
   ),
-  BreadcrumbSeparator: () => (
-    <span data-testid="breadcrumb-separator">/</span>
-  ),
+  BreadcrumbSeparator: () => <span data-testid="breadcrumb-separator">/</span>,
 }));
 
 beforeAll(() => {

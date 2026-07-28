@@ -6,11 +6,7 @@ type CategorySummaryParams = {
   year?: number | null;
 };
 
-export async function getCategoriesSummary({
-  userId,
-  month,
-  year,
-}: CategorySummaryParams) {
+export async function getCategoriesSummary({ userId, month, year }: CategorySummaryParams) {
   const hasMonthFilter = month != null;
   const yearNum = year ?? new Date().getFullYear();
   const dateFilter = hasMonthFilter
@@ -48,10 +44,7 @@ export async function getCategoriesSummary({
         }),
   ]);
 
-  const summaryMap = new Map<
-    string,
-    { value: number; number: number; descriptions: string[] }
-  >();
+  const summaryMap = new Map<string, { value: number; number: number; descriptions: string[] }>();
 
   for (const id of categoryIds) {
     summaryMap.set(id, { value: 0, number: 0, descriptions: [] });

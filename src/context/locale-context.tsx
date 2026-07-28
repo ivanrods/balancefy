@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useState,
-  ReactNode,
-  useEffect,
-  useCallback,
-} from "react";
+import { createContext, useContext, useState, ReactNode, useCallback } from "react";
 
 export type Locale = "pt-BR" | "en";
 
@@ -27,20 +20,16 @@ function getInitialLocale(): Locale {
 }
 
 export function LocaleProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>("pt-BR");
+  const [locale] = useState<Locale>(getInitialLocale);
 
-  useEffect(() => {
-    setLocaleState(getInitialLocale());
-  }, []);
-
-  const setLocale = useCallback((newLocale: Locale) => {
+  const changeLocale = useCallback((newLocale: Locale) => {
     localStorage.setItem("locale", newLocale);
     document.cookie = `locale=${newLocale};path=/;max-age=31536000`;
     window.location.reload();
   }, []);
 
   return (
-    <LocaleContext.Provider value={{ locale, setLocale }}>
+    <LocaleContext.Provider value={{ locale, setLocale: changeLocale }}>
       {children}
     </LocaleContext.Provider>
   );
@@ -48,7 +37,6 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
 
 export function useLocale() {
   const context = useContext(LocaleContext);
-  if (!context)
-    throw new Error("useLocale must be used within LocaleProvider");
+  if (!context) throw new Error("useLocale must be used within LocaleProvider");
   return context;
 }

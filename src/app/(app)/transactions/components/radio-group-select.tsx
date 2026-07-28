@@ -10,10 +10,7 @@ type RadioGroupDemoProps = {
   onValueChange: (val: Tipo) => void;
 };
 
-export function RadioGroupSelect({
-  value,
-  onValueChange,
-}: RadioGroupDemoProps) {
+export function RadioGroupSelect({ value, onValueChange }: RadioGroupDemoProps) {
   const { t } = useTranslation();
   return (
     <RadioGroup defaultValue="" value={value} onValueChange={onValueChange}>

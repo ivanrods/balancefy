@@ -24,10 +24,7 @@ export async function GET() {
   });
 
   if (!user) {
-    return NextResponse.json(
-      { error: "Usuário não encontrado" },
-      { status: 404 }
-    );
+    return NextResponse.json({ error: "Usuário não encontrado" }, { status: 404 });
   }
   const account = await prisma.account.findFirst({
     where: { user: { email: session.user.email } },
@@ -55,7 +52,7 @@ export async function PUT(req: Request) {
   if (account?.provider === "google") {
     return NextResponse.json(
       { error: "Usuários do Google não podem editar dados aqui." },
-      { status: 403 }
+      { status: 403 },
     );
   }
 
@@ -93,10 +90,7 @@ export async function DELETE() {
       where: { email: session.user.email },
     });
 
-    return new Response(
-      JSON.stringify({ message: "Conta excluída com sucesso" }),
-      { status: 200 }
-    );
+    return new Response(JSON.stringify({ message: "Conta excluída com sucesso" }), { status: 200 });
   } catch (error) {
     console.error(error);
     return new Response(JSON.stringify({ error: "Erro ao excluir conta" }), {

@@ -25,20 +25,7 @@ import { useCurrency } from "@/context/currency-context";
 import { formatCurrency } from "@/utils/format-currency";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const months = [
-  "Jan",
-  "Fev",
-  "Mar",
-  "Abr",
-  "Mai",
-  "Jun",
-  "Jul",
-  "Ago",
-  "Set",
-  "Out",
-  "Nov",
-  "Dez",
-];
+const months = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
 
 // Agrupa transações por mês e calcula saldo
 function groupTransactionsByMonth(transactions: Transaction[]) {
@@ -97,8 +84,7 @@ export function ChartArea({ initialTransactions }: ChartAreaProps) {
     "novembro",
     "dezembro",
   ];
-  const monthLabel =
-    monthsLong[selectedMonth - 1] ?? monthsLong[new Date().getMonth()];
+  const monthLabel = monthsLong[selectedMonth - 1] ?? monthsLong[new Date().getMonth()];
   const now = new Date();
   const year = now.getFullYear();
 
@@ -123,19 +109,12 @@ export function ChartArea({ initialTransactions }: ChartAreaProps) {
         <ChartContainer config={chartConfig} className="max-h-[300px] w-full">
           <AreaChart data={chartData}>
             <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="month"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-            />
+            <XAxis dataKey="month" tickLine={false} axisLine={false} tickMargin={8} />
             <ChartTooltip
               cursor={false}
               content={
                 <ChartTooltipContent
-                  formatter={(value) =>
-                    formatCurrency(value as number, currency)
-                  }
+                  formatter={(value) => formatCurrency(value as number, currency)}
                 />
               }
             />

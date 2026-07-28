@@ -11,11 +11,7 @@ export async function generateMetadata() {
   };
 }
 
-export default async function RegisterLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function RegisterLayout({ children }: { children: React.ReactNode }) {
   const session = await getServerSession(authOptions);
 
   if (session) {

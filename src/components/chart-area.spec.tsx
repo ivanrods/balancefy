@@ -18,16 +18,12 @@ if (typeof globalThis.ResizeObserver === "undefined") {
 }
 
 jest.mock("@/context/period-context", () => ({
-  PeriodProvider: ({ children }: { children: React.ReactNode }) => (
-    <>{children}</>
-  ),
+  PeriodProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
   usePeriod: jest.fn(),
 }));
 
 jest.mock("@/context/currency-context", () => ({
-  CurrencyProvider: ({ children }: { children: React.ReactNode }) => (
-    <>{children}</>
-  ),
+  CurrencyProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
   useCurrency: jest.fn(),
 }));
 
@@ -65,29 +61,21 @@ describe("ChartArea", () => {
     });
 
     render(<ChartArea />);
-    expect(
-      document.querySelector('[data-slot="skeleton"]'),
-    ).toBeInTheDocument();
+    expect(document.querySelector('[data-slot="skeleton"]')).toBeInTheDocument();
   });
 
   it("exibe título, descrição e footer", () => {
     render(<ChartArea />);
 
     expect(screen.getByText("Evolução do Saldo")).toBeInTheDocument();
-    expect(
-      screen.getByText(new Date().getFullYear().toString()),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText("Passe o mouse sobre o gráfico para ver detalhes"),
-    ).toBeInTheDocument();
+    expect(screen.getByText(new Date().getFullYear().toString())).toBeInTheDocument();
+    expect(screen.getByText("Passe o mouse sobre o gráfico para ver detalhes")).toBeInTheDocument();
   });
 
   it("exibe 'Baseado nas transações do mês de julho' quando mode='month' e selectedMonth=7", () => {
     render(<ChartArea />);
 
-    expect(
-      screen.getByText("Baseado nas transações do mês de julho"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Baseado nas transações do mês de julho")).toBeInTheDocument();
   });
 
   it("exibe 'Baseado nas transações de todo o período' quando mode='total'", () => {
@@ -100,9 +88,7 @@ describe("ChartArea", () => {
 
     render(<ChartArea />);
 
-    expect(
-      screen.getByText("Baseado nas transações de todo o período"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Baseado nas transações de todo o período")).toBeInTheDocument();
   });
 
   it("renderiza o container do gráfico com transações", () => {
@@ -144,8 +130,6 @@ describe("ChartArea", () => {
     render(<ChartArea initialTransactions={[mockTx]} />);
 
     expect(document.querySelector('[data-slot="chart"]')).toBeInTheDocument();
-    expect(
-      document.querySelector('[data-slot="skeleton"]'),
-    ).not.toBeInTheDocument();
+    expect(document.querySelector('[data-slot="skeleton"]')).not.toBeInTheDocument();
   });
 });

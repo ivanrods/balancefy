@@ -12,10 +12,7 @@ export async function POST(req: NextRequest) {
     // Checa se usuário já existe
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
-      return NextResponse.json(
-        { error: "Este e-mail já está cadastrado." },
-        { status: 400 },
-      );
+      return NextResponse.json({ error: "Este e-mail já está cadastrado." }, { status: 400 });
     }
 
     // Hash da senha
@@ -42,15 +39,9 @@ export async function POST(req: NextRequest) {
     });
 
     // Retorna dados sem senha
-    return NextResponse.json(
-      { id: user.id, name: user.name, email: user.email },
-      { status: 201 },
-    );
+    return NextResponse.json({ id: user.id, name: user.name, email: user.email }, { status: 201 });
   } catch (err) {
     console.error(err);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }

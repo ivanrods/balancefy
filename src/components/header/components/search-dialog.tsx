@@ -1,14 +1,7 @@
 "use client";
 
 import * as React from "react";
-import {
-  ChartBarStacked,
-  ClipboardMinus,
-  Info,
-  Settings,
-  User,
-  Wallet,
-} from "lucide-react";
+import { ChartBarStacked, ClipboardMinus, Info, Settings, User, Wallet } from "lucide-react";
 import { useTranslation } from "@/hooks/use-translation";
 
 import {

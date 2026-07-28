@@ -26,11 +26,7 @@ type SelectDialogProps = {
   wallets: Wallet[];
 };
 
-export function SelectWallet({
-  value,
-  onValueChange,
-  wallets,
-}: SelectDialogProps) {
+export function SelectWallet({ value, onValueChange, wallets }: SelectDialogProps) {
   const { t } = useTranslation();
   return (
     <div className="flex flex-col gap-3">

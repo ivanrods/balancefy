@@ -6,10 +6,7 @@ function TestConsumer() {
   return (
     <div>
       <span data-testid="currency">{currency}</span>
-      <button
-        data-testid="set-usd"
-        onClick={() => setCurrency("USD")}
-      >
+      <button data-testid="set-usd" onClick={() => setCurrency("USD")}>
         set USD
       </button>
     </div>

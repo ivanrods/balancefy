@@ -64,9 +64,7 @@ export default function LoginPage() {
         <CardHeader>
           <CardTitle>{t("auth.loginTitle")}</CardTitle>
 
-          <CardDescription>
-            {t("auth.loginDescription")}
-          </CardDescription>
+          <CardDescription>{t("auth.loginDescription")}</CardDescription>
           <CardAction>
             <Button variant="link">
               <Link href="/register">{t("auth.signUp")}</Link>
@@ -78,15 +76,9 @@ export default function LoginPage() {
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
                 <Label htmlFor="email">{t("auth.email")}</Label>
-                <Input
-                  type="email"
-                  placeholder={t("auth.email")}
-                  {...register("email")}
-                />
+                <Input type="email" placeholder={t("auth.email")} {...register("email")} />
                 {errors.email && (
-                  <span className="text-red-500 text-sm">
-                    {errors.email.message}
-                  </span>
+                  <span className="text-red-500 text-sm">{errors.email.message}</span>
                 )}
               </div>
               <div className="grid gap-2">
@@ -99,15 +91,9 @@ export default function LoginPage() {
                     Esqueceu sua senha?
                   </a>
                 </div>
-                <Input
-                  type="password"
-                  placeholder={t("auth.password")}
-                  {...register("password")}
-                />
+                <Input type="password" placeholder={t("auth.password")} {...register("password")} />
                 {errors.password && (
-                  <span className="text-red-500 text-sm">
-                    {errors.password.message}
-                  </span>
+                  <span className="text-red-500 text-sm">{errors.password.message}</span>
                 )}
               </div>
             </div>
@@ -120,9 +106,7 @@ export default function LoginPage() {
               type="button"
               variant="outline"
               className="w-full"
-              onClick={() =>
-                signIn("google", { callbackUrl: "/dashboard" })
-              }
+              onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
             >
               {t("auth.loginGoogle")}
             </Button>

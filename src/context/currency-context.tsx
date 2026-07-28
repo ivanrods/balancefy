@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useState,
-  ReactNode,
-  useEffect,
-} from "react";
+import { createContext, useContext, useState, ReactNode, useEffect } from "react";
 
 type Currency = "BRL" | "USD";
 
@@ -15,17 +9,16 @@ type CurrencyContextType = {
   setCurrency: (currency: Currency) => void;
 };
 
-const CurrencyContext = createContext<CurrencyContextType | undefined>(
-  undefined,
-);
+const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined);
 
 export function CurrencyProvider({ children }: { children: ReactNode }) {
-  const [currency, setCurrency] = useState<Currency>("BRL");
-
-  useEffect(() => {
-    const saved = localStorage.getItem("currency") as Currency | null;
-    if (saved) setCurrency(saved);
-  }, []);
+  const [currency, setCurrency] = useState<Currency>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("currency") as Currency | null;
+      if (saved === "BRL" || saved === "USD") return saved;
+    }
+    return "BRL";
+  });
 
   useEffect(() => {
     localStorage.setItem("currency", currency);
@@ -40,7 +33,6 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
 
 export function useCurrency() {
   const context = useContext(CurrencyContext);
-  if (!context)
-    throw new Error("useCurrency must be used within CurrencyProvider");
+  if (!context) throw new Error("useCurrency must be used within CurrencyProvider");
   return context;
 }
