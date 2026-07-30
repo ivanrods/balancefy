@@ -7,11 +7,13 @@ jest.mock("next-auth/jwt", () => ({
 
 const mockRedirect = jest.fn();
 const mockNext = jest.fn();
+const mockJson = jest.fn();
 
 jest.mock("next/server", () => ({
   NextResponse: {
     redirect: (...args: unknown[]) => mockRedirect(...args),
     next: (...args: unknown[]) => mockNext(...args),
+    json: (...args: unknown[]) => mockJson(...args),
   },
 }));
 
@@ -22,6 +24,8 @@ function createRequest(pathname: string) {
       href: `http://localhost:3000${pathname}`,
     },
     url: `http://localhost:3000${pathname}`,
+    headers: new Map([["x-forwarded-for", "127.0.0.1"]]),
+    method: "GET",
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } as any;
 }
@@ -30,6 +34,7 @@ beforeEach(() => {
   jest.clearAllMocks();
   mockRedirect.mockReturnValue({ status: 307 });
   mockNext.mockReturnValue({ status: 200 });
+  mockJson.mockReturnValue({ status: 429 });
 });
 
 describe("middleware", () => {
@@ -168,7 +173,72 @@ describe("middleware", () => {
     });
   });
 
-  describe("rota raiz", () => {
+  describe("rate limit", () => {
+  it("bloqueia login apos 5 tentativas em 15 minutos", async () => {
+    (getToken as jest.Mock).mockResolvedValue(null);
+    const req = createRequest("/api/auth/callback/credentials");
+    req.method = "POST";
+
+    for (let i = 0; i < 5; i++) {
+      await middleware(req);
+    }
+
+    expect(mockNext).toHaveBeenCalledTimes(5);
+    expect(mockJson).not.toHaveBeenCalled();
+
+    await middleware(req);
+    expect(mockJson).toHaveBeenCalledWith(
+      expect.objectContaining({ error: expect.any(String) }),
+      expect.objectContaining({ status: 429 }),
+    );
+  });
+
+  it("bloqueia register apos 3 tentativas em 1 hora", async () => {
+    (getToken as jest.Mock).mockResolvedValue(null);
+    const req = createRequest("/api/register");
+    req.method = "POST";
+
+    for (let i = 0; i < 3; i++) {
+      await middleware(req);
+    }
+
+    expect(mockNext).toHaveBeenCalledTimes(3);
+    expect(mockJson).not.toHaveBeenCalled();
+
+    await middleware(req);
+    expect(mockJson).toHaveBeenCalledWith(
+      expect.objectContaining({ error: expect.any(String) }),
+      expect.objectContaining({ status: 429 }),
+    );
+  });
+
+  it("nao bloqueia GET em /api/auth/callback/credentials", async () => {
+    (getToken as jest.Mock).mockResolvedValue(null);
+    const req = createRequest("/api/auth/callback/credentials");
+    req.method = "GET";
+
+    for (let i = 0; i < 10; i++) {
+      await middleware(req);
+    }
+
+    expect(mockNext).toHaveBeenCalledTimes(10);
+    expect(mockJson).not.toHaveBeenCalled();
+  });
+
+  it("nao bloqueia outras rotas /api/auth", async () => {
+    (getToken as jest.Mock).mockResolvedValue(null);
+    const req = createRequest("/api/auth/session");
+
+    for (let i = 0; i < 100; i++) {
+      await middleware(req);
+    }
+
+    expect(mockNext).toHaveBeenCalledTimes(100);
+    expect(mockJson).not.toHaveBeenCalled();
+  });
+});
+
+describe("rota raiz", () => {
     it("redireciona de / para /dashboard quando tem token", async () => {
       (getToken as jest.Mock).mockResolvedValue({ sub: "u1" });
       const req = createRequest("/");
