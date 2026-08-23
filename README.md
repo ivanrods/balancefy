@@ -162,6 +162,7 @@ Preencha as credenciais no `.env`:
 ### 3. Prepare o banco
 
 ```bash
+npm run db:up
 npx prisma migrate deploy
 ```
 
