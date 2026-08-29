@@ -36,7 +36,7 @@ export function useTransactionsMutations() {
 
   const createTransaction = useMutation({
     mutationFn: async (
-      transaction: Omit<Transaction, "id" | "createdAt" | "category" | "wallet">,
+      transaction: Omit<Transaction, "id" | "createdAt" | "category" | "wallet" | "userId">,
     ) => {
       const res = await fetch("/api/transactions", {
         method: "POST",

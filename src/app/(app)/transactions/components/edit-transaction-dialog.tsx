@@ -79,6 +79,7 @@ export function EditTransactionDialog({ transaction }: EditTransactionDialogProp
         date: new Date(formData.date),
         categoryId: formData.categoryId,
         walletId: formData.walletId,
+        userId: transaction.userId,
       },
       {
         onSuccess: () => {

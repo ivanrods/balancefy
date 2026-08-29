@@ -27,9 +27,10 @@ const mockTransactions = [
     type: "income" as const,
     date: new Date("2025-03-10"),
     categoryId: "cat1",
-    category: { id: "cat1", name: "Trabalho", color: "#000", userId: null },
+    userId: "u1",
+    category: { id: "cat1", name: "Trabalho", color: "#000", userId: "u1" },
     walletId: "wallet1",
-    wallet: { id: "wallet1", name: "Principal", userId: null },
+    wallet: { id: "wallet1", name: "Principal", userId: "u1" },
   },
   {
     id: "2",
@@ -38,9 +39,10 @@ const mockTransactions = [
     type: "expense" as const,
     date: new Date("2025-03-12"),
     categoryId: "cat2",
-    category: { id: "cat2", name: "Alimentação", color: "#fff", userId: null },
+    userId: "u1",
+    category: { id: "cat2", name: "Alimentação", color: "#fff", userId: "u1" },
     walletId: "wallet1",
-    wallet: { id: "wallet1", name: "Principal", userId: null },
+    wallet: { id: "wallet1", name: "Principal", userId: "u1" },
   },
 ];
 

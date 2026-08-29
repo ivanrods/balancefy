@@ -2,13 +2,13 @@ export type Category = {
   id: string;
   name: string;
   color: string;
-  userId: string | null;
+  userId: string;
 };
 
 export type Wallet = {
   id: string;
   name: string;
-  userId: string | null;
+  userId: string;
 };
 
 export type Transaction = {
@@ -17,6 +17,7 @@ export type Transaction = {
   value: number;
   type: "income" | "expense";
   date: Date;
+  userId: string;
   categoryId: string;
   category: Category;
   walletId: string;

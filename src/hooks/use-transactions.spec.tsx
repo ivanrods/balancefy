@@ -17,6 +17,7 @@ const mockTx: Transaction = {
   value: 100,
   type: "expense",
   date: new Date("2024-06-15"),
+  userId: "u1",
   categoryId: "c1",
   category: { id: "c1", name: "Geral", color: "#000", userId: "u1" },
   walletId: "w1",

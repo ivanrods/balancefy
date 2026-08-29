@@ -93,6 +93,7 @@ const mockTx = {
   value: 200,
   type: "expense" as const,
   date: new Date("2026-07-10"),
+  userId: "u1",
   categoryId: "c1",
   category: { id: "c1", name: "Alimentacao", color: "#ff0000", userId: "u1" },
   walletId: "w1",

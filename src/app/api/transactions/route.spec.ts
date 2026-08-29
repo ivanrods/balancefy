@@ -12,7 +12,7 @@ if (typeof globalThis.Request === "undefined") {
   } as unknown as typeof globalThis.Request;
 }
 
-import type { Transaction, TransactionType } from "@/types/transaction";
+import type { Transaction } from "@/types/transaction";
 import { GET as LIST_GET, POST } from "@/app/api/transactions/route";
 import { GET as DETAIL_GET, PUT, DELETE } from "@/app/api/transactions/[id]/route";
 import { GET as CHART_GET } from "@/app/api/transactions/transaction-type/route";
@@ -161,7 +161,7 @@ describe("GET /api/transactions/transaction-type", () => {
       .mocked(txService.getTransactionChart)
       .mockResolvedValue([
         { month: "janeiro", income: 100, expense: 50 },
-      ] as unknown as TransactionType[]);
+      ]);
     const res = await CHART_GET(
       new Request("http://localhost/api/transactions/transaction-type?period=month&year=2024"),
     );

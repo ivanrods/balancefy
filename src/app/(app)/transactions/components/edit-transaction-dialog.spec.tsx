@@ -100,9 +100,10 @@ const mockTransaction = {
   type: "income" as const,
   date: new Date("2025-03-10"),
   categoryId: "cat1",
-  category: { id: "cat1", name: "Trabalho", color: "#000", userId: null },
+  userId: "u1",
+  category: { id: "cat1", name: "Trabalho", color: "#000", userId: "u1" },
   walletId: "wallet1",
-  wallet: { id: "wallet1", name: "Principal", userId: null },
+  wallet: { id: "wallet1", name: "Principal", userId: "u1" },
 };
 
 beforeEach(() => {
