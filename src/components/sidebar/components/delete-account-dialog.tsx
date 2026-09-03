@@ -30,7 +30,7 @@ export function DeleteAccountDialog() {
       const data = await res.json();
       toast.success(data.message || t("deleteAccount.success"));
       signOut({ callbackUrl: "/login" });
-    } catch (err) {
+    } catch {
       toast.error(t("deleteAccount.error"));
     }
   }

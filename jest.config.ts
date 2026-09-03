@@ -1,4 +1,4 @@
-import nextJest from "next/jest";
+import nextJest from "next/jest.js";
 import { config as dotenvConfig } from "dotenv";
 import { join } from "path";
 

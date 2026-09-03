@@ -135,6 +135,8 @@ type CategoriesDataTableProps = {
 };
 
 export function CategoriesDataTable({ initialCategories }: CategoriesDataTableProps) {
+  "use no memo";
+
   const { t } = useTranslation();
   const { mode, selectedMonth } = usePeriod();
   const { currency } = useCurrency();
@@ -150,6 +152,8 @@ export function CategoriesDataTable({ initialCategories }: CategoriesDataTablePr
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
+  // TanStack Table returns an API whose functions are intentionally not memoizable.
+  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data: categories ?? [],
     columns: columns(currency, t),

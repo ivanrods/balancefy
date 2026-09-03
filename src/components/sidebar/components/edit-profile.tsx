@@ -76,7 +76,7 @@ export function EditProfile() {
           toast.error(t("profile.imageError") + " " + (uploadData.error || ""));
           return;
         }
-      } catch (err) {
+      } catch {
         toast.error(t("profile.imageError"));
         return;
       }

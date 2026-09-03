@@ -206,6 +206,8 @@ type TransactionsTableProps = {
 };
 
 export function TransactionsTable({ initialTransactions }: TransactionsTableProps) {
+  "use no memo";
+
   const { t, locale } = useTranslation();
   const { mode, selectedMonth } = usePeriod();
   const { currency } = useCurrency();
@@ -223,6 +225,9 @@ export function TransactionsTable({ initialTransactions }: TransactionsTableProp
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
+  // TanStack Table exposes functions that React Compiler cannot safely memoize.
+  // Keep this integration explicit rather than treating the diagnostic as a hook violation.
+  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable<Transaction>({
     data: transactions ?? [],
     columns: columns(deleteTransaction, currency, t, locale),
