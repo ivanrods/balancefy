@@ -8,7 +8,13 @@
     "edit": "Editar",
     "confirm": "Confirmar",
     "loading": "Carregando...",
-    "noResults": "Nenhum resultado."
+    "noResults": "Nenhum resultado.",
+    "tryAgain": "Tentar novamente"
+  },
+  "databaseError": {
+    "title": "Banco de dados indisponível",
+    "description": "Não foi possível conectar ao banco de dados. Verifique se o serviço está ativo e tente novamente.",
+    "support": "Se o problema continuar, contate o suporte."
   },
   "sidebar": {
     "dashboard": "Dashboard",

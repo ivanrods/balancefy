@@ -5,6 +5,7 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "@/lib/prisma";
 import { env } from "@/env";
 import bcrypt from "bcryptjs";
+import { DATABASE_UNAVAILABLE_MESSAGE, isDatabaseUnavailableError } from "@/lib/database-error";
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -24,16 +25,24 @@ export const authOptions: AuthOptions = {
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
 
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            password: true,
-            image: true,
-          },
-        });
+        let user;
+        try {
+          user = await prisma.user.findUnique({
+            where: { email: credentials.email },
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              password: true,
+              image: true,
+            },
+          });
+        } catch (error) {
+          if (isDatabaseUnavailableError(error)) {
+            throw new Error(DATABASE_UNAVAILABLE_MESSAGE);
+          }
+          throw error;
+        }
 
         if (!user || !user.password) {
           throw new Error("E-mail não encontrado");
@@ -63,10 +72,18 @@ export const authOptions: AuthOptions = {
       if (!email && user) email = user.email;
       if (user || trigger === "update") {
         if (email) {
-          const dbUser = await prisma.user.findUnique({
-            where: { email },
-            select: { id: true, name: true, email: true, image: true },
-          });
+          let dbUser;
+          try {
+            dbUser = await prisma.user.findUnique({
+              where: { email },
+              select: { id: true, name: true, email: true, image: true },
+            });
+          } catch (error) {
+            if (isDatabaseUnavailableError(error)) {
+              throw new Error(DATABASE_UNAVAILABLE_MESSAGE);
+            }
+            throw error;
+          }
           if (dbUser) {
             token.name = dbUser.name;
             token.email = dbUser.email;

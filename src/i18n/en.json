@@ -8,7 +8,13 @@
     "edit": "Edit",
     "confirm": "Confirm",
     "loading": "Loading...",
-    "noResults": "No results."
+    "noResults": "No results.",
+    "tryAgain": "Try again"
+  },
+  "databaseError": {
+    "title": "Database unavailable",
+    "description": "We could not connect to the database. Check that the service is running and try again.",
+    "support": "If the problem continues, contact support."
   },
   "sidebar": {
     "dashboard": "Dashboard",

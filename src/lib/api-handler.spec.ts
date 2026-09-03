@@ -54,11 +54,24 @@ describe("apiError", () => {
     expect(body.error).toBe("User not found");
   });
 
-  it("retorna 400 para Error genérico", async () => {
+  it("retorna 500 para Error genérico", async () => {
     const res = apiError(new Error("Campo inválido")) as NextResponse;
-    expect(res.status).toBe(400);
+    expect(res.status).toBe(500);
     const body = await res.json();
     expect(body.error).toBe("Campo inválido");
+  });
+
+  it("retorna 503 quando o banco está indisponível", async () => {
+    const error = Object.assign(new Error("Can't reach database server"), {
+      name: "PrismaClientInitializationError",
+    });
+    const res = apiError(error) as NextResponse;
+    expect(res.status).toBe(503);
+    expect(await res.json()).toEqual({
+      error:
+        "Não foi possível conectar ao banco de dados. Verifique se o serviço está ativo e tente novamente.",
+      code: "DATABASE_UNAVAILABLE",
+    });
   });
 
   it("retorna 500 para erro desconhecido", async () => {

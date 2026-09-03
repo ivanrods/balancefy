@@ -50,7 +50,11 @@ export default function LoginPage() {
         await update();
         router.push("/dashboard");
       } else {
-        toast.error(res?.error || t("auth.loginError"));
+        const errorMessage = res?.error ?? "";
+        const isDatabaseError = /prisma|database|connect|p1001|p1002|p1017/i.test(errorMessage);
+        toast.error(
+          isDatabaseError ? t("databaseError.description") : errorMessage || t("auth.loginError"),
+        );
       }
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {

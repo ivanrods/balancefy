@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth-options";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { DATABASE_UNAVAILABLE_MESSAGE, isDatabaseUnavailableError } from "@/lib/database-error";
 
 export class UnauthorizedError extends Error {
   constructor() {
@@ -35,8 +36,18 @@ export function apiError(error: unknown) {
   if (error instanceof NotFoundError) {
     return NextResponse.json({ error: error.message }, { status: 404 });
   }
+  if (isDatabaseUnavailableError(error)) {
+    console.error("Database unavailable", error);
+    return NextResponse.json(
+      {
+        error: DATABASE_UNAVAILABLE_MESSAGE,
+        code: "DATABASE_UNAVAILABLE",
+      },
+      { status: 503 },
+    );
+  }
   if (error instanceof Error) {
-    return NextResponse.json({ error: error.message }, { status: 400 });
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
   return NextResponse.json({ error: "Internal server error" }, { status: 500 });
 }
