@@ -5,7 +5,7 @@ interface RateLimitEntry {
 
 const store = new Map<string, RateLimitEntry>();
 
-setInterval(() => {
+const cleanupInterval = setInterval(() => {
   const now = Date.now();
   for (const [key, entry] of store) {
     if (now > entry.resetAt) {
@@ -13,6 +13,8 @@ setInterval(() => {
     }
   }
 }, 60_000);
+
+cleanupInterval.unref?.();
 
 export function checkRateLimit(
   key: string,
